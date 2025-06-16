@@ -40,3 +40,25 @@ def test_create_user_duplicate_email():
     assert duplicate.status_code == 400
     assert duplicate.json()["detail"] == "Email already registered"
 
+
+def test_update_user_timestamp_changes():
+    payload = {
+        "email": "timestamp@example.com",
+        "first_name": "Time",
+        "last_name": "Stamp",
+        "password": "secret",
+    }
+
+    response = client.post("/users/", json=payload)
+    assert response.status_code == 200
+    user = response.json()
+    user_id = user["id"]
+    original_updated = user["updated_at"]
+
+    update_payload = payload | {"first_name": "New"}
+    update_response = client.put(f"/users/{user_id}", json=update_payload)
+    assert update_response.status_code == 200
+    updated_user = update_response.json()
+
+    assert updated_user["updated_at"] != original_updated
+
