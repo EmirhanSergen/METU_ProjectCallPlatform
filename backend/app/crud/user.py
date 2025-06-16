@@ -22,3 +22,7 @@ def update(db: Session, obj: User, data: dict) -> User:
 
 def delete(db: Session, obj: User) -> None:
     _delete(db, obj)
+
+
+def get_by_email(db: Session, email: str) -> User | None:
+    return db.query(User).filter(User.email == email).first()

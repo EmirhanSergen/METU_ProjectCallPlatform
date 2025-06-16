@@ -12,6 +12,8 @@ from . import (
     call_security_question,
     call_supervisor,
     call_template,
+    auth,
+    admin,
     ethical_optional_table,
     ethics_answer,
     ethics_issue,
@@ -61,5 +63,7 @@ api_router.include_router(security_other.router)
 api_router.include_router(suggested_reference.router)
 api_router.include_router(supervisor.router)
 api_router.include_router(user.router)
+api_router.include_router(auth.router)
+api_router.include_router(admin.router)
 
 __all__ = ["api_router"]
