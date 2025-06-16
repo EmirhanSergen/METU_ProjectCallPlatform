@@ -19,7 +19,7 @@ from .institution import InstitutionBase, InstitutionCreate, InstitutionRead
 from .mobility_entry import MobilityEntryBase, MobilityEntryCreate, MobilityEntryRead
 from .review_report import ReviewReportBase, ReviewReportCreate, ReviewReportRead
 from .security_answer import SecurityAnswerBase, SecurityAnswerCreate, SecurityAnswerRead
-from .security_euci import SecurityEUCIBase, SecurityEUCCreate, SecurityEUCRead
+from .security_euci import SecurityEUCIBase, SecurityEUCCreate, SecurityEUCIRead
 from .security_meta import SecurityMetaBase, SecurityMetaCreate, SecurityMetaRead
 from .security_misuse import SecurityMisuseBase, SecurityMisuseCreate, SecurityMisuseRead
 from .security_other import SecurityOtherBase, SecurityOtherCreate, SecurityOtherRead
@@ -93,7 +93,7 @@ __all__ = [
     "SecurityAnswerRead",
     "SecurityEUCIBase",
     "SecurityEUCCreate",
-    "SecurityEUCRead",
+    "SecurityEUCIRead",
     "SecurityMetaBase",
     "SecurityMetaCreate",
     "SecurityMetaRead",
