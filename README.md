@@ -33,7 +33,8 @@ The API will be available at `http://localhost:8000`.
 
 To build and start the API in a container run:
 ```bash
-docker build -t projectcall .
+cp backend/.env.example backend/.env
+docker build -t projectcall -f backend/Dockerfile backend
 docker run --env-file backend/.env -p 8000:8000 projectcall
 ```
 
