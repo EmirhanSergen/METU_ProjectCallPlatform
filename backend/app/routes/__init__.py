@@ -27,6 +27,7 @@ from . import (
     suggested_reference,
     supervisor,
     user,
+    file,
 )
 
 from fastapi import APIRouter
@@ -61,5 +62,6 @@ api_router.include_router(security_other.router)
 api_router.include_router(suggested_reference.router)
 api_router.include_router(supervisor.router)
 api_router.include_router(user.router)
+api_router.include_router(file.router)
 
 __all__ = ["api_router"]
