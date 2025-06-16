@@ -14,3 +14,17 @@ def get_db():
         yield db
     finally:
         db.close()
+
+
+def init_db() -> None:
+    """Create all tables in the database."""
+    Base.metadata.create_all(bind=engine)
+
+
+__all__ = [
+    "engine",
+    "SessionLocal",
+    "Base",
+    "get_db",
+    "init_db",
+]
