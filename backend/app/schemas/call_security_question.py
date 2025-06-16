@@ -15,6 +15,3 @@ class CallSecurityQuestionRead(CallSecurityQuestionBase):
 
     class Config:
         orm_mode = True
-
-
-# Application schemas
