@@ -8,12 +8,12 @@ def create(db: Session, data: dict) -> Supervisor:
     return _create(db, Supervisor, data)
 
 
-def get_by_id(db: Session, obj_id):
-    return _get_by_id(db, Supervisor, obj_id)
+def get_by_id(db: Session, obj_id, include_deleted: bool = False):
+    return _get_by_id(db, Supervisor, obj_id, include_deleted)
 
 
-def get_all(db: Session):
-    return _get_all(db, Supervisor)
+def get_all(db: Session, include_deleted: bool = False):
+    return _get_all(db, Supervisor, include_deleted)
 
 
 def update(db: Session, obj: Supervisor, data: dict) -> Supervisor:
@@ -24,5 +24,5 @@ def delete(db: Session, obj: Supervisor) -> None:
     _delete(db, obj)
 
 
-def get_supervisors_by_institution_id(db: Session, institution_id: str):
-    return get_all_by_field(db, Supervisor, 'institution_id', institution_id)
+def get_supervisors_by_institution_id(db: Session, institution_id: str, include_deleted: bool = False):
+    return get_all_by_field(db, Supervisor, 'institution_id', institution_id, include_deleted)

@@ -8,12 +8,12 @@ def create(db: Session, data: dict) -> Call:
     return _create(db, Call, data)
 
 
-def get_by_id(db: Session, obj_id):
-    return _get_by_id(db, Call, obj_id)
+def get_by_id(db: Session, obj_id, include_deleted: bool = False):
+    return _get_by_id(db, Call, obj_id, include_deleted)
 
 
-def get_all(db: Session):
-    return _get_all(db, Call)
+def get_all(db: Session, include_deleted: bool = False):
+    return _get_all(db, Call, include_deleted)
 
 
 def update(db: Session, obj: Call, data: dict) -> Call:

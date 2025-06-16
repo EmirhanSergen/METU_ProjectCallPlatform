@@ -8,12 +8,12 @@ def create(db: Session, data: dict) -> Attachment:
     return _create(db, Attachment, data)
 
 
-def get_by_id(db: Session, obj_id):
-    return _get_by_id(db, Attachment, obj_id)
+def get_by_id(db: Session, obj_id, include_deleted: bool = False):
+    return _get_by_id(db, Attachment, obj_id, include_deleted)
 
 
-def get_all(db: Session):
-    return _get_all(db, Attachment)
+def get_all(db: Session, include_deleted: bool = False):
+    return _get_all(db, Attachment, include_deleted)
 
 
 def update(db: Session, obj: Attachment, data: dict) -> Attachment:
@@ -24,5 +24,5 @@ def delete(db: Session, obj: Attachment) -> None:
     _delete(db, obj)
 
 
-def get_attachments_by_application_id(db: Session, application_id: str):
-    return get_all_by_field(db, Attachment, 'application_id', application_id)
+def get_attachments_by_application_id(db: Session, application_id: str, include_deleted: bool = False):
+    return get_all_by_field(db, Attachment, 'application_id', application_id, include_deleted)

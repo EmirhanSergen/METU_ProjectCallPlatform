@@ -8,12 +8,12 @@ def create(db: Session, data: dict) -> ReviewReport:
     return _create(db, ReviewReport, data)
 
 
-def get_by_id(db: Session, obj_id):
-    return _get_by_id(db, ReviewReport, obj_id)
+def get_by_id(db: Session, obj_id, include_deleted: bool = False):
+    return _get_by_id(db, ReviewReport, obj_id, include_deleted)
 
 
-def get_all(db: Session):
-    return _get_all(db, ReviewReport)
+def get_all(db: Session, include_deleted: bool = False):
+    return _get_all(db, ReviewReport, include_deleted)
 
 
 def update(db: Session, obj: ReviewReport, data: dict) -> ReviewReport:
@@ -24,13 +24,13 @@ def delete(db: Session, obj: ReviewReport) -> None:
     _delete(db, obj)
 
 
-def get_review_reports_by_call_id(db: Session, call_id: str):
-    return get_all_by_field(db, ReviewReport, 'call_id', call_id)
+def get_review_reports_by_call_id(db: Session, call_id: str, include_deleted: bool = False):
+    return get_all_by_field(db, ReviewReport, 'call_id', call_id, include_deleted)
 
 
-def get_review_reports_by_application_id(db: Session, application_id: str):
-    return get_all_by_field(db, ReviewReport, 'application_id', application_id)
+def get_review_reports_by_application_id(db: Session, application_id: str, include_deleted: bool = False):
+    return get_all_by_field(db, ReviewReport, 'application_id', application_id, include_deleted)
 
 
-def get_review_reports_by_reviewer_id(db: Session, reviewer_id: str):
-    return get_all_by_field(db, ReviewReport, 'reviewer_id', reviewer_id)
+def get_review_reports_by_reviewer_id(db: Session, reviewer_id: str, include_deleted: bool = False):
+    return get_all_by_field(db, ReviewReport, 'reviewer_id', reviewer_id, include_deleted)

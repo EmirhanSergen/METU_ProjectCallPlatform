@@ -8,12 +8,12 @@ def create(db: Session, data: dict) -> CallSecurityQuestion:
     return _create(db, CallSecurityQuestion, data)
 
 
-def get_by_id(db: Session, obj_id):
-    return _get_by_id(db, CallSecurityQuestion, obj_id)
+def get_by_id(db: Session, obj_id, include_deleted: bool = False):
+    return _get_by_id(db, CallSecurityQuestion, obj_id, include_deleted)
 
 
-def get_all(db: Session):
-    return _get_all(db, CallSecurityQuestion)
+def get_all(db: Session, include_deleted: bool = False):
+    return _get_all(db, CallSecurityQuestion, include_deleted)
 
 
 def update(db: Session, obj: CallSecurityQuestion, data: dict) -> CallSecurityQuestion:
@@ -24,5 +24,5 @@ def delete(db: Session, obj: CallSecurityQuestion) -> None:
     _delete(db, obj)
 
 
-def get_call_security_questions_by_call_id(db: Session, call_id: str):
-    return get_all_by_field(db, CallSecurityQuestion, 'call_id', call_id)
+def get_call_security_questions_by_call_id(db: Session, call_id: str, include_deleted: bool = False):
+    return get_all_by_field(db, CallSecurityQuestion, 'call_id', call_id, include_deleted)

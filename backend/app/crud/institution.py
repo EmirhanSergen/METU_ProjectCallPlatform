@@ -8,12 +8,12 @@ def create(db: Session, data: dict) -> Institution:
     return _create(db, Institution, data)
 
 
-def get_by_id(db: Session, obj_id):
-    return _get_by_id(db, Institution, obj_id)
+def get_by_id(db: Session, obj_id, include_deleted: bool = False):
+    return _get_by_id(db, Institution, obj_id, include_deleted)
 
 
-def get_all(db: Session):
-    return _get_all(db, Institution)
+def get_all(db: Session, include_deleted: bool = False):
+    return _get_all(db, Institution, include_deleted)
 
 
 def update(db: Session, obj: Institution, data: dict) -> Institution:

@@ -8,12 +8,12 @@ def create(db: Session, data: dict) -> ApplicationForm:
     return _create(db, ApplicationForm, data)
 
 
-def get_by_id(db: Session, obj_id):
-    return _get_by_id(db, ApplicationForm, obj_id)
+def get_by_id(db: Session, obj_id, include_deleted: bool = False):
+    return _get_by_id(db, ApplicationForm, obj_id, include_deleted)
 
 
-def get_all(db: Session):
-    return _get_all(db, ApplicationForm)
+def get_all(db: Session, include_deleted: bool = False):
+    return _get_all(db, ApplicationForm, include_deleted)
 
 
 def update(db: Session, obj: ApplicationForm, data: dict) -> ApplicationForm:
@@ -24,5 +24,5 @@ def delete(db: Session, obj: ApplicationForm) -> None:
     _delete(db, obj)
 
 
-def get_application_forms_by_application_id(db: Session, application_id: str):
-    return get_all_by_field(db, ApplicationForm, 'application_id', application_id)
+def get_application_forms_by_application_id(db: Session, application_id: str, include_deleted: bool = False):
+    return get_all_by_field(db, ApplicationForm, 'application_id', application_id, include_deleted)
