@@ -15,6 +15,3 @@ class InstitutionRead(InstitutionBase):
 
     class Config:
         orm_mode = True
-
-
-# Supervisor schemas

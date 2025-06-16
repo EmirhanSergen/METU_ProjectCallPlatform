@@ -17,6 +17,3 @@ class SupervisorRead(SupervisorBase):
 
     class Config:
         orm_mode = True
-
-
-# Call schemas
