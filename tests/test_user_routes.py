@@ -40,3 +40,22 @@ def test_create_user_duplicate_email():
     assert duplicate.status_code == 400
     assert duplicate.json()["detail"] == "Email already registered"
 
+
+def test_create_user_after_soft_delete():
+    payload = {
+        "email": "deleted@example.com",
+        "first_name": "Jane",
+        "last_name": "Roe",
+        "password": "secret",
+    }
+
+    resp = client.post("/users/", json=payload)
+    assert resp.status_code == 200
+    user_id = resp.json()["id"]
+
+    delete_resp = client.delete(f"/users/{user_id}")
+    assert delete_resp.status_code == 200
+
+    recreate = client.post("/users/", json=payload)
+    assert recreate.status_code == 200
+

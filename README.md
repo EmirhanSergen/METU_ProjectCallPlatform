@@ -29,3 +29,14 @@ uvicorn app.main:app --reload
 ```
 The API will be available at `http://localhost:8000`.
 
+## Soft delete and unique constraints
+
+Models using the `SoftDeleteMixin` keep records by setting an `is_deleted` flag
+instead of removing rows.  For tables that contain unique fields (for example
+`User.email` or `ApplicationForm.project_number`) a composite unique constraint
+on that field and `is_deleted` is used.  This allows creating a new object with
+the same value once the old record is marked as deleted.
+
+If you already have a database created from an earlier version you need to
+recreate the tables or manually add the new unique indexes.
+
