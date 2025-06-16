@@ -24,5 +24,5 @@ def delete(db: Session, obj: MobilityEntry) -> None:
     _delete(db, obj)
 
 
-def get_mobility_entrys_by_application_form_id(db: Session, application_form_id: str):
+def get_mobility_entries_by_application_form_id(db: Session, application_form_id: str):
     return get_all_by_field(db, MobilityEntry, 'application_form_id', application_form_id)
