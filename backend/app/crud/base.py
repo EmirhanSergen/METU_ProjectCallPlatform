@@ -6,8 +6,7 @@ ModelType = TypeVar("ModelType")
 
 
 def create(db: Session, model: Type[ModelType], data: dict) -> ModelType:
-    # Ignore binary fields; store file paths instead
-    data = {k: v for k, v in data.items() if not k.endswith('_blob')}
+    # Accept all fields, including binary ones
     obj = model(**data)
     db.add(obj)
     db.commit()
@@ -24,7 +23,6 @@ def get_all(db: Session, model: Type[ModelType]) -> Iterable[ModelType]:
 
 
 def update(db: Session, obj: ModelType, data: dict) -> ModelType:
-    data = {k: v for k, v in data.items() if not k.endswith('_blob')}
     for field, value in data.items():
         setattr(obj, field, value)
     db.commit()
