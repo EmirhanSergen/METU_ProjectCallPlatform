@@ -5,4 +5,3 @@ pydantic
 python-dotenv
 python-jose
 passlib[bcrypt]
-pytest
