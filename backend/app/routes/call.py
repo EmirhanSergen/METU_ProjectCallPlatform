@@ -36,7 +36,7 @@ def update_call(obj_id: uuid.UUID, data: CallCreate, db: Session = Depends(get_d
     return crud.update(db, obj, data.dict())
 
 @router.delete('/{obj_id}')
-@role_required(UserRole.admin, UserRole.super_admin)
+@role_required(UserRole.super_admin)
 def delete_call(obj_id: uuid.UUID, db: Session = Depends(get_db)):
     obj = crud.get_by_id(db, obj_id)
     if not obj:
