@@ -5,6 +5,8 @@ import uuid
 from ..database import get_db
 from ..crud import user as crud
 from ..schemas import UserCreate, UserRead
+from ..core.security import role_required
+from ..core.enums import UserRole
 
 router = APIRouter(prefix="/users", tags=["User"])
 
@@ -20,6 +22,7 @@ def read_user(obj_id: uuid.UUID, db: Session = Depends(get_db)):
     return obj
 
 @router.get('/', response_model=list[UserRead])
+@role_required(UserRole.admin, UserRole.super_admin)
 def read_users(db: Session = Depends(get_db)):
     return list(crud.get_all(db))
 
