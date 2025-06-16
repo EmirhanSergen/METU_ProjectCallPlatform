@@ -11,7 +11,7 @@ class SecurityEUCCreate(SecurityEUCIBase):
     pass
 
 
-class SecurityEUCRead(SecurityEUCIBase):
+class SecurityEUCIRead(SecurityEUCIBase):
     id: uuid.UUID
 
     class Config:
