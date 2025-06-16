@@ -6,8 +6,12 @@ from sqlalchemy.orm import Session
 import uuid
 
 from .. import crud
+from ..config import get_settings
 
-ALLOWED_MIME_TYPES = {"application/pdf", "image/jpeg", "image/png"}
+settings = get_settings()
+
+# Supported MIME types configured via environment variable
+ALLOWED_MIME_TYPES = set(settings.ALLOWED_MIME_TYPES.split(","))
 
 
 def validate_mime_type(upload_file: UploadFile) -> None:
