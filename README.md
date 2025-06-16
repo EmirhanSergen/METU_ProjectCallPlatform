@@ -29,6 +29,14 @@ uvicorn app.main:app --reload
 ```
 The API will be available at `http://localhost:8000`.
 
+## Running with Docker
+
+To build and start the API in a container run:
+```bash
+docker build -t projectcall .
+docker run --env-file backend/.env -p 8000:8000 projectcall
+```
+
 ## Soft delete and unique constraints
 
 Models using the `SoftDeleteMixin` keep records by setting an `is_deleted` flag
