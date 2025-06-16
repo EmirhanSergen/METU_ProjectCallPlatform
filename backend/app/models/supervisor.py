@@ -1,6 +1,6 @@
 from .base import *
 
-class Supervisor(Base):
+class Supervisor(Base, SoftDeleteMixin):
     __tablename__ = 'supervisors'
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     institution_id = Column(UUID(as_uuid=True), ForeignKey('institutions.id'))

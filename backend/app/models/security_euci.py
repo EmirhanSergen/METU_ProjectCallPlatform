@@ -1,6 +1,6 @@
 from .base import *
 
-class SecurityEUCI(Base):
+class SecurityEUCI(Base, SoftDeleteMixin):
     __tablename__ = 'security_euci'
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     application_form_id = Column(UUID(as_uuid=True), ForeignKey('application_forms.id', ondelete='CASCADE'))

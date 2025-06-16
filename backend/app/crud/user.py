@@ -22,12 +22,12 @@ def create(db: Session, data: UserCreate | dict) -> User:
     return _create(db, User, user_data)
 
 
-def get_by_id(db: Session, obj_id):
-    return _get_by_id(db, User, obj_id)
+def get_by_id(db: Session, obj_id, include_deleted: bool = False):
+    return _get_by_id(db, User, obj_id, include_deleted)
 
 
-def get_all(db: Session):
-    return _get_all(db, User)
+def get_all(db: Session, include_deleted: bool = False):
+    return _get_all(db, User, include_deleted)
 
 
 def update(db: Session, obj: User, data: dict) -> User:

@@ -1,6 +1,6 @@
 from .base import *
 
-class SecurityMeta(Base):
+class SecurityMeta(Base, SoftDeleteMixin):
     __tablename__ = 'security_meta'
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     category = Column(String(100))

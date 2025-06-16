@@ -8,12 +8,12 @@ def create(db: Session, data: dict) -> EthicsAnswer:
     return _create(db, EthicsAnswer, data)
 
 
-def get_by_id(db: Session, obj_id):
-    return _get_by_id(db, EthicsAnswer, obj_id)
+def get_by_id(db: Session, obj_id, include_deleted: bool = False):
+    return _get_by_id(db, EthicsAnswer, obj_id, include_deleted)
 
 
-def get_all(db: Session):
-    return _get_all(db, EthicsAnswer)
+def get_all(db: Session, include_deleted: bool = False):
+    return _get_all(db, EthicsAnswer, include_deleted)
 
 
 def update(db: Session, obj: EthicsAnswer, data: dict) -> EthicsAnswer:
@@ -24,5 +24,5 @@ def delete(db: Session, obj: EthicsAnswer) -> None:
     _delete(db, obj)
 
 
-def get_ethics_answers_by_application_form_id(db: Session, application_form_id: str):
-    return get_all_by_field(db, EthicsAnswer, 'application_form_id', application_form_id)
+def get_ethics_answers_by_application_form_id(db: Session, application_form_id: str, include_deleted: bool = False):
+    return get_all_by_field(db, EthicsAnswer, 'application_form_id', application_form_id, include_deleted)
