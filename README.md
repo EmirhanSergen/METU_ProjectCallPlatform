@@ -14,6 +14,7 @@ This repository contains a simple FastAPI application for managing academic proj
    ```bash
    pip install -r backend/requirements.txt
    ```
+   The dependencies include `python-multipart`, which is required for file uploads.
 4. **Environment variables**:
    Copy `.env.example` inside the `backend` directory to `.env` and adjust the values.
 
