@@ -17,6 +17,7 @@ from sqlalchemy import (
     Numeric,
     SmallInteger,
     LargeBinary,
+    UniqueConstraint,
 )
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
@@ -34,5 +35,6 @@ __all__ = [
     'uuid', 'datetime', 'date', 'Column', 'String', 'Text', 'Boolean', 'Integer',
     'Date', 'DateTime', 'ForeignKey', 'SAEnum', 'JSON', 'Numeric', 'SmallInteger',
     'LargeBinary', 'UUID', 'relationship', 'Base',
-    'UserRole', 'CallStatus', 'ApplicationStatus', 'SoftDeleteMixin'
+    'UserRole', 'CallStatus', 'ApplicationStatus', 'SoftDeleteMixin',
+    'UniqueConstraint'
 ]

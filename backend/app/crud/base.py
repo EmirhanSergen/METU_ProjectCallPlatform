@@ -1,4 +1,5 @@
 from typing import Type, TypeVar, Iterable, Any
+from datetime import datetime
 
 from sqlalchemy.orm import Session
 
@@ -35,6 +36,8 @@ def get_all(
 def update(db: Session, obj: ModelType, data: dict) -> ModelType:
     for field, value in data.items():
         setattr(obj, field, value)
+    if hasattr(obj, "updated_at"):
+        obj.updated_at = datetime.utcnow()
     db.commit()
     db.refresh(obj)
     return obj

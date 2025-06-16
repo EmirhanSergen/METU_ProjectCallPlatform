@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from passlib.hash import bcrypt
+from ..core.security import hash_password
 
 from ..models import User
 from ..schemas import UserCreate
@@ -17,7 +17,7 @@ def create(db: Session, data: UserCreate | dict) -> User:
         password = data.password
         user_data = data.dict(exclude={"password"})
 
-    user_data["password_hash"] = bcrypt.hash(password)
+    user_data["password_hash"] = hash_password(password)
 
     return _create(db, User, user_data)
 
@@ -38,5 +38,8 @@ def delete(db: Session, obj: User) -> None:
     _delete(db, obj)
 
 
-def get_by_email(db: Session, email: str) -> User | None:
-    return db.query(User).filter(User.email == email).first()
+def get_by_email(db: Session, email: str, include_deleted: bool = False) -> User | None:
+    query = db.query(User).filter(User.email == email)
+    if not include_deleted:
+        query = query.filter(User.is_deleted.is_(False))
+    return query.first()

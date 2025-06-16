@@ -1,12 +1,14 @@
 from .base import *
 
+
 class ApplicationForm(Base, SoftDeleteMixin):
+    """Detailed application form with applicant, project and ethical info."""
     __tablename__ = 'application_forms'
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    application_id = Column(UUID(as_uuid=True), ForeignKey('applications.id', ondelete='CASCADE'), unique=True)
+    application_id = Column(UUID(as_uuid=True), ForeignKey('applications.id', ondelete='CASCADE'), nullable=False)
 
     applicant_name = Column(String(255))
-    project_number = Column(String(50), unique=True)
+    project_number = Column(String(50))
     project_title = Column(String(500))
     title = Column(String(20))
     surname = Column(String(255))
@@ -60,6 +62,11 @@ class ApplicationForm(Base, SoftDeleteMixin):
 
     created_at = Column(DateTime(timezone=True), default=datetime.utcnow)
     updated_at = Column(DateTime(timezone=True), default=datetime.utcnow)
+
+    __table_args__ = (
+        UniqueConstraint('application_id', 'is_deleted', name='uq_app_form_app_id_deleted'),
+        UniqueConstraint('project_number', 'is_deleted', name='uq_app_form_project_number_deleted'),
+    )
 
     application = relationship('Application', back_populates='form')
     academic_portfolio = relationship('AcademicPortfolio', back_populates='application_form')
