@@ -2,6 +2,9 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 import uuid
 
+from ..core.security import role_required
+from ..core.enums import UserRole
+
 from ..database import get_db
 from ..crud import call as crud
 from ..schemas import CallCreate, CallRead
@@ -11,6 +14,7 @@ from ..core.enums import UserRole
 router = APIRouter(prefix="/calls", tags=["Call"])
 
 @router.post('/', response_model=CallRead)
+@role_required(UserRole.admin, UserRole.super_admin)
 def create_call(data: CallCreate, db: Session = Depends(get_db)):
     return crud.create(db, data.dict())
 
@@ -26,7 +30,7 @@ def read_calls(db: Session = Depends(get_db)):
     return list(crud.get_all(db))
 
 @router.put('/{obj_id}', response_model=CallRead)
-@role_required(UserRole.super_admin)
+@role_required(UserRole.admin, UserRole.super_admin)
 def update_call(obj_id: uuid.UUID, data: CallCreate, db: Session = Depends(get_db)):
     obj = crud.get_by_id(db, obj_id)
     if not obj:

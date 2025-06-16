@@ -1,4 +1,4 @@
-# Service utilities for handling file uploads
+"""Service utilities for handling file uploads."""
 from __future__ import annotations
 
 from fastapi import HTTPException, UploadFile

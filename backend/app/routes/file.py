@@ -4,6 +4,7 @@ import uuid
 
 from ..database import get_db
 from ..services import file_service
+from ..core.security import get_current_user
 
 router = APIRouter(tags=["File"])
 
@@ -13,6 +14,7 @@ def upload_file(
     application_id: uuid.UUID,
     upload: UploadFile = File(...),
     db: Session = Depends(get_db),
+    current_user = Depends(get_current_user),
 ):
     return file_service.save_attachment_file(db, application_id, upload)
 
