@@ -18,7 +18,9 @@ This repository contains a simple FastAPI application for managing academic proj
    Copy `.env.example` inside the `backend` directory to `.env` and adjust the values.
 
    Required variables are:
-   - `DATABASE_URL` – PostgreSQL connection string
+   - `DATABASE_URL` – PostgreSQL connection string. When using
+     `docker-compose` this should be
+     `postgresql://postgres:postgres@db:5432/project_call`.
    - `SECRET_KEY` – application secret
 
 ## Running the app
