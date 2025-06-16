@@ -1,6 +1,8 @@
 from .base import *
 
+
 class ApplicationForm(Base, SoftDeleteMixin):
+    """Detailed application form with applicant, project and ethical info."""
     __tablename__ = 'application_forms'
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     application_id = Column(UUID(as_uuid=True), ForeignKey('applications.id', ondelete='CASCADE'), unique=True)
