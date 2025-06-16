@@ -38,5 +38,8 @@ def delete(db: Session, obj: User) -> None:
     _delete(db, obj)
 
 
-def get_by_email(db: Session, email: str) -> User | None:
-    return db.query(User).filter(User.email == email).first()
+def get_by_email(db: Session, email: str, include_deleted: bool = False) -> User | None:
+    query = db.query(User).filter(User.email == email)
+    if not include_deleted:
+        query = query.filter(User.is_deleted.is_(False))
+    return query.first()
