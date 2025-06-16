@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 
-from passlib.hash import bcrypt
+from ..core.security import hash_password
 
 from ..models import User
 from ..schemas import UserCreate
@@ -17,7 +17,7 @@ def create(db: Session, data: UserCreate | dict) -> User:
         password = data.password
         user_data = data.dict(exclude={"password"})
 
-    user_data["password_hash"] = bcrypt.hash(password)
+    user_data["password_hash"] = hash_password(password)
 
     return _create(db, User, user_data)
 
