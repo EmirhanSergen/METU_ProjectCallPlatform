@@ -30,6 +30,7 @@ def read_users(db: Session = Depends(get_db)):
     return list(crud.get_all(db))
 
 @router.put('/{obj_id}', response_model=UserRead)
+@role_required(UserRole.super_admin)
 def update_user(obj_id: uuid.UUID, data: UserCreate, db: Session = Depends(get_db)):
     obj = crud.get_by_id(db, obj_id)
     if not obj:
@@ -37,6 +38,7 @@ def update_user(obj_id: uuid.UUID, data: UserCreate, db: Session = Depends(get_d
     return crud.update(db, obj, data.dict())
 
 @router.delete('/{obj_id}')
+@role_required(UserRole.super_admin)
 def delete_user(obj_id: uuid.UUID, db: Session = Depends(get_db)):
     obj = crud.get_by_id(db, obj_id)
     if not obj:
