@@ -8,12 +8,12 @@ def create(db: Session, data: dict) -> SecurityMeta:
     return _create(db, SecurityMeta, data)
 
 
-def get_by_id(db: Session, obj_id):
-    return _get_by_id(db, SecurityMeta, obj_id)
+def get_by_id(db: Session, obj_id, include_deleted: bool = False):
+    return _get_by_id(db, SecurityMeta, obj_id, include_deleted)
 
 
-def get_all(db: Session):
-    return _get_all(db, SecurityMeta)
+def get_all(db: Session, include_deleted: bool = False):
+    return _get_all(db, SecurityMeta, include_deleted)
 
 
 def update(db: Session, obj: SecurityMeta, data: dict) -> SecurityMeta:

@@ -8,12 +8,12 @@ def create(db: Session, data: dict) -> EthicsMeta:
     return _create(db, EthicsMeta, data)
 
 
-def get_by_id(db: Session, obj_id):
-    return _get_by_id(db, EthicsMeta, obj_id)
+def get_by_id(db: Session, obj_id, include_deleted: bool = False):
+    return _get_by_id(db, EthicsMeta, obj_id, include_deleted)
 
 
-def get_all(db: Session):
-    return _get_all(db, EthicsMeta)
+def get_all(db: Session, include_deleted: bool = False):
+    return _get_all(db, EthicsMeta, include_deleted)
 
 
 def update(db: Session, obj: EthicsMeta, data: dict) -> EthicsMeta:

@@ -1,6 +1,6 @@
 from .base import *
 
-class Attachment(Base):
+class Attachment(Base, SoftDeleteMixin):
     __tablename__ = 'attachments'
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     application_id = Column(UUID(as_uuid=True), ForeignKey('applications.id', ondelete='CASCADE'))

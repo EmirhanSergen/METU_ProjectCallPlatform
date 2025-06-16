@@ -12,7 +12,7 @@ router = APIRouter(prefix="/users", tags=["User"])
 
 @router.post('/', response_model=UserRead)
 def create_user(data: UserCreate, db: Session = Depends(get_db)):
-    return crud.create(db, data.dict())
+    return crud.create(db, data)
 
 @router.get('/{obj_id}', response_model=UserRead)
 def read_user(obj_id: uuid.UUID, db: Session = Depends(get_db)):

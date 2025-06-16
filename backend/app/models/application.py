@@ -1,6 +1,6 @@
 from .base import *
 
-class Application(Base):
+class Application(Base, SoftDeleteMixin):
     __tablename__ = 'applications'
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     call_id = Column(UUID(as_uuid=True), ForeignKey('calls.id', ondelete='CASCADE'))

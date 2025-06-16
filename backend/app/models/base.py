@@ -24,9 +24,15 @@ from sqlalchemy.orm import relationship
 from ..database import Base
 from ..core.enums import UserRole, CallStatus, ApplicationStatus
 
+
+class SoftDeleteMixin:
+    """Mixin providing soft delete support."""
+
+    is_deleted = Column(Boolean, default=False)
+
 __all__ = [
     'uuid', 'datetime', 'date', 'Column', 'String', 'Text', 'Boolean', 'Integer',
     'Date', 'DateTime', 'ForeignKey', 'SAEnum', 'JSON', 'Numeric', 'SmallInteger',
     'LargeBinary', 'UUID', 'relationship', 'Base',
-    'UserRole', 'CallStatus', 'ApplicationStatus'
+    'UserRole', 'CallStatus', 'ApplicationStatus', 'SoftDeleteMixin'
 ]

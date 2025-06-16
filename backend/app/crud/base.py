@@ -15,12 +15,22 @@ def create(db: Session, model: Type[ModelType], data: dict) -> ModelType:
     return obj
 
 
-def get_by_id(db: Session, model: Type[ModelType], obj_id: Any) -> ModelType | None:
-    return db.query(model).filter(model.id == obj_id).first()
+def get_by_id(
+    db: Session, model: Type[ModelType], obj_id: Any, include_deleted: bool = False
+) -> ModelType | None:
+    query = db.query(model).filter(model.id == obj_id)
+    if hasattr(model, "is_deleted") and not include_deleted:
+        query = query.filter(model.is_deleted.is_(False))
+    return query.first()
 
 
-def get_all(db: Session, model: Type[ModelType]) -> Iterable[ModelType]:
-    return db.query(model).all()
+def get_all(
+    db: Session, model: Type[ModelType], include_deleted: bool = False
+) -> Iterable[ModelType]:
+    query = db.query(model)
+    if hasattr(model, "is_deleted") and not include_deleted:
+        query = query.filter(model.is_deleted.is_(False))
+    return query.all()
 
 
 def update(db: Session, obj: ModelType, data: dict) -> ModelType:
@@ -33,9 +43,22 @@ def update(db: Session, obj: ModelType, data: dict) -> ModelType:
 
 
 def delete(db: Session, obj: ModelType) -> None:
-    db.delete(obj)
-    db.commit()
+    if hasattr(obj, "is_deleted"):
+        obj.is_deleted = True
+        db.commit()
+    else:
+        db.delete(obj)
+        db.commit()
 
 
-def get_all_by_field(db: Session, model: Type[ModelType], field: str, value: Any) -> Iterable[ModelType]:
-    return db.query(model).filter(getattr(model, field) == value).all()
+def get_all_by_field(
+    db: Session,
+    model: Type[ModelType],
+    field: str,
+    value: Any,
+    include_deleted: bool = False,
+) -> Iterable[ModelType]:
+    query = db.query(model).filter(getattr(model, field) == value)
+    if hasattr(model, "is_deleted") and not include_deleted:
+        query = query.filter(model.is_deleted.is_(False))
+    return query.all()

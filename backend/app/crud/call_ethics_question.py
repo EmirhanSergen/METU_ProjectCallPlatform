@@ -8,12 +8,12 @@ def create(db: Session, data: dict) -> CallEthicsQuestion:
     return _create(db, CallEthicsQuestion, data)
 
 
-def get_by_id(db: Session, obj_id):
-    return _get_by_id(db, CallEthicsQuestion, obj_id)
+def get_by_id(db: Session, obj_id, include_deleted: bool = False):
+    return _get_by_id(db, CallEthicsQuestion, obj_id, include_deleted)
 
 
-def get_all(db: Session):
-    return _get_all(db, CallEthicsQuestion)
+def get_all(db: Session, include_deleted: bool = False):
+    return _get_all(db, CallEthicsQuestion, include_deleted)
 
 
 def update(db: Session, obj: CallEthicsQuestion, data: dict) -> CallEthicsQuestion:
@@ -24,5 +24,5 @@ def delete(db: Session, obj: CallEthicsQuestion) -> None:
     _delete(db, obj)
 
 
-def get_call_ethics_questions_by_call_id(db: Session, call_id: str):
-    return get_all_by_field(db, CallEthicsQuestion, 'call_id', call_id)
+def get_call_ethics_questions_by_call_id(db: Session, call_id: str, include_deleted: bool = False):
+    return get_all_by_field(db, CallEthicsQuestion, 'call_id', call_id, include_deleted)
