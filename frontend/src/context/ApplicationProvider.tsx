@@ -1,12 +1,9 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { apiFetch } from "../lib/api";
 import { getCall } from "../lib/api/calls";
-import { Call } from "../types/global";
+import { Call } from "../types";
+import { Attachment } from "../types/application";
 
-interface Attachment {
-  id: string;
-  doc_name: string;
-}
 
 interface ApplicationContextValue {
   call: Call | null;
