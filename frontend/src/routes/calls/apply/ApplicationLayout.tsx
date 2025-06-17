@@ -1,6 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, Outlet, useParams, useLocation } from "react-router-dom";
 import { ApplicationProvider } from "../../../context/ApplicationProvider";
+import { getCall } from "../../../lib/api/calls";
+
 
 interface Step {
   name: string;
@@ -17,11 +19,11 @@ const steps: Step[] = [
 export default function ApplicationLayout() {
   const { callId } = useParams<{ callId: string }>();
   const location = useLocation();
+  const [call, setCall] = useState<any>();
 
   useEffect(() => {
     if (callId) {
-      // Placeholder for fetching call information
-      // fetchCall(callId)
+      getCall(callId).then(setCall).catch(() => setCall(undefined));
     }
   }, [callId]);
 

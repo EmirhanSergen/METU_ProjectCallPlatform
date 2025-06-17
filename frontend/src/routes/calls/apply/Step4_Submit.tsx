@@ -1,3 +1,4 @@
+import { useParams } from "react-router-dom";
 import Button from "../../../components/ui/Button";
 import { useToast } from "../../../context/ToastProvider";
 import { useApplication } from "../../../context/ApplicationProvider";
@@ -13,7 +14,6 @@ export default function Step4_Submit() {
     show("Application submitted");
     navigate("/");
   };
-
   return (
     <div>
       <p>Ready to submit your application.</p>
