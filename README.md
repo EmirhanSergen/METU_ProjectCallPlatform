@@ -57,7 +57,7 @@ recreate the tables or manually add the new unique indexes.
 The React frontend lives in the `frontend` directory. Notable reusable
 components include:
 
-- `components/common/DocumentList.tsx` – lists uploaded attachments with
+ - `components/DocumentList.tsx` – lists uploaded attachments with
   download and delete options.
 - `components/common/Stepper.tsx` – displays progress across application
   steps and is used by `ApplicationLayout`.

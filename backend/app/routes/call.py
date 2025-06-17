@@ -8,8 +8,6 @@ from ..core.enums import UserRole
 from ..database import get_db
 from ..crud import call as crud
 from ..schemas import CallCreate, CallRead
-from ..core.security import role_required
-from ..core.enums import UserRole
 
 router = APIRouter(prefix="/calls", tags=["Call"])
 
