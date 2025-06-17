@@ -1,6 +1,7 @@
 import { apiFetch } from "../api";
+import type { ReviewReport } from "../../types/reviews.types";
 
-export function submitReview(data: any) {
+export function submitReview(data: ReviewReport) {
   return apiFetch("/review_reports", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
