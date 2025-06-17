@@ -1,25 +1,23 @@
-import { useState } from "react";
-import { uploadAttachment } from "../../../lib/api/applications";
+
+import { ChangeEvent } from "react";
+import DocumentList from "../../../components/DocumentList";
+import { useApplication } from "../../../context/ApplicationProvider";
 
 export default function Step2_Upload() {
-  const [file, setFile] = useState<File | null>(null);
-  const applicationId = "00000000-0000-0000-0000-000000000000";
+  const { uploadAttachment, attachments, deleteAttachment } = useApplication();
 
-  const handleUpload = async () => {
-    if (!file) return;
-    try {
-      await uploadAttachment(applicationId, file);
-    } catch {
-      // ignore errors in demo
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      uploadAttachment(file);
+      e.target.value = "";
     }
   };
 
   return (
     <div className="space-y-2">
-      <input type="file" onChange={(e) => setFile(e.target.files?.[0] || null)} />
-      <button className="px-4 py-2 bg-primary text-white" onClick={handleUpload}>
-        Upload
-      </button>
+      <input type="file" onChange={handleChange} />
+      <DocumentList documents={attachments} onDelete={deleteAttachment} />
     </div>
   );
 }

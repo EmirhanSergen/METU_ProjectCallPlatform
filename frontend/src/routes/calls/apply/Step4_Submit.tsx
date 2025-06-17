@@ -1,19 +1,18 @@
 import { useParams } from "react-router-dom";
 import Button from "../../../components/ui/Button";
 import { useToast } from "../../../context/ToastProvider";
-import { createApplication } from "../../../lib/api/applications";
+import { useApplication } from "../../../context/ApplicationProvider";
+import { useNavigate } from "react-router-dom";
 
 export default function Step4_Submit() {
+  const { submitApplication } = useApplication();
   const { show } = useToast();
-  const { callId } = useParams<{ callId: string }>();
+  const navigate = useNavigate();
+
   const handleSubmit = async () => {
-    if (!callId) return;
-    try {
-      await createApplication(callId);
-      show("Application submitted");
-    } catch {
-      show("Submission failed");
-    }
+    await submitApplication();
+    show("Application submitted");
+    navigate("/");
   };
   return (
     <div>
