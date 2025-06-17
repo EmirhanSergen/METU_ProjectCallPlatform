@@ -10,6 +10,8 @@ interface AuthContextValue extends AuthState {
   login: (email: string, password: string) => Promise<void>;
   register: (email: string, password: string) => Promise<void>;
   logout: () => void;
+  role: string | null;
+  userId: string | null;
 }
 
 const AuthContext = createContext<AuthContextValue>({
@@ -18,6 +20,8 @@ const AuthContext = createContext<AuthContextValue>({
   login: async () => {},
   register: async () => {},
   logout: () => {},
+  role: null,
+  userId: null,
 });
 
 function decodeToken(token: string): { id: string; role: string } | null {
@@ -69,7 +73,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ ...state, login, register, logout }}>
+    <AuthContext.Provider value={{ ...state, login, register, logout ,role: state.user?.role ?? null,
+      userId: state.user?.id ?? null,}}>
       {children}
     </AuthContext.Provider>
   );
