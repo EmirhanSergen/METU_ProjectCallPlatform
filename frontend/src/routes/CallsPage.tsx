@@ -1,52 +1,45 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import Table from "../components/ui/Table";
-import { getCalls } from "../lib/api";
+import { useToast } from "../context/ToastProvider";
+import { apiFetch } from "../lib/api";
+
 
 interface Call {
   id: string;
   title: string;
-  status: string;
 }
 
 export default function CallsPage() {
+  const { show } = useToast();
   const [calls, setCalls] = useState<Call[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-
   useEffect(() => {
-    getCalls()
-      .then(setCalls)
-      .catch((err) => setError(err.message))
+    setLoading(true);
+    setError(null);
+    apiFetch("/calls")
+      .then((data) => {
+        setCalls(data);
+        show("Calls loaded");
+      })
+      .catch((err) => {
+        setError(err.message);
+        show("Failed to load calls");
+      })
       .finally(() => setLoading(false));
-  }, []);
+  }, [show]);
+
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div className="text-red-500">Error: {error}</div>;
 
   return (
-    <Table>
-      <thead>
-        <tr>
-          <th align="left">Title</th>
-          <th align="left">Status</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        {calls.map((call) => (
-          <tr key={call.id} className="odd:bg-gray-50">
-            <td>{call.title}</td>
-            <td>{call.status}</td>
-            <td>
-              <Link to={`/calls/${call.id}/apply`} className="text-blue-600">
-                Apply
-              </Link>
-            </td>
-          </tr>
+    <div>
+      <h1>Open Calls</h1>
+      <ul className="list-disc pl-5">
+        {calls.map((c) => (
+          <li key={c.id}>{c.title}</li>
         ))}
-      </tbody>
-    </Table>
-  );
-}
+      </ul>
+    </div>
+

@@ -1,29 +1,38 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import DocumentList, { Document } from "../components/documents/DocumentList";
+import { useToast } from "../context/ToastProvider";
 import { apiFetch } from "../lib/api";
+
+interface Call {
+  id: string;
+  title: string;
+}
 
 export default function CallPreviewPage() {
   const { callId } = useParams<{ callId: string }>();
-  const [documents, setDocuments] = useState<Document[]>([]);
+  const { show } = useToast();
+  const [call, setCall] = useState<Call | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    async function load() {
-      const apps = await apiFetch("/applications");
-      const appIds = apps.filter((a: any) => a.call_id === callId).map((a: any) => a.id);
-      const attachments = await apiFetch("/attachments");
-      const docs = attachments
-        .filter((a: any) => appIds.includes(a.application_id))
-        .map((a: any) => ({ id: a.id, name: a.doc_name || "document", url: `/files/${a.id}` }));
-      setDocuments(docs);
-    }
-    load();
-  }, [callId]);
+    if (!callId) return;
+    setLoading(true);
+    setError(null);
+    apiFetch(`/calls/${callId}`)
+      .then((data) => {
+        setCall(data);
+        show("Call loaded");
+      })
+      .catch((err) => {
+        setError(err.message);
+        show("Failed to load call");
+      })
+      .finally(() => setLoading(false));
+  }, [callId, show]);
 
-  return (
-    <div className="space-y-4">
-      <h1 className="text-xl font-bold">Call Documents</h1>
-      <DocumentList documents={documents} />
-    </div>
-  );
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div className="text-red-500">Error: {error}</div>;
+
+  return <div>{call ? call.title : "No call"}</div>;
 }
