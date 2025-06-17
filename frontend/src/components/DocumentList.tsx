@@ -1,14 +1,11 @@
 
-export interface DocumentItem {
-  id: string;
-  doc_name: string;
-}
+import { Attachment } from "../types/application";
 
 export default function DocumentList({
   documents,
   onDelete,
 }: {
-  documents: DocumentItem[];
+  documents: Attachment[];
   onDelete?: (id: string) => void;
 }) {
   if (documents.length === 0) {
