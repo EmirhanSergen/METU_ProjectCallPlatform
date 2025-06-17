@@ -41,8 +41,8 @@ export default function Navbar() {
             </button>
           ) : (
             <>
-              <Link to="/auth" className="bg-blue-500 hover:bg-blue-600 px-3 py-1 rounded">Login</Link>
-              <Link to="/auth" className="bg-green-500 hover:bg-green-600 px-3 py-1 rounded">Sign Up</Link>
+              <Link to="/login" className="bg-blue-500 hover:bg-blue-600 px-3 py-1 rounded">Login</Link>
+              <Link to="/register" className="bg-green-500 hover:bg-green-600 px-3 py-1 rounded">Sign Up</Link>
             </>
           )}
         </div>
