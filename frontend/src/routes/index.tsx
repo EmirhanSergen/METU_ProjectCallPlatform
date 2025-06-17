@@ -16,6 +16,7 @@ import CallManagementPage from "./CallManagementPage";
 import CallApplicationsPage from "./CallApplicationsPage";
 import CallPreviewPage from "./CallPreviewPage";
 import ReviewPage from "./ReviewPage";
+import NotFoundPage from "./NotFoundPage";
 
 export default function AppRoutes() {
   return (
@@ -42,6 +43,7 @@ export default function AppRoutes() {
           </Route>
         </Route>
       </Route>
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 }
