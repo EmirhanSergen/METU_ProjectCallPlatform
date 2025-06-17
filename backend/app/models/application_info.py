@@ -17,4 +17,3 @@ class ApplicationInfo(Base, SoftDeleteMixin):
     application = relationship('Application', back_populates='info')
 
 
-# 6. Application Forms

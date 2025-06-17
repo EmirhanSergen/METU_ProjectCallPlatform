@@ -13,4 +13,3 @@ class Supervisor(Base, SoftDeleteMixin):
     call_links = relationship('CallSupervisor', back_populates='supervisor')
 
 
-# 2. Calls and Templates

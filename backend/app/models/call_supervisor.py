@@ -10,4 +10,3 @@ class CallSupervisor(Base, SoftDeleteMixin):
     supervisor = relationship('Supervisor', back_populates='call_links')
 
 
-# 3. Ethics/Security question pools
