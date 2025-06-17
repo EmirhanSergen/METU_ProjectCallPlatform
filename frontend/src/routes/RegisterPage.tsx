@@ -4,6 +4,7 @@ import Input from "../components/ui/Input";
 import { useToast } from "../context/ToastProvider";
 import { apiFetch } from "../lib/api";
 
+
 export default function RegisterPage() {
   const { show } = useToast();
   const [email, setEmail] = useState("");

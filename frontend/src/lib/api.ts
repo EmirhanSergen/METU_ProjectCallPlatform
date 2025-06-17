@@ -14,3 +14,19 @@ export async function apiFetch(path: string, options: RequestInit = {}) {
   if (res.status === 204) return null;
   return res.json();
 }
+
+export function getReviewReport(id: string) {
+  return apiFetch(`/review_reports/${id}`);
+}
+
+export function getApplicationAttachments(applicationId: string) {
+  return apiFetch(`/attachments/application/${applicationId}`);
+}
+
+export function createReviewReport(data: Record<string, unknown>) {
+  return apiFetch(`/review_reports`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+}

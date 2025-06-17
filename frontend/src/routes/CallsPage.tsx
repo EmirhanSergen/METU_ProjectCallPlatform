@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useToast } from "../context/ToastProvider";
 import { apiFetch } from "../lib/api";
 
+
 interface Call {
   id: string;
   title: string;
@@ -28,6 +29,7 @@ export default function CallsPage() {
       .finally(() => setLoading(false));
   }, [show]);
 
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div className="text-red-500">Error: {error}</div>;
 
@@ -40,5 +42,4 @@ export default function CallsPage() {
         ))}
       </ul>
     </div>
-  );
-}
+
