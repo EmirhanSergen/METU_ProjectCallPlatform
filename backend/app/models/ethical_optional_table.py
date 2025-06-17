@@ -11,4 +11,3 @@ class EthicalOptionalTable(Base, SoftDeleteMixin):
     application_form = relationship('ApplicationForm', back_populates='ethical_optional_tables')
 
 
-# 10. Security tables

@@ -1,11 +1,7 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { apiFetch } from "../lib/api";
-
-interface Call {
-  id: string;
-  title?: string;
-  description?: string | null;
-}
+import { getCall } from "../lib/api/calls";
+import { Call } from "../types";
 
 interface Attachment {
   id: string;
@@ -49,7 +45,7 @@ export function ApplicationProvider({
 
   useEffect(() => {
     if (callId) {
-      apiFetch(`/calls/${callId}`)
+      getCall(callId)
         .then(setCall)
         .catch(() => {});
     }

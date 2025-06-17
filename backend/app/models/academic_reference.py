@@ -12,4 +12,3 @@ class AcademicReference(Base, SoftDeleteMixin):
     application_form = relationship('ApplicationForm', back_populates='academic_references')
 
 
-# 8. Suggested References & Mobility

@@ -3,24 +3,19 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { Button } from "../../../components/ui/Button";
 import { useToast } from "../../../context/ToastProvider";
-import { apiFetch } from "../../../lib/api";
+import { useApplication } from "../../../context/ApplicationProvider";
 
 export default function Step4_Submit() {
-  const { callId } = useParams<{ callId: string }>();
+  const { submitApplication } = useApplication();
   const { show } = useToast();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async () => {
-    if (!callId) return;
     setLoading(true);
     setError(null);
     try {
-      await apiFetch("/applications", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ call_id: callId }),
-      });
+      await submitApplication();
       show("Application submitted");
     } catch (err) {
       setError((err as Error).message);

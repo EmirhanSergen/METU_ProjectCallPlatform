@@ -1,12 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useToast } from "../context/ToastProvider";
-import { apiFetch } from "../lib/api";
-
-interface Call {
-  id: string;
-  title: string;
-}
+import { getCall } from "../lib/api/calls";
+import { Call } from "../types";
 
 export default function CallPreviewPage() {
   const { callId } = useParams<{ callId: string }>();
@@ -19,7 +15,7 @@ export default function CallPreviewPage() {
     if (!callId) return;
     setLoading(true);
     setError(null);
-    apiFetch(`/calls/${callId}`)
+    getCall(callId)
       .then((data) => {
         setCall(data);
         show("Call loaded");

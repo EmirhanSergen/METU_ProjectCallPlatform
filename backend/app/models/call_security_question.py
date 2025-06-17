@@ -10,4 +10,3 @@ class CallSecurityQuestion(Base, SoftDeleteMixin):
     call = relationship('Call', back_populates='security_questions')
 
 
-# 4. Applications and attachments

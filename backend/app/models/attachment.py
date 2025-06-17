@@ -13,4 +13,3 @@ class Attachment(Base, SoftDeleteMixin):
     application = relationship('Application', back_populates='attachments')
 
 
-# 5. Application Info

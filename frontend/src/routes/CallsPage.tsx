@@ -1,12 +1,7 @@
 import { useEffect, useState } from "react";
 import { useToast } from "../context/ToastProvider";
-import { apiFetch } from "../lib/api";
-
-
-interface Call {
-  id: string;
-  title: string;
-}
+import { getCalls } from "../lib/api/calls";
+import { Call } from "../types";
 
 export default function CallsPage() {
   const { show } = useToast();
@@ -17,7 +12,7 @@ export default function CallsPage() {
   useEffect(() => {
     setLoading(true);
     setError(null);
-    apiFetch("/calls")
+    getCalls()
       .then((data) => {
         setCalls(data);
         show("Calls loaded");

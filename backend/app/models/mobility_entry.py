@@ -12,4 +12,3 @@ class MobilityEntry(Base, SoftDeleteMixin):
     application_form = relationship('ApplicationForm', back_populates='mobility_entries')
 
 
-# 9. Ethics tables
