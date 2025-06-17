@@ -10,7 +10,7 @@ from ..crud import security_euci as crud
 # correctly named classes instead.
 from ..schemas import SecurityEUCCreate, SecurityEUCIRead
 
-router = APIRouter(prefix="/security_eucis", tags=["SecurityEuci"])
+router = APIRouter(trailing_slash=False, prefix="/security_eucis", tags=["SecurityEuci"])
 
 @router.post('/', response_model=SecurityEUCIRead)
 def create_security_euci(data: SecurityEUCCreate, db: Session = Depends(get_db)):

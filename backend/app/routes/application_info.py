@@ -6,7 +6,7 @@ from ..database import get_db
 from ..crud import application_info as crud
 from ..schemas import ApplicationInfoCreate, ApplicationInfoRead
 
-router = APIRouter(prefix="/application_infos", tags=["ApplicationInfo"])
+router = APIRouter(trailing_slash=False, prefix="/application_infos", tags=["ApplicationInfo"])
 
 @router.post('/', response_model=ApplicationInfoRead)
 def create_application_info(data: ApplicationInfoCreate, db: Session = Depends(get_db)):

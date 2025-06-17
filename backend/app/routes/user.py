@@ -8,7 +8,7 @@ from ..schemas import UserCreate, UserRead
 from ..core.security import role_required
 from ..core.enums import UserRole
 
-router = APIRouter(prefix="/users", tags=["User"])
+router = APIRouter(trailing_slash=False, prefix="/users", tags=["User"])
 
 @router.post('/', response_model=UserRead)
 def create_user(data: UserCreate, db: Session = Depends(get_db)):

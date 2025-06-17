@@ -6,7 +6,7 @@ from ..database import get_db
 from ..crud import mobility_entry as crud
 from ..schemas import MobilityEntryCreate, MobilityEntryRead
 
-router = APIRouter(prefix="/mobility_entries", tags=["MobilityEntry"])
+router = APIRouter(trailing_slash=False, prefix="/mobility_entries", tags=["MobilityEntry"])
 
 @router.post('/', response_model=MobilityEntryRead)
 def create_mobility_entry(data: MobilityEntryCreate, db: Session = Depends(get_db)):

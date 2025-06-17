@@ -9,7 +9,7 @@ from ..database import get_db
 from ..crud import call_required_document as crud
 from ..schemas import CallRequiredDocumentCreate, CallRequiredDocumentRead
 
-router = APIRouter(prefix="/call_required_documents", tags=["CallRequiredDocument"])
+router = APIRouter(trailing_slash=False, prefix="/call_required_documents", tags=["CallRequiredDocument"])
 
 @router.post('/', response_model=CallRequiredDocumentRead)
 @role_required(UserRole.admin, UserRole.super_admin)

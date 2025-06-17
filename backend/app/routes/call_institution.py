@@ -9,7 +9,7 @@ from ..database import get_db
 from ..crud import call_institution as crud
 from ..schemas import CallInstitutionCreate, CallInstitutionRead
 
-router = APIRouter(prefix="/call_institutions", tags=["CallInstitution"])
+router = APIRouter(trailing_slash=False, prefix="/call_institutions", tags=["CallInstitution"])
 
 @router.post('/', response_model=CallInstitutionRead)
 @role_required(UserRole.admin, UserRole.super_admin)

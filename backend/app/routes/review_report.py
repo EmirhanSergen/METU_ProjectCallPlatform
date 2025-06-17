@@ -6,7 +6,7 @@ from ..database import get_db
 from ..crud import review_report as crud
 from ..schemas import ReviewReportCreate, ReviewReportRead
 
-router = APIRouter(prefix="/review_reports", tags=["ReviewReport"])
+router = APIRouter(trailing_slash=False, prefix="/review_reports", tags=["ReviewReport"])
 
 @router.post('/', response_model=ReviewReportRead)
 def create_review_report(data: ReviewReportCreate, db: Session = Depends(get_db)):

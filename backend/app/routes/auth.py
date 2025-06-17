@@ -7,7 +7,7 @@ from ..crud import user as crud_user
 from ..schemas import UserCreate, UserRead, Token
 from ..core.security import verify_password, create_access_token
 
-router = APIRouter(prefix="/auth", tags=["Auth"])
+router = APIRouter(trailing_slash=False, prefix="/auth", tags=["Auth"])
 
 
 class LoginData(BaseModel):

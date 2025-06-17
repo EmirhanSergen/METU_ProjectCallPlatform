@@ -6,7 +6,7 @@ from ..database import get_db
 from ..crud import security_meta as crud
 from ..schemas import SecurityMetaCreate, SecurityMetaRead
 
-router = APIRouter(prefix="/security_metas", tags=["SecurityMeta"])
+router = APIRouter(trailing_slash=False, prefix="/security_metas", tags=["SecurityMeta"])
 
 @router.post('/', response_model=SecurityMetaRead)
 def create_security_meta(data: SecurityMetaCreate, db: Session = Depends(get_db)):

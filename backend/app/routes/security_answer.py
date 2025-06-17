@@ -6,7 +6,7 @@ from ..database import get_db
 from ..crud import security_answer as crud
 from ..schemas import SecurityAnswerCreate, SecurityAnswerRead
 
-router = APIRouter(prefix="/security_answers", tags=["SecurityAnswer"])
+router = APIRouter(trailing_slash=False, prefix="/security_answers", tags=["SecurityAnswer"])
 
 @router.post('/', response_model=SecurityAnswerRead)
 def create_security_answer(data: SecurityAnswerCreate, db: Session = Depends(get_db)):
