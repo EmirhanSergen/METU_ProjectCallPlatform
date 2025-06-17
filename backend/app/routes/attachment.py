@@ -8,6 +8,14 @@ from ..schemas import AttachmentCreate, AttachmentRead
 
 router = APIRouter(prefix="/attachments", tags=["Attachment"])
 
+
+@router.get('/application/{application_id}', response_model=list[AttachmentRead])
+def read_attachments_by_application(
+    application_id: uuid.UUID, db: Session = Depends(get_db)
+):
+    """Return attachments belonging to a specific application."""
+    return list(crud.get_attachments_by_application_id(db, application_id))
+
 @router.post('/', response_model=AttachmentRead)
 def create_attachment(data: AttachmentCreate, db: Session = Depends(get_db)):
     return crud.create(db, data.dict())
