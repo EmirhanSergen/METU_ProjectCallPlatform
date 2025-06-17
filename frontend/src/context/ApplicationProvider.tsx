@@ -4,6 +4,7 @@ import { getCall } from "../lib/api/calls";
 import { Call } from "../types";
 import { Attachment } from "../types/application";
 
+
 interface ApplicationContextValue {
   call: Call | null;
   applicationId: string | null;

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useToast } from "../context/ToastProvider";
 import { getCall } from "../lib/api/calls";
-import { Call } from "../types";
+import { Call } from "../types/global";
 
 export default function CallPreviewPage() {
   const { callId } = useParams<{ callId: string }>();

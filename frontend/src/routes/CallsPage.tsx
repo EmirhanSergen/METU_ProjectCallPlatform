@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useToast } from "../context/ToastProvider";
 import { getCalls } from "../lib/api/calls";
-import { Call } from "../types";
+import { Call } from "../types/global";
 
 export default function CallsPage() {
   const { show } = useToast();

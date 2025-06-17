@@ -1,11 +1,17 @@
 import { apiFetch } from "../api";
+import type {
+  CreateApplicationRequest,
+  CreateApplicationResponse,
+  UploadAttachmentResponse,
+} from "../../types/applications.types";
 
 export function createApplication(callId: string) {
+  const body: CreateApplicationRequest = { call_id: callId };
   return apiFetch("/applications", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ call_id: callId }),
-  });
+    body: JSON.stringify(body),
+  }) as Promise<CreateApplicationResponse>;
 }
 
 export function uploadAttachment(applicationId: string, file: File) {
@@ -14,5 +20,5 @@ export function uploadAttachment(applicationId: string, file: File) {
   return apiFetch(`/applications/${applicationId}/upload_file`, {
     method: "POST",
     body: formData,
-  });
+  }) as Promise<UploadAttachmentResponse>;
 }
