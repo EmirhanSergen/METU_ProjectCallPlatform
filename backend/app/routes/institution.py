@@ -6,7 +6,7 @@ from ..database import get_db
 from ..crud import institution as crud
 from ..schemas import InstitutionCreate, InstitutionRead
 
-router = APIRouter(trailing_slash=False, prefix="/institutions", tags=["Institution"])
+router = APIRouter(prefix="/institutions", tags=["Institution"])
 
 @router.post('/', response_model=InstitutionRead)
 def create_institution(data: InstitutionCreate, db: Session = Depends(get_db)):

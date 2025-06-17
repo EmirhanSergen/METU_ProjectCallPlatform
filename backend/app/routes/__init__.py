@@ -34,7 +34,7 @@ from . import (
 
 from fastapi import APIRouter
 
-api_router = APIRouter(trailing_slash=False)
+api_router = APIRouter()
 
 api_router.include_router(academic_portfolio.router)
 api_router.include_router(academic_reference.router)

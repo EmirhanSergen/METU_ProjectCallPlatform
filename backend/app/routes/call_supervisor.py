@@ -9,7 +9,7 @@ from ..database import get_db
 from ..crud import call_supervisor as crud
 from ..schemas import CallSupervisorCreate, CallSupervisorRead
 
-router = APIRouter(trailing_slash=False, prefix="/call_supervisors", tags=["CallSupervisor"])
+router = APIRouter(prefix="/call_supervisors", tags=["CallSupervisor"])
 
 @router.post('/', response_model=CallSupervisorRead)
 @role_required(UserRole.admin, UserRole.super_admin)

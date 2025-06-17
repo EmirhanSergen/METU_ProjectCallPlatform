@@ -6,7 +6,7 @@ from ..database import get_db
 from ..crud import supervisor as crud
 from ..schemas import SupervisorCreate, SupervisorRead
 
-router = APIRouter(trailing_slash=False, prefix="/supervisors", tags=["Supervisor"])
+router = APIRouter(prefix="/supervisors", tags=["Supervisor"])
 
 @router.post('/', response_model=SupervisorRead)
 def create_supervisor(data: SupervisorCreate, db: Session = Depends(get_db)):

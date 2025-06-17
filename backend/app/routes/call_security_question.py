@@ -9,7 +9,7 @@ from ..database import get_db
 from ..crud import call_security_question as crud
 from ..schemas import CallSecurityQuestionCreate, CallSecurityQuestionRead
 
-router = APIRouter(trailing_slash=False, prefix="/call_security_questions", tags=["CallSecurityQuestion"])
+router = APIRouter(prefix="/call_security_questions", tags=["CallSecurityQuestion"])
 
 @router.post('/', response_model=CallSecurityQuestionRead)
 @role_required(UserRole.admin, UserRole.super_admin)

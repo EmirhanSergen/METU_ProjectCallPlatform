@@ -6,7 +6,7 @@ from ..database import get_db
 from ..crud import application_form as crud
 from ..schemas import ApplicationFormCreate, ApplicationFormRead
 
-router = APIRouter(trailing_slash=False, prefix="/application_forms", tags=["ApplicationForm"])
+router = APIRouter(prefix="/application_forms", tags=["ApplicationForm"])
 
 @router.post('/', response_model=ApplicationFormRead)
 def create_application_form(data: ApplicationFormCreate, db: Session = Depends(get_db)):

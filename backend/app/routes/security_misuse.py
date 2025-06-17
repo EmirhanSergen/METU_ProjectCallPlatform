@@ -6,7 +6,7 @@ from ..database import get_db
 from ..crud import security_misuse as crud
 from ..schemas import SecurityMisuseCreate, SecurityMisuseRead
 
-router = APIRouter(trailing_slash=False, prefix="/security_misuses", tags=["SecurityMisuse"])
+router = APIRouter(prefix="/security_misuses", tags=["SecurityMisuse"])
 
 @router.post('/', response_model=SecurityMisuseRead)
 def create_security_misuse(data: SecurityMisuseCreate, db: Session = Depends(get_db)):

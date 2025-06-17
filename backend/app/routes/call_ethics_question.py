@@ -9,7 +9,7 @@ from ..database import get_db
 from ..crud import call_ethics_question as crud
 from ..schemas import CallEthicsQuestionCreate, CallEthicsQuestionRead
 
-router = APIRouter(trailing_slash=False, prefix="/call_ethics_questions", tags=["CallEthicsQuestion"])
+router = APIRouter(prefix="/call_ethics_questions", tags=["CallEthicsQuestion"])
 
 @router.post('/', response_model=CallEthicsQuestionRead)
 @role_required(UserRole.admin, UserRole.super_admin)

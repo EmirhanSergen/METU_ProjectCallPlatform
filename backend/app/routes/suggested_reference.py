@@ -6,7 +6,7 @@ from ..database import get_db
 from ..crud import suggested_reference as crud
 from ..schemas import SuggestedReferenceCreate, SuggestedReferenceRead
 
-router = APIRouter(trailing_slash=False, prefix="/suggested_references", tags=["SuggestedReference"])
+router = APIRouter(prefix="/suggested_references", tags=["SuggestedReference"])
 
 @router.post('/', response_model=SuggestedReferenceRead)
 def create_suggested_reference(data: SuggestedReferenceCreate, db: Session = Depends(get_db)):

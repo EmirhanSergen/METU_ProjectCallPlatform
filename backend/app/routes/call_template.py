@@ -9,7 +9,7 @@ from ..database import get_db
 from ..crud import call_template as crud
 from ..schemas import CallTemplateCreate, CallTemplateRead
 
-router = APIRouter(trailing_slash=False, prefix="/call_templates", tags=["CallTemplate"])
+router = APIRouter(prefix="/call_templates", tags=["CallTemplate"])
 
 @router.post('/', response_model=CallTemplateRead)
 @role_required(UserRole.admin, UserRole.super_admin)
