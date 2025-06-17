@@ -52,3 +52,13 @@ the same value once the old record is marked as deleted.
 If you already have a database created from an earlier version you need to
 recreate the tables or manually add the new unique indexes.
 
+## Frontend Components
+
+The React frontend lives in the `frontend` directory. Notable reusable
+components include:
+
+- `components/common/DocumentList.tsx` – lists uploaded attachments with
+  download and delete options.
+- `components/common/Stepper.tsx` – displays progress across application
+  steps and is used by `ApplicationLayout`.
+
