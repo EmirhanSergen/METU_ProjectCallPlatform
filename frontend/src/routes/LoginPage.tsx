@@ -3,6 +3,7 @@ import { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
 import { useToast } from "../context/ToastProvider";
 import { useAuth } from "../context/AuthProvider";
+import Navbar from "../components/layout/Navbar";
 
 
 export default function LoginPage() {
@@ -28,14 +29,26 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="space-y-2 p-4">
-      <h1>Login</h1>
-      <Input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-      <Input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-      <Button onClick={handleLogin} disabled={loading}>
-        {loading ? "Loading..." : "Login"}
-      </Button>
-      {error && <div className="text-red-500">Error: {error}</div>}
-    </div>
+    <>
+      <Navbar />
+      <div className="space-y-2 p-4">
+        <h1>Login</h1>
+        <Input
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <Input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <Button onClick={handleLogin} disabled={loading}>
+          {loading ? "Loading..." : "Login"}
+        </Button>
+        {error && <div className="text-red-500">Error: {error}</div>}
+      </div>
+    </>
   );
 }
