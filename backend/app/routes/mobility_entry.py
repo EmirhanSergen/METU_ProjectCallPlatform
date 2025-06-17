@@ -6,7 +6,7 @@ from ..database import get_db
 from ..crud import mobility_entry as crud
 from ..schemas import MobilityEntryCreate, MobilityEntryRead
 
-router = APIRouter(prefix="/mobility_entrys", tags=["MobilityEntry"])
+router = APIRouter(prefix="/mobility_entries", tags=["MobilityEntry"])
 
 @router.post('/', response_model=MobilityEntryRead)
 def create_mobility_entry(data: MobilityEntryCreate, db: Session = Depends(get_db)):
@@ -20,7 +20,7 @@ def read_mobility_entry(obj_id: uuid.UUID, db: Session = Depends(get_db)):
     return obj
 
 @router.get('/', response_model=list[MobilityEntryRead])
-def read_mobility_entrys(db: Session = Depends(get_db)):
+def read_mobility_entries(db: Session = Depends(get_db)):
     return list(crud.get_all(db))
 
 @router.put('/{obj_id}', response_model=MobilityEntryRead)
