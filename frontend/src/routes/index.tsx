@@ -1,5 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import PageContainer from "../components/layout/PageContainer";
+import ProtectedRoute from "../components/auth/ProtectedRoute";
+import { UserRole } from "../types";
 import ApplicationLayout from "./calls/apply/ApplicationLayout";
 import Step1_CallInfo from "./calls/apply/Step1_CallInfo";
 import Step2_Upload from "./calls/apply/Step2_Upload";
@@ -21,19 +23,23 @@ export default function AppRoutes() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/review/:reviewId" element={<ReviewPage />} />
-      <Route path="/" element={<PageContainer />}> 
+      <Route path="/" element={<PageContainer />}>
         <Route index element={<CallsPage />} />
         <Route path="about" element={<AboutPage />} />
-        <Route path="dashboard" element={<DashboardPage />} />
-        <Route path="calls/manage" element={<CallManagementPage />} />
-        <Route path="calls/:callId/applications" element={<CallApplicationsPage />} />
+        <Route element={<ProtectedRoute roles={[UserRole.admin, UserRole.super_admin]} />}>
+          <Route path="dashboard" element={<DashboardPage />} />
+          <Route path="calls/manage" element={<CallManagementPage />} />
+          <Route path="calls/:callId/applications" element={<CallApplicationsPage />} />
+        </Route>
         <Route path="calls/:callId/preview" element={<CallPreviewPage />} />
-        <Route path="calls/:callId/apply" element={<ApplicationLayout />}>
-          <Route index element={<Navigate to="step1" replace />} />
-          <Route path="step1" element={<Step1_CallInfo />} />
-          <Route path="step2" element={<Step2_Upload />} />
-          <Route path="step3" element={<Step3_Review />} />
-          <Route path="step4" element={<Step4_Submit />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="calls/:callId/apply" element={<ApplicationLayout />}>
+            <Route index element={<Navigate to="step1" replace />} />
+            <Route path="step1" element={<Step1_CallInfo />} />
+            <Route path="step2" element={<Step2_Upload />} />
+            <Route path="step3" element={<Step3_Review />} />
+            <Route path="step4" element={<Step4_Submit />} />
+          </Route>
         </Route>
       </Route>
     </Routes>
