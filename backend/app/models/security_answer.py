@@ -9,4 +9,3 @@ class SecurityAnswer(Base, SoftDeleteMixin):
     application_form = relationship('ApplicationForm', back_populates='security_answers')
 
 
-# 11. Review Reports

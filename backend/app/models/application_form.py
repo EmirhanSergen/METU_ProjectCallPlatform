@@ -82,4 +82,3 @@ class ApplicationForm(Base, SoftDeleteMixin):
     security_answers = relationship('SecurityAnswer', back_populates='application_form')
 
 
-# 7. Academic portfolio details
