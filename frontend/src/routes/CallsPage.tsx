@@ -42,4 +42,6 @@ export default function CallsPage() {
         ))}
       </ul>
     </div>
+  );
+}
 
