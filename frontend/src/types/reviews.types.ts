@@ -1,3 +1,4 @@
+
 export interface Attachment {
   id: string;
   doc_name: string;
@@ -32,4 +33,5 @@ export interface ReviewReport extends Review {
   total_weighted_score?: number;
   normalized_score?: number;
   created_at?: string;
+
 }
