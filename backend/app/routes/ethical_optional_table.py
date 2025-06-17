@@ -6,7 +6,7 @@ from ..database import get_db
 from ..crud import ethical_optional_table as crud
 from ..schemas import EthicalOptionalTableCreate, EthicalOptionalTableRead
 
-router = APIRouter(trailing_slash=False, prefix="/ethical_optional_tables", tags=["EthicalOptionalTable"])
+router = APIRouter(prefix="/ethical_optional_tables", tags=["EthicalOptionalTable"])
 
 @router.post('/', response_model=EthicalOptionalTableRead)
 def create_ethical_optional_table(data: EthicalOptionalTableCreate, db: Session = Depends(get_db)):

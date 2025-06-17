@@ -7,7 +7,7 @@ from ..schemas import CallRead
 from ..core.security import role_required
 from ..core.enums import UserRole
 
-router = APIRouter(trailing_slash=False, prefix="/admin", tags=["Admin"])
+router = APIRouter(prefix="/admin", tags=["Admin"])
 
 
 @router.get("/calls", response_model=list[CallRead])

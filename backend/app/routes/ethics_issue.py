@@ -6,7 +6,7 @@ from ..database import get_db
 from ..crud import ethics_issue as crud
 from ..schemas import EthicsIssueCreate, EthicsIssueRead
 
-router = APIRouter(trailing_slash=False, prefix="/ethics_issues", tags=["EthicsIssue"])
+router = APIRouter(prefix="/ethics_issues", tags=["EthicsIssue"])
 
 @router.post('/', response_model=EthicsIssueRead)
 def create_ethics_issue(data: EthicsIssueCreate, db: Session = Depends(get_db)):

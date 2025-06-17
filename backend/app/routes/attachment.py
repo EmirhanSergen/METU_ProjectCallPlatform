@@ -6,7 +6,7 @@ from ..database import get_db
 from ..crud import attachment as crud
 from ..schemas import AttachmentCreate, AttachmentRead
 
-router = APIRouter(trailing_slash=False, prefix="/attachments", tags=["Attachment"])
+router = APIRouter(prefix="/attachments", tags=["Attachment"])
 
 
 @router.get('/application/{application_id}', response_model=list[AttachmentRead])
