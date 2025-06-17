@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import Button from "../../../components/ui/Button";
+import { Button } from "../../../components/ui/Button";
 import { useToast } from "../../../context/ToastProvider";
 import { apiFetch } from "../../../lib/api";
 

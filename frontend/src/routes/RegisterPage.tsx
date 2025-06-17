@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Button from "../components/ui/Button";
-import Input from "../components/ui/Input";
+import  { Button } from "../components/ui/Button";
+import { Input } from "../components/ui/Input";
 import { useToast } from "../context/ToastProvider";
 import { useAuth } from "../context/AuthProvider";
 

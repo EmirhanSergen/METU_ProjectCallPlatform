@@ -1,8 +1,8 @@
 
 import { useEffect, useState, ChangeEvent } from "react";
 import { useParams } from "react-router-dom";
-import Input from "../components/ui/Input";
-import Button from "../components/ui/Button";
+import { Input } from "../components/ui/Input";
+import { Button } from "../components/ui/Button";
 import { useToast } from "../context/ToastProvider";
 import {
   getReviewReport,

@@ -1,4 +1,4 @@
-import Button from "../../../components/ui/Button";
+import { Button } from "../../../components/ui/Button";
 import { useApplication } from "../../../context/ApplicationProvider";
 
 export default function Step1_CallInfo() {
