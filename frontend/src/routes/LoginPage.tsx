@@ -3,7 +3,6 @@ import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 import { useToast } from "../context/ToastProvider";
 import { apiFetch } from "../lib/api";
-import { login } from "../lib/api/auth";
 
 
 export default function LoginPage() {
