@@ -37,7 +37,10 @@ export default function LoginPage() {
       <h1>Login</h1>
       <Input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
       <Input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-      <Button onClick={handleLogin}>Login</Button>
+      <Button onClick={handleLogin} disabled={loading}>
+        {loading ? "Loading..." : "Login"}
+      </Button>
+      {error && <div className="text-red-500">Error: {error}</div>}
     </div>
   );
 }
