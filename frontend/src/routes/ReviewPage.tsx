@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { Input } from "../components/ui/Input";
 import { Button } from "../components/ui/Button";
 import { useToast } from "../context/ToastProvider";
+import type { Attachment, ReviewReport, Review } from "../types/reviews.types";
 import {
   getReviewReport,
   getApplicationAttachments,
@@ -14,9 +15,9 @@ import {
 export default function ReviewPage() {
   const { reviewId } = useParams<{ reviewId: string }>();
   const { show } = useToast();
-  const [review, setReview] = useState<any | null>(null);
-  const [attachments, setAttachments] = useState<any[]>([]);
-  const [form, setForm] = useState({
+  const [review, setReview] = useState<ReviewReport | null>(null);
+  const [attachments, setAttachments] = useState<Attachment[]>([]);
+  const [form, setForm] = useState<Review>({
     excellence_grade: "",
     impact_grade: "",
     implementation_grade: "",

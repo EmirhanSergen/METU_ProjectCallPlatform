@@ -1,3 +1,5 @@
+import type { ReviewReport, Attachment } from "../types/reviews.types";
+
 const API_BASE = "http://localhost:8000";
 
 export async function apiFetch(path: string, options: RequestInit = {}) {
@@ -16,14 +18,14 @@ export async function apiFetch(path: string, options: RequestInit = {}) {
 }
 
 export function getReviewReport(id: string) {
-  return apiFetch(`/review_reports/${id}`);
+  return apiFetch(`/review_reports/${id}`) as Promise<ReviewReport>;
 }
 
 export function getApplicationAttachments(applicationId: string) {
-  return apiFetch(`/attachments/application/${applicationId}`);
+  return apiFetch(`/attachments/application/${applicationId}`) as Promise<Attachment[]>;
 }
 
-export function createReviewReport(data: Record<string, unknown>) {
+export function createReviewReport(data: ReviewReport) {
   return apiFetch(`/review_reports`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
