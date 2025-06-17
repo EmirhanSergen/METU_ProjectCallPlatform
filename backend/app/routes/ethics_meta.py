@@ -6,7 +6,7 @@ from ..database import get_db
 from ..crud import ethics_meta as crud
 from ..schemas import EthicsMetaCreate, EthicsMetaRead
 
-router = APIRouter(prefix="/ethics_metas", tags=["EthicsMeta"])
+router = APIRouter(trailing_slash=False, prefix="/ethics_metas", tags=["EthicsMeta"])
 
 @router.post('/', response_model=EthicsMetaRead)
 def create_ethics_meta(data: EthicsMetaCreate, db: Session = Depends(get_db)):

@@ -6,7 +6,7 @@ from ..database import get_db
 from ..crud import academic_reference as crud
 from ..schemas import AcademicReferenceCreate, AcademicReferenceRead
 
-router = APIRouter(prefix="/academic_references", tags=["AcademicReference"])
+router = APIRouter(trailing_slash=False, prefix="/academic_references", tags=["AcademicReference"])
 
 @router.post('/', response_model=AcademicReferenceRead)
 def create_academic_reference(data: AcademicReferenceCreate, db: Session = Depends(get_db)):

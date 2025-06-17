@@ -7,7 +7,7 @@ from ..crud import application as crud
 from ..schemas import ApplicationCreate, ApplicationRead
 from ..core.security import get_current_user
 
-router = APIRouter(prefix="/applications", tags=["Application"])
+router = APIRouter(trailing_slash=False, prefix="/applications", tags=["Application"])
 
 @router.post('/', response_model=ApplicationRead)
 def create_application(

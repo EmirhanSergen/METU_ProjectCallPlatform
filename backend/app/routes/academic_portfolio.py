@@ -6,7 +6,7 @@ from ..database import get_db
 from ..crud import academic_portfolio as crud
 from ..schemas import AcademicPortfolioCreate, AcademicPortfolioRead
 
-router = APIRouter(prefix="/academic_portfolios", tags=["AcademicPortfolio"])
+router = APIRouter(trailing_slash=False, prefix="/academic_portfolios", tags=["AcademicPortfolio"])
 
 @router.post('/', response_model=AcademicPortfolioRead)
 def create_academic_portfolio(data: AcademicPortfolioCreate, db: Session = Depends(get_db)):

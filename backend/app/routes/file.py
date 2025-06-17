@@ -9,7 +9,7 @@ from ..models import User
 from ..crud import application as crud_application, attachment as crud_attachment
 from ..core.enums import UserRole
 
-router = APIRouter(tags=["File"])
+router = APIRouter(trailing_slash=False, tags=["File"])
 
 
 @router.post("/applications/{application_id}/upload_file")
