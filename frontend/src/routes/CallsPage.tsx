@@ -1,12 +1,7 @@
 import { useEffect, useState } from "react";
 import { useToast } from "../context/ToastProvider";
 import { getCalls } from "../lib/api/calls";
-
-
-interface Call {
-  id: string;
-  title: string;
-}
+import { Call } from "../types";
 
 export default function CallsPage() {
   const { show } = useToast();
