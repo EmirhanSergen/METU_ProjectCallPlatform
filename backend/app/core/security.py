@@ -1,5 +1,4 @@
 from datetime import datetime, timedelta
-from functools import wraps
 from inspect import iscoroutinefunction
 from typing import Callable
 
@@ -62,7 +61,6 @@ def get_current_user(
 
 def role_required(*roles: UserRole) -> Callable:
     def decorator(func: Callable) -> Callable:
-        @wraps(func)
         async def wrapper(*args, current_user: User = Depends(get_current_user), **kwargs):
             if current_user.role not in roles:
                 raise HTTPException(status_code=403, detail="Forbidden")
