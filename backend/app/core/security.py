@@ -1,5 +1,7 @@
 from datetime import datetime, timedelta
 from inspect import iscoroutinefunction
+import inspect
+from functools import wraps
 from typing import Callable
 
 from fastapi import Depends, HTTPException
@@ -61,6 +63,19 @@ def get_current_user(
 
 def role_required(*roles: UserRole) -> Callable:
     def decorator(func: Callable) -> Callable:
+        sig = inspect.signature(func)
+        params = list(sig.parameters.values())
+        params.append(
+            inspect.Parameter(
+                "current_user",
+                inspect.Parameter.POSITIONAL_OR_KEYWORD,
+                annotation=User,
+                default=Depends(get_current_user),
+            )
+        )
+        new_sig = sig.replace(parameters=params)
+
+        @wraps(func)
         async def wrapper(*args, current_user: User = Depends(get_current_user), **kwargs):
             if current_user.role not in roles:
                 raise HTTPException(status_code=403, detail="Forbidden")
@@ -68,6 +83,7 @@ def role_required(*roles: UserRole) -> Callable:
                 return await func(*args, **kwargs)
             return func(*args, **kwargs)
 
+        wrapper.__signature__ = new_sig
         return wrapper
 
     return decorator
