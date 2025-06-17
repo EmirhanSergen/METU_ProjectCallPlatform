@@ -4,7 +4,7 @@ import { Input } from "../components/ui/Input";
 import Table from "../components/ui/Table";
 import { apiFetch } from "../lib/api";
 import { getCalls } from "../lib/api/calls";
-import { Call } from "../types";
+import { Call } from "../types/global";
 
 export default function CallManagementPage() {
   const [calls, setCalls] = useState<Call[]>([]);

@@ -1,9 +1,5 @@
 import { apiFetch } from "../api";
-
-export interface LoginData {
-  email: string;
-  password: string;
-}
+import type { LoginData, RegisterData } from "../../types/auth.types";
 
 export function login(data: LoginData) {
   return apiFetch("/auth/login", {
@@ -11,14 +7,6 @@ export function login(data: LoginData) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
-}
-
-export interface RegisterData {
-  email: string;
-  password: string;
-  first_name?: string;
-  last_name?: string;
-  role?: string;
 }
 
 export function register(data: RegisterData) {
