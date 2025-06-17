@@ -8,3 +8,7 @@ export async function apiFetch(path: string, options: RequestInit = {}) {
   if (!res.ok) throw new Error(res.statusText);
   return res.json();
 }
+
+export async function getCalls() {
+  return apiFetch("/calls");
+}
