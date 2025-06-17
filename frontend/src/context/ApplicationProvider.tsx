@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { apiFetch } from "../lib/api";
+import { getCall } from "../lib/api/calls";
 
 interface Call {
   id: string;
@@ -49,7 +50,7 @@ export function ApplicationProvider({
 
   useEffect(() => {
     if (callId) {
-      apiFetch(`/calls/${callId}`)
+      getCall(callId)
         .then(setCall)
         .catch(() => {});
     }

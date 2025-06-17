@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Outlet, useParams } from "react-router-dom";
 import { useToast } from "../../../context/ToastProvider";
-import { apiFetch } from "../../../lib/api";
 import { getCall } from "../../../lib/api/calls";
 import Stepper, { Step } from "../../../components/common/Stepper";
 import { ApplicationProvider } from "../../../context/ApplicationProvider";
@@ -24,7 +23,7 @@ export default function ApplicationLayout() {
     if (!callId) return;
     setLoading(true);
     setError(null);
-    apiFetch(`/calls/${callId}`)
+    getCall(callId)
       .then(() => show("Call info loaded"))
       .catch((err) => {
         setError(err.message);
@@ -32,13 +31,6 @@ export default function ApplicationLayout() {
       })
       .finally(() => setLoading(false));
   }, [callId, show]);
-  const [call, setCall] = useState<any>();
-
-  useEffect(() => {
-    if (callId) {
-      getCall(callId).then(setCall).catch(() => setCall(undefined));
-    }
-  }, [callId]);
 
 
   if (!callId) return null;

@@ -3,6 +3,7 @@ import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 import Table from "../components/ui/Table";
 import { apiFetch } from "../lib/api";
+import { getCalls } from "../lib/api/calls";
 
 interface Call {
   id: string;
@@ -17,7 +18,7 @@ export default function CallManagementPage() {
   const [editing, setEditing] = useState<Call | null>(null);
 
   async function load() {
-    const data = await apiFetch("/calls");
+    const data = await getCalls();
     setCalls(data);
   }
 
