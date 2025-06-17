@@ -4,12 +4,7 @@ import Input from "../components/ui/Input";
 import Table from "../components/ui/Table";
 import { apiFetch } from "../lib/api";
 import { getCalls } from "../lib/api/calls";
-
-interface Call {
-  id: string;
-  title: string;
-  description?: string;
-}
+import { Call } from "../types";
 
 export default function CallManagementPage() {
   const [calls, setCalls] = useState<Call[]>([]);
