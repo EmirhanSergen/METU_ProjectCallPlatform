@@ -1,4 +1,4 @@
-fastapi
+fastapi>=0.111
 uvicorn
 sqlalchemy
 pydantic
