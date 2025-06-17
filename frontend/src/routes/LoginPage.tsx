@@ -1,24 +1,34 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Button from "../components/ui/Button";
 import Input from "../components/ui/Input";
 import { useToast } from "../context/ToastProvider";
-import { useAuth } from "../context/AuthProvider";
+import { apiFetch } from "../lib/api";
+import { login } from "../lib/api/auth";
+
 
 export default function LoginPage() {
   const { show } = useToast();
-  const { login } = useAuth();
-  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleLogin = async () => {
+    setLoading(true);
+    setError(null);
     try {
-      await login(email, password);
-      show("Logged in");
-      navigate("/");
-    } catch {
+      const data = await apiFetch("/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      localStorage.setItem("token", data.access_token);
+      show("Logged in successfully");
+    } catch (err) {
+      setError((err as Error).message);
       show("Login failed");
+    } finally {
+      setLoading(false);
     }
   };
 
