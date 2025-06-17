@@ -14,6 +14,7 @@ import CallManagementPage from "./CallManagementPage";
 import CallApplicationsPage from "./CallApplicationsPage";
 import CallPreviewPage from "./CallPreviewPage";
 import ReviewPage from "./ReviewPage";
+import NotFoundPage from "./NotFoundPage";
 
 export default function AppRoutes() {
   return (
@@ -21,7 +22,7 @@ export default function AppRoutes() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/review/:reviewId" element={<ReviewPage />} />
-      <Route path="/" element={<PageContainer />}> 
+      <Route path="/" element={<PageContainer />}>
         <Route index element={<CallsPage />} />
         <Route path="about" element={<AboutPage />} />
         <Route path="dashboard" element={<DashboardPage />} />
@@ -36,6 +37,7 @@ export default function AppRoutes() {
           <Route path="step4" element={<Step4_Submit />} />
         </Route>
       </Route>
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 }
