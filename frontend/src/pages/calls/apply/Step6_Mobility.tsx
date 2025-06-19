@@ -1,13 +1,8 @@
+
 import { useState, useEffect } from "react";
 import { Button } from "../../../components/ui/Button";
 import { useApplication } from "../../../context/ApplicationProvider";
-
-interface MobilityEntry {
-  from_date: string;
-  to_date: string;
-  organisation: string;
-  country: string;
-}
+import type { MobilityEntryInput, MobilityEntry } from "../../../types/mobility.types";
 
 export default function Step6_Mobility() {
   const { application, updateApplicationField } = useApplication();
@@ -40,9 +35,9 @@ export default function Step6_Mobility() {
   return (
     <div className="space-y-4">
       <h2 className="text-lg font-semibold">Mobility Entries</h2>
-      {entries.map((entry, index) => (
+      {mobilityEntries.map((entry) => (
         <div
-          key={index}
+          key={entry.id}
           className="grid grid-cols-1 md:grid-cols-4 gap-4 border p-4 rounded-lg shadow-sm"
         >
           <div>
@@ -50,7 +45,7 @@ export default function Step6_Mobility() {
             <input
               type="date"
               value={entry.from_date}
-              onChange={(e) => handleChange(index, "from_date", e.target.value)}
+              onChange={(e) => handleChange(entry.id, "from_date", e.target.value)}
               className="input"
             />
           </div>
@@ -59,7 +54,7 @@ export default function Step6_Mobility() {
             <input
               type="date"
               value={entry.to_date}
-              onChange={(e) => handleChange(index, "to_date", e.target.value)}
+              onChange={(e) => handleChange(entry.id, "to_date", e.target.value)}
               className="input"
             />
           </div>
@@ -68,7 +63,7 @@ export default function Step6_Mobility() {
             <input
               type="text"
               value={entry.organisation}
-              onChange={(e) => handleChange(index, "organisation", e.target.value)}
+              onChange={(e) => handleChange(entry.id, "organisation", e.target.value)}
               className="input"
             />
           </div>
@@ -77,12 +72,12 @@ export default function Step6_Mobility() {
             <input
               type="text"
               value={entry.country}
-              onChange={(e) => handleChange(index, "country", e.target.value)}
+              onChange={(e) => handleChange(entry.id, "country", e.target.value)}
               className="input"
             />
           </div>
           <div className="col-span-1 md:col-span-4 text-right">
-            <Button variant="destructive" onClick={() => handleRemove(index)}>
+            <Button variant="destructive" onClick={() => handleRemove(entry.id)}>
               Remove
             </Button>
           </div>
