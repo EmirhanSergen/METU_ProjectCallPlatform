@@ -17,7 +17,7 @@ interface ApplicationContextValue {
   applicationId: string | null;
   attachments: Attachment[];
   createApplication: () => Promise<boolean>;
-  uploadAttachment: (file: File) => Promise<boolean>;
+  uploadAttachment: (file: File, field: string) => Promise<boolean>;
   deleteAttachment: (id: string) => Promise<boolean>;
   submitApplication: () => Promise<boolean>;
 }
@@ -94,10 +94,10 @@ export function ApplicationProvider({
     }
   };
 
-  const uploadAttachment = async (file: File) => {
+  const uploadAttachment = async (file: File, field: string) => {
     if (!applicationId) return false;
     try {
-      const data = await apiUploadAttachment(applicationId, file);
+      const data = await apiUploadAttachment(applicationId, file, field);
       setAttachments((prev) => [...prev, data]);
       return true;
     } catch {

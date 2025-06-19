@@ -15,9 +15,10 @@ export function createApplication(callId: string) {
   }) as Promise<CreateApplicationResponse>;
 }
 
-export function uploadAttachment(applicationId: string, file: File) {
+export function uploadAttachment(applicationId: string, file: File, field: string) {
   const formData = new FormData();
   formData.append("upload", file);
+  formData.append("field", field);
   return apiFetch(`/applications/${applicationId}/upload_file`, {
     method: "POST",
     body: formData,
