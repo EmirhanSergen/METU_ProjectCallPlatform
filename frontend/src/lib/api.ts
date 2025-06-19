@@ -10,15 +10,17 @@ export async function apiFetch(path: string, options: RequestInit = {}) {
   }
   const res = await fetch(`${API_BASE}${path}`, { ...options, headers });
   if (!res.ok) {
-    const text = await res.text();
-    let message: string | undefined = undefined;
+    let message = res.statusText;
     try {
-      const data = JSON.parse(text);
-      message = data.detail || data.message || text;
+      const data = await res.clone().json();
+      message = data.detail || data.message || message;
     } catch {
-      message = text;
+      try {
+        const text = await res.text();
+        if (text) message = text;
+      } catch {}
     }
-    throw new Error(message || res.statusText);
+    throw new Error(message);
   }
   if (res.status === 204) return null;
   return res.json();
