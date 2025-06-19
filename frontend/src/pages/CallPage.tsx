@@ -41,9 +41,6 @@ export default function CallPage() {
             <Link to={`/call/${c.id}`} className="text-blue-600 underline">
               Details
             </Link>
-            <Link to={`/call/${c.id}/preview`} className="text-blue-600 underline">
-              Preview
-            </Link>
             {role === "applicant" && (
               <Link
                 to={`/call/${c.id}/apply`}
