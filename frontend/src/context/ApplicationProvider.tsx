@@ -4,6 +4,8 @@ import {
   uploadAttachment as apiUploadAttachment,
   deleteAttachment as apiDeleteAttachment,
   updateApplication,
+  getApplication,
+  patchApplication,
   getApplicationAttachments,
 } from "../api/applications";
 import { getCall } from "../api/calls";
@@ -15,6 +17,8 @@ import { useToast } from "./ToastProvider";
 interface ApplicationContextValue {
   call: Call | null;
   applicationId: string | null;
+  application: Record<string, any>;
+  updateApplicationField: (field: string, value: any) => Promise<boolean>;
   attachments: Attachment[];
   createApplication: () => Promise<boolean>;
   uploadAttachment: (file: File) => Promise<boolean>;
@@ -25,6 +29,8 @@ interface ApplicationContextValue {
 const ApplicationContext = createContext<ApplicationContextValue>({
   call: null,
   applicationId: null,
+  application: {},
+  updateApplicationField: async () => false,
   attachments: [],
   createApplication: async () => false,
   uploadAttachment: async () => false,
@@ -47,6 +53,7 @@ export function ApplicationProvider({
   const [applicationId, setApplicationId] = useState<string | null>(() =>
     localStorage.getItem(`applicationId_${callId}`)
   );
+  const [application, setApplication] = useState<Record<string, any>>({});
   const [attachments, setAttachments] = useState<Attachment[]>([]);
   const { show } = useToast();
 
@@ -67,19 +74,25 @@ export function ApplicationProvider({
     if (!applicationId) {
       localStorage.removeItem(`applicationId_${callId}`);
       setAttachments([]);
+      setApplication({});
       return;
     }
     localStorage.setItem(`applicationId_${callId}`, applicationId);
-    const fetchAttachments = async () => {
+    const fetchData = async () => {
       try {
-        const data = await getApplicationAttachments(applicationId);
-        setAttachments(data);
+        const [app, files] = await Promise.all([
+          getApplication(applicationId),
+          getApplicationAttachments(applicationId),
+        ]);
+        setApplication(app);
+        setAttachments(files);
       } catch {
+        setApplication({});
         setAttachments([]);
-        show("Failed to load attachments");
+        show("Failed to load application");
       }
     };
-    fetchAttachments();
+    fetchData();
   }, [applicationId, callId, show]);
 
   const createApplication = async () => {
@@ -87,6 +100,7 @@ export function ApplicationProvider({
     try {
       const data = await apiCreateApplication(callId);
       setApplicationId(data.id as string);
+      setApplication(data as Record<string, any>);
       return true;
     } catch {
       show("Failed to create application");
@@ -117,6 +131,18 @@ export function ApplicationProvider({
     }
   };
 
+  const updateApplicationField = async (field: string, value: any) => {
+    if (!applicationId) return false;
+    try {
+      await patchApplication(applicationId, { [field]: value });
+      setApplication((prev) => ({ ...prev, [field]: value }));
+      return true;
+    } catch {
+      show("Failed to save application");
+      return false;
+    }
+  };
+
   const submitApplication = async () => {
     if (!applicationId) return false;
     try {
@@ -136,6 +162,8 @@ export function ApplicationProvider({
       value={{
         call,
         applicationId,
+        application,
+        updateApplicationField,
         attachments,
         createApplication,
         uploadAttachment,
