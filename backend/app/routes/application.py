@@ -15,7 +15,14 @@ def create_application(
     db: Session = Depends(get_db),
     current_user = Depends(get_current_user),
 ):
-    return crud.create(db, data.dict())
+    """Create an application for the current user.
+
+    The ``user_id`` field of the incoming payload is ignored and replaced with
+    the id of ``current_user``.
+    """
+    data_dict = data.dict(exclude={"user_id"})
+    data_dict["user_id"] = current_user.id
+    return crud.create(db, data_dict)
 
 @router.get('/{obj_id}', response_model=ApplicationRead)
 def read_application(obj_id: uuid.UUID, db: Session = Depends(get_db)):
@@ -38,7 +45,11 @@ def update_application(
     obj = crud.get_by_id(db, obj_id)
     if not obj:
         raise HTTPException(status_code=404, detail="Application not found")
-    return crud.update(db, obj, data.dict())
+    if obj.user_id != current_user.id:
+        raise HTTPException(status_code=403, detail="Forbidden")
+    data_dict = data.dict(exclude={"user_id"})
+    data_dict["user_id"] = current_user.id
+    return crud.update(db, obj, data_dict)
 
 @router.delete('/{obj_id}')
 def delete_application(
@@ -49,5 +60,7 @@ def delete_application(
     obj = crud.get_by_id(db, obj_id)
     if not obj:
         raise HTTPException(status_code=404, detail="Application not found")
+    if obj.user_id != current_user.id:
+        raise HTTPException(status_code=403, detail="Forbidden")
     crud.delete(db, obj)
-    return {'ok': True}
+    return {"ok": True}
