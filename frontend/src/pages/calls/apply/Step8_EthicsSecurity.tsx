@@ -4,7 +4,7 @@ import EthicsIssuesTable from "../../../components/application/EthicsIssuesTable
 import SecurityIssuesTable from "../../../components/application/SecurityIssuesTable";
 
 export default function Step8_EthicsSecurity() {
-  const { application, updateApplicationField } = useApplication();
+  const { application, updateApplicationField, markStepCompleted } = useApplication();
   const [ethicsConfirmed, setEthicsConfirmed] = useState(
     application.ethics_confirmed || false
   );
@@ -26,6 +26,7 @@ export default function Step8_EthicsSecurity() {
       "security_self_assessment_text",
       securitySelfAssessment
     );
+    markStepCompleted("step8");
   };
 
   return (

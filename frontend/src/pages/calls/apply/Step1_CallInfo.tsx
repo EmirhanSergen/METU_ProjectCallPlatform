@@ -4,7 +4,7 @@ import { useToast } from "../../../context/ToastProvider";
 import { useApplication } from "../../../context/ApplicationProvider";
 
 export default function Step1_CallInfo() {
-  const { call, createApplication, applicationId } = useApplication();
+  const { call, createApplication, applicationId, markStepCompleted } = useApplication();
   const { show } = useToast();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -14,6 +14,7 @@ export default function Step1_CallInfo() {
     setError(null);
     try {
       await createApplication();
+      markStepCompleted("step1");
       show("Application created");
     } catch (err) {
       setError((err as Error).message);

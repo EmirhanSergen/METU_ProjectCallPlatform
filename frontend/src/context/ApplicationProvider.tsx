@@ -36,6 +36,8 @@ interface ApplicationContextValue {
   removeMobilityEntry: (id: string) => Promise<boolean>;
   submitApplication: () => Promise<boolean>;
   updateApplicationField: (field: string, value: unknown) => Promise<void>;
+  completedSteps: string[];
+  markStepCompleted: (step: string) => void;
 }
 
 const ApplicationContext = createContext<ApplicationContextValue>({
@@ -54,6 +56,8 @@ const ApplicationContext = createContext<ApplicationContextValue>({
   removeMobilityEntry: async () => false,
   submitApplication: async () => false,
   updateApplicationField: async () => {},
+  completedSteps: [],
+  markStepCompleted: () => {},
 });
 
 export function useApplication() {
@@ -74,6 +78,7 @@ export function ApplicationProvider({
   const [application, setApplication] = useState<Record<string, any>>({});
   const [attachments, setAttachments] = useState<Attachment[]>([]);
   const [mobilityEntries, setMobilityEntries] = useState<MobilityEntry[]>([]);
+  const [completedSteps, setCompletedSteps] = useState<string[]>([]);
   const { show } = useToast();
 
   useEffect(() => {
@@ -105,6 +110,7 @@ export function ApplicationProvider({
         ]);
         setApplication(app);
         setAttachments(files);
+        setCompletedSteps(app.completed_steps || []);
       } catch {
         setApplication({});
         setAttachments([]);
@@ -133,6 +139,7 @@ export function ApplicationProvider({
       const data = await apiCreateApplication(callId);
       setApplicationId(data.id as string);
       setApplication(data as Record<string, any>);
+      setCompletedSteps(data.completed_steps || []);
       return true;
     } catch {
       show("Failed to create application");
@@ -230,6 +237,12 @@ export function ApplicationProvider({
     }
   };
 
+  const markStepCompleted = (step: string) => {
+    setCompletedSteps((prev) =>
+      prev.includes(step) ? prev : [...prev, step]
+    );
+  };
+
   return (
     <ApplicationContext.Provider
       value={{
@@ -248,6 +261,8 @@ export function ApplicationProvider({
         removeMobilityEntry,
         submitApplication,
         updateApplicationField,
+        completedSteps,
+        markStepCompleted,
       }}
     >
       {children}

@@ -6,7 +6,7 @@ import { useApplication } from "../../../context/ApplicationProvider";
 import type { MobilityEntryInput, MobilityEntry } from "../../../types/mobility.types";
 
 export default function Step6_Mobility() {
-  const { updateApplicationField, application } = useApplication();
+  const { updateApplicationField, application, markStepCompleted } = useApplication();
   const [entries, setEntries] = useState<MobilityEntry[]>(application.mobility_entries || []);
 
   const handleChange = (index: number, field: keyof MobilityEntry, value: string) => {
@@ -14,6 +14,7 @@ export default function Step6_Mobility() {
     updated[index][field] = value;
     setEntries(updated);
     updateApplicationField("mobility_entries", updated);
+    markStepCompleted("step6");
   };
 
   const handleAdd = () => {
@@ -21,12 +22,14 @@ export default function Step6_Mobility() {
     const updated = [...entries, newEntry];
     setEntries(updated);
     updateApplicationField("mobility_entries", updated);
+    markStepCompleted("step6");
   };
 
   const handleRemove = (index: number) => {
     const updated = entries.filter((_, i) => i !== index);
     setEntries(updated);
     updateApplicationField("mobility_entries", updated);
+    markStepCompleted("step6");
   };
 
   return (
