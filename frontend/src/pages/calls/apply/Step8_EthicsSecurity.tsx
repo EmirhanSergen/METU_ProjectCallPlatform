@@ -6,27 +6,31 @@ import EthicsIssuesTable from "../../../components/application/EthicsIssuesTable
 import SecurityIssuesTable from "../../../components/application/SecurityIssuesTable";
 
 export default function Step8_EthicsSecurity() {
-  const { applicationData, updateApplicationData } = useApplication();
+  const { application, updateApplicationField } = useApplication();
   const [ethicsConfirmed, setEthicsConfirmed] = useState(
-    applicationData.ethics_confirmed || false
+    application.ethics_confirmed || false
   );
   const [ethicalDescription, setEthicalDescription] = useState(
-    applicationData.ethical_dimension_description || ""
+    application.ethical_dimension_description || ""
   );
   const [complianceText, setComplianceText] = useState(
-    applicationData.compliance_text || ""
+    application.compliance_text || ""
   );
   const [securitySelfAssessment, setSecuritySelfAssessment] = useState(
-    applicationData.security_self_assessment_text || ""
+    application.security_self_assessment_text || ""
   );
 
   const handleChange = () => {
-    updateApplicationData({
-      ethics_confirmed: ethicsConfirmed,
-      ethical_dimension_description: ethicalDescription,
-      compliance_text: complianceText,
-      security_self_assessment_text: securitySelfAssessment,
-    });
+    updateApplicationField("ethics_confirmed", ethicsConfirmed);
+    updateApplicationField(
+      "ethical_dimension_description",
+      ethicalDescription
+    );
+    updateApplicationField("compliance_text", complianceText);
+    updateApplicationField(
+      "security_self_assessment_text",
+      securitySelfAssessment
+    );
   };
 
   return (

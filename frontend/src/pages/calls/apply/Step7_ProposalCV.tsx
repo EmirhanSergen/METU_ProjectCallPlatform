@@ -4,7 +4,7 @@ import { useToast } from "../../../context/ToastProvider";
 
 import { FileInput } from "../../../components/ui";
 export default function Step7_ProposalCV() {
-  const { uploadProposal, uploadCV, application } = useApplication();
+  const { uploadProposal, uploadCV } = useApplication();
   const { show } = useToast();
   const [loadingProposal, setLoadingProposal] = useState(false);
   const [loadingCV, setLoadingCV] = useState(false);
