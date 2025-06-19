@@ -25,7 +25,7 @@ export default function Navbar() {
         {/* Main Links */}
         <div className="flex flex-wrap gap-x-6 mb-2 sm:mb-0 justify-center">
           <Link to="/" className="hover:underline">Home</Link>
-          {token && <Link to="/calls" className="hover:underline">Calls</Link>}
+          {token && <Link to="/call" className="hover:underline">Call</Link>}
           <Link to="/about" className="hover:underline">About</Link>
           {token && role === "applicant" && (
             <Link to="/my-applications" className="hover:underline">My Applications</Link>
@@ -33,7 +33,7 @@ export default function Navbar() {
           {token && (role === "admin" || role === "super_admin") && (
             <>
               <Link to="/dashboard" className="hover:underline">Dashboard</Link>
-              <Link to="/calls/manage" className="hover:underline">Manage Calls</Link>
+              <Link to="/calls/manage" className="hover:underline">Manage Call</Link>
             </>
           )}
           {token && role === "reviewer" && (
