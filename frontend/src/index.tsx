@@ -17,6 +17,10 @@ import RegisterPage from "./pages/RegisterPage";
 import PasswordResetPage from "./pages/PasswordResetPage";
 import ReviewPage from "./pages/ReviewPage";
 import ReviewerPage from "./pages/ReviewerPage";
+import SettingsPage from "./pages/SettingsPage";
+import AdminUserManagementPage from "./pages/AdminUserManagementPage";
+import TermsPage from "./pages/TermsPage";
+import PrivacyPage from "./pages/PrivacyPage";
 import ApplicationLayout from "./pages/calls/apply/ApplicationLayout";
 import Step1_CallInfo from "./pages/calls/apply/Step1_CallInfo";
 import Step2_Upload from "./pages/calls/apply/Step2_ApplicantInfo";
@@ -57,24 +61,40 @@ const applicationRoutes = (
   </Route>
 );
 
+const accountRoutes = (
+  <Route element={<AuthRoute />}>
+    <Route path="settings" element={<SettingsPage />} />
+  </Route>
+);
+
+const superAdminRoutes = (
+  <Route element={<AuthRoute roles={[UserRole.super_admin]} />}>
+    <Route path="admin/users" element={<AdminUserManagementPage />} />
+  </Route>
+);
+
  export default function AppRoutes() {
    return (
      <Routes>
        <Route path="/login" element={<LoginPage />} />
        <Route path="/register" element={<RegisterPage />} />
       <Route element={<AuthRoute roles={[UserRole.reviewer]} />}> 
-        <Route path="/review/:reviewId" element={<ReviewPage />} />
-      </Route>
-       <Route path="/" element={<PageContainer />}>
-         <Route index element={<HomePage />} />
-         <Route path="call" element={<CallPage />} />
-         <Route path="about" element={<AboutPage />} />
+      <Route path="/review/:reviewId" element={<ReviewPage />} />
+    </Route>
+      <Route path="/" element={<PageContainer />}>
+        <Route index element={<HomePage />} />
+        <Route path="call" element={<CallPage />} />
+        <Route path="about" element={<AboutPage />} />
+        <Route path="terms" element={<TermsPage />} />
+        <Route path="privacy" element={<PrivacyPage />} />
         {adminRoutes}
-         <Route path="call/:callId" element={<CallDetailPage />} />
+        {superAdminRoutes}
+        <Route path="call/:callId" element={<CallDetailPage />} />
         {applicantRoutes}
         {reviewerRoutes}
         {applicationRoutes}
-       </Route>
+        {accountRoutes}
+      </Route>
        <Route path="*" element={<NotFoundPage />} />
      </Routes>
    );
