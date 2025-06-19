@@ -9,26 +9,27 @@ import {
 import { getCall } from "../lib/api/calls";
 import { Call } from "../types";
 import { Attachment } from "../types/application";
+import { useToast } from "./ToastProvider";
 
 
 interface ApplicationContextValue {
   call: Call | null;
   applicationId: string | null;
   attachments: Attachment[];
-  createApplication: () => Promise<void>;
-  uploadAttachment: (file: File) => Promise<void>;
-  deleteAttachment: (id: string) => Promise<void>;
-  submitApplication: () => Promise<void>;
+  createApplication: () => Promise<boolean>;
+  uploadAttachment: (file: File) => Promise<boolean>;
+  deleteAttachment: (id: string) => Promise<boolean>;
+  submitApplication: () => Promise<boolean>;
 }
 
 const ApplicationContext = createContext<ApplicationContextValue>({
   call: null,
   applicationId: null,
   attachments: [],
-  createApplication: async () => {},
-  uploadAttachment: async () => {},
-  deleteAttachment: async () => {},
-  submitApplication: async () => {},
+  createApplication: async () => false,
+  uploadAttachment: async () => false,
+  deleteAttachment: async () => false,
+  submitApplication: async () => false,
 });
 
 export function useApplication() {
@@ -47,14 +48,20 @@ export function ApplicationProvider({
     localStorage.getItem(`applicationId_${callId}`)
   );
   const [attachments, setAttachments] = useState<Attachment[]>([]);
+  const { show } = useToast();
 
   useEffect(() => {
-    if (callId) {
-      getCall(callId)
-        .then(setCall)
-        .catch(() => {});
-    }
-  }, [callId]);
+    if (!callId) return;
+    const fetchCall = async () => {
+      try {
+        const data = await getCall(callId);
+        setCall(data);
+      } catch {
+        show("Failed to load call");
+      }
+    };
+    fetchCall();
+  }, [callId, show]);
 
   useEffect(() => {
     if (!applicationId) {
@@ -63,34 +70,65 @@ export function ApplicationProvider({
       return;
     }
     localStorage.setItem(`applicationId_${callId}`, applicationId);
-    getApplicationAttachments(applicationId)
-      .then(setAttachments)
-      .catch(() => setAttachments([]));
-  }, [applicationId, callId]);
+    const fetchAttachments = async () => {
+      try {
+        const data = await getApplicationAttachments(applicationId);
+        setAttachments(data);
+      } catch {
+        setAttachments([]);
+        show("Failed to load attachments");
+      }
+    };
+    fetchAttachments();
+  }, [applicationId, callId, show]);
 
   const createApplication = async () => {
-    if (applicationId) return;
-    const data = await apiCreateApplication(callId);
-    setApplicationId(data.id as string);
+    if (applicationId) return true;
+    try {
+      const data = await apiCreateApplication(callId);
+      setApplicationId(data.id as string);
+      return true;
+    } catch {
+      show("Failed to create application");
+      return false;
+    }
   };
 
   const uploadAttachment = async (file: File) => {
-    if (!applicationId) return;
-    const data = await apiUploadAttachment(applicationId, file);
-    setAttachments((prev) => [...prev, data]);
+    if (!applicationId) return false;
+    try {
+      const data = await apiUploadAttachment(applicationId, file);
+      setAttachments((prev) => [...prev, data]);
+      return true;
+    } catch {
+      show("Failed to upload file");
+      return false;
+    }
   };
 
   const deleteAttachment = async (id: string) => {
-    await apiDeleteAttachment(id);
-    setAttachments((prev) => prev.filter((a) => a.id !== id));
+    try {
+      await apiDeleteAttachment(id);
+      setAttachments((prev) => prev.filter((a) => a.id !== id));
+      return true;
+    } catch {
+      show("Failed to delete file");
+      return false;
+    }
   };
 
   const submitApplication = async () => {
-    if (!applicationId) return;
-    await updateApplication(applicationId, {
-      call_id: callId,
-      status: "SUBMITTED",
-    });
+    if (!applicationId) return false;
+    try {
+      await updateApplication(applicationId, {
+        call_id: callId,
+        status: "SUBMITTED",
+      });
+      return true;
+    } catch {
+      show("Failed to submit application");
+      return false;
+    }
   };
 
   return (
