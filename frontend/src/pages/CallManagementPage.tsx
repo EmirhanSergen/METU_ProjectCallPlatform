@@ -49,7 +49,7 @@ export default function CallManagementPage() {
       {loading && <div>Loading...</div>}
       {error && <div className="text-red-500">Error: {error}</div>}
       <div>
-        <Button onClick={() => navigate("/calls/manage/new")}>Create New Call</Button>
+        <Button onClick={() => navigate("/call/manage/new")}>Create New Call</Button>
       </div>
       <Table>
         <thead>
@@ -70,7 +70,7 @@ export default function CallManagementPage() {
               <td>{c.start_date ? c.start_date.substring(0, 10) : "-"}</td>
               <td>{c.end_date ? c.end_date.substring(0, 10) : "-"}</td>
               <td className="space-x-2">
-                <Button type="button" onClick={() => navigate(`/calls/manage/${c.id}`)}>
+                <Button type="button" onClick={() => navigate(`/call/manage/${c.id}`)}>
                   Edit
                 </Button>
                 <Button type="button" onClick={() => setConfirmId(c.id)}>
@@ -85,7 +85,7 @@ export default function CallManagementPage() {
                 />
               </td>
               <td>
-                <Link to={`/calls/${c.id}/applications`}>
+                <Link to={`/call/${c.id}/applications`}>
                   <Button variant="link">Applications</Button>
                 </Link>
               </td>

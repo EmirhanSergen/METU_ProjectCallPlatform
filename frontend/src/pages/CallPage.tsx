@@ -38,15 +38,15 @@ export default function CallPage() {
         {calls.map((c) => (
           <li key={c.id} className="flex items-center space-x-4">
             <span>{c.title}</span>
-            <Link to={`/calls/${c.id}`} className="text-blue-600 underline">
+            <Link to={`/call/${c.id}`} className="text-blue-600 underline">
               Details
             </Link>
-            <Link to={`/calls/${c.id}/preview`} className="text-blue-600 underline">
+            <Link to={`/call/${c.id}/preview`} className="text-blue-600 underline">
               Preview
             </Link>
             {role === "applicant" && (
               <Link
-                to={`/calls/${c.id}/apply`}
+                to={`/call/${c.id}/apply`}
                 className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
               >
                 Apply

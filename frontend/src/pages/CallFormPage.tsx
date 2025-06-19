@@ -66,7 +66,7 @@ export default function CallFormPage() {
         await createCall(payload);
         show("Call created");
       }
-      navigate("/calls/manage");
+      navigate("/call/manage");
     } catch (err) {
       setError((err as Error).message);
     } finally {
@@ -160,7 +160,7 @@ export default function CallFormPage() {
             <Button
               type="button"
               variant="outline"
-              onClick={() => navigate("/calls/manage")}
+              onClick={() => navigate("/call/manage")}
             >
               Cancel
             </Button>

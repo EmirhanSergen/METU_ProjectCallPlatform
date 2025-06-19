@@ -27,10 +27,10 @@ import Step4_Submit from "./pages/calls/apply/Step4_Submit";
 const adminRoutes = (
   <Route element={<AuthRoute roles={[UserRole.admin, UserRole.super_admin]} />}>
     <Route path="dashboard" element={<DashboardPage />} />
-    <Route path="calls/manage" element={<CallManagementPage />} />
-    <Route path="calls/manage/new" element={<CallFormPage />} />
-    <Route path="calls/manage/:callId" element={<CallFormPage />} />
-    <Route path="calls/:callId/applications" element={<CallApplicationsPage />} />
+    <Route path="call/manage" element={<CallManagementPage />} />
+    <Route path="call/manage/new" element={<CallFormPage />} />
+    <Route path="call/manage/:callId" element={<CallFormPage />} />
+    <Route path="call/:callId/applications" element={<CallApplicationsPage />} />
   </Route>
 );
 
@@ -48,7 +48,7 @@ const reviewerRoutes = (
 
 const applicationRoutes = (
   <Route element={<AuthRoute roles={[UserRole.applicant]} />}>
-    <Route path="calls/:callId/apply" element={<ApplicationLayout />}>
+    <Route path="call/:callId/apply" element={<ApplicationLayout />}>
       <Route index element={<Navigate to="step1" replace />} />
       <Route path="step1" element={<Step1_CallInfo />} />
       <Route path="step2" element={<Step2_Upload />} />
@@ -70,8 +70,8 @@ const applicationRoutes = (
          <Route path="call" element={<CallPage />} />
          <Route path="about" element={<AboutPage />} />
         {adminRoutes}
-         <Route path="calls/:callId" element={<CallDetailPage />} />
-         <Route path="calls/:callId/preview" element={<CallPreviewPage />} />
+         <Route path="call/:callId" element={<CallDetailPage />} />
+         <Route path="call/:callId/preview" element={<CallPreviewPage />} />
         {applicantRoutes}
         {reviewerRoutes}
         {applicationRoutes}
