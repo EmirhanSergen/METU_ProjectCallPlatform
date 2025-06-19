@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Final Application PDF</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      line-height: 1.5;
+      margin: 40px;
+      color: #000;
+    }
+    h1, h2, h3 {
+      color: #003366;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    th, td {
+      border: 1px solid #999;
+      padding: 6px;
+      vertical-align: top;
+    }
+    .section {
+      margin-top: 30px;
+    }
+    .section-title {
+      font-size: 18px;
+      font-weight: bold;
+      border-bottom: 2px solid #003366;
+      margin-bottom: 10px;
+      padding-bottom: 5px;
+    }
+    .subsection {
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 style="text-align:center;">Final Application</h1>
+
+  <div class="section">
+    <div class="section-title">1. General Information</div>
+    <p><strong>Name of Applicant:</strong> {{ applicant_name }}</p>
+    <p><strong>Project Number:</strong> {{ project_number }}</p>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2. Applicant Info</div>
+    <table>
+      <tr><td><strong>Title</strong></td><td>{{ title }}</td></tr>
+      <tr><td><strong>First Name</strong></td><td>{{ first_name }}</td></tr>
+      <tr><td><strong>Surname</strong></td><td>{{ surname }}</td></tr>
+      <tr><td><strong>Year of Birth</strong></td><td>{{ year_of_birth }}</td></tr>
+      <tr><td><strong>Nationality</strong></td><td>{{ nationality }}</td></tr>
+      <tr><td><strong>Organisation</strong></td><td>{{ organisation }}</td></tr>
+      <tr><td><strong>University</strong></td><td>{{ university }}</td></tr>
+      <tr><td><strong>Department</strong></td><td>{{ department }}</td></tr>
+      <tr><td><strong>City</strong></td><td>{{ town_or_city }}</td></tr>
+      <tr><td><strong>Country</strong></td><td>{{ country }}</td></tr>
+      <tr><td><strong>Current Position</strong></td><td>{{ current_position }}</td></tr>
+      <tr><td><strong>Gender</strong></td><td>{{ gender }}</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">3. Application Details</div>
+    <p><strong>Project Title:</strong> {{ project_title }}</p>
+    <p><strong>Acronym:</strong> {{ acronym }}</p>
+    <p><strong>Keywords:</strong> {{ keywords }}</p>
+    <div class="subsection">
+      <strong>Abstract:</strong>
+      <p>{{ abstract }}</p>
+    </div>
+    <p><strong>Selected Supervisor:</strong> {{ selected_supervisor }}</p>
+    {% if has_secondment %}
+      <p><strong>Secondment Institution:</strong> {{ secondment_institution }}</p>
+      {% if not selected_from_db %}
+        <p><strong>Institution Name:</strong> {{ institution_name }}</p>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <div class="section">
+    <div class="section-title">4. Academic Portfolio</div>
+    <table>
+      <tr><td><strong>Doctoral Discipline</strong></td><td>{{ doctoral_discipline }}</td></tr>
+      <tr><td><strong>Thesis Title</strong></td><td>{{ doctoral_thesis_title }}</td></tr>
+      <tr><td><strong>Awarding Institution</strong></td><td>{{ doctoral_awarding_institution }}</td></tr>
+      <tr><td><strong>Award Date</strong></td><td>{{ doctoral_award_date }}</td></tr>
+      <tr><td><strong>Current Institution</strong></td><td>{{ current_institution }}</td></tr>
+      <tr><td><strong>Current Department</strong></td><td>{{ current_department }}</td></tr>
+      <tr><td><strong>Town</strong></td><td>{{ current_institution_town }}</td></tr>
+      <tr><td><strong>Country</strong></td><td>{{ current_institution_country }}</td></tr>
+      <tr><td><strong>Phone Number</strong></td><td>{{ current_phone_number }}</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">5. Suggested References</div>
+    {% for ref in reference_list %}
+      <div class="subsection">
+        <p><strong>Name:</strong> {{ ref.name_surname }}</p>
+        <p><strong>Institution:</strong> {{ ref.institution }}</p>
+        <p><strong>Department:</strong> {{ ref.department }}</p>
+        <p><strong>Country:</strong> {{ ref.country }}</p>
+        <p><strong>Position:</strong> {{ ref.position }}</p>
+        <p><strong>Phone:</strong> {{ ref.phone_number }}</p>
+        <p><strong>Email:</strong> {{ ref.email }}</p>
+        <p><strong>Reason:</strong> {{ ref.reason }}</p>
+      </div>
+    {% endfor %}
+  </div>
+  <div class="section">
+    <div class="section-title">6. Mobility</div>
+    {% for mob in mobility_entries %}
+    <div class="subsection">
+      <p><strong>From:</strong> {{ mob.from_date }} &nbsp;&nbsp;&nbsp; <strong>To:</strong> {{ mob.to_date }}</p>
+      <p><strong>Organisation:</strong> {{ mob.organisation }}</p>
+      <p><strong>Country:</strong> {{ mob.country }}</p>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="section">
+    <div class="section-title">7. Sworn Statement</div>
+    <p><strong>Declaration:</strong></p>
+    <p>{% if agreed %}✓ I confirm that I have not resided or carried out my main activity (work, studies, etc.) in Türkiye for more than 12 months in the 36 months immediately before the call deadline.{% else %}✗ Declaration not accepted.{% endif %}</p>
+  </div>
+
+  <div class="section">
+    <div class="section-title">8. Uploaded Documents</div>
+    <ul>
+      <li><strong>Passport or ID:</strong> {{ passport_or_id.filename }}</li>
+      <li><strong>PhD Certificate:</strong> {{ phd_certificate.filename }}</li>
+      <li><strong>Proposal Document:</strong> {{ uploaded_proposal.filename }}</li>
+      <li><strong>CV Document:</strong> {{ uploaded_cv.filename }}</li>
+      {% if loc_document %}
+      <li><strong>Letter of Commitment (Secondment):</strong> {{ loc_document.filename }}</li>
+      {% endif %}
+    </ul>
+  </div>
+   <div class="section">
+    <div class="section-title">9. Ethics and Security</div>
+    <div class="subsection">
+      <h4>Ethics Issues Table</h4>
+      {% for issue in ethics_issues %}
+        <p><strong>{{ issue.category }}</strong><br>
+        {{ issue.question_text }}<br>
+        Answer: {{ issue.answer }} {% if issue.answer == 'YES' %} | Page: {{ issue.page_reference }}{% endif %}</p>
+      {% endfor %}
+      <p><strong>Ethics Confirmed:</strong> {% if ethics_confirmed %}✓{% else %}✗{% endif %}</p>
+      <p><strong>Ethical Dimension Description:</strong><br>{{ ethical_dimension_description }}</p>
+    </div>
+    <div class="subsection">
+      <h4>Security Issues Table</h4>
+      {% for sec in security_euci %}
+        <p><strong>EUCI:</strong> {{ sec.question_text }} | Answer: {{ sec.answer }}{% if sec.answer == 'YES' %} | Page: {{ sec.page_reference }}{% endif %}</p>
+      {% endfor %}
+      {% for sec in security_misuse %}
+        <p><strong>Misuse:</strong> {{ sec.question_text }} | Answer: {{ sec.answer }}{% if sec.answer == 'YES' %} | Page: {{ sec.page_reference }}{% endif %}</p>
+      {% endfor %}
+      {% for sec in security_other %}
+        <p><strong>Other:</strong> {{ sec.question_text }} | Answer: {{ sec.answer }}{% if sec.answer == 'YES' %} | Details: {{ sec.details }}{% endif %}</p>
+      {% endfor %}
+      <p><strong>Security Self-Assessment:</strong><br>{{ security_self_assessment_text }}</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">10. Research Proposal</div>
+    <div class="subsection">
+      <p>The full research proposal is included as a separate attachment.</p>
+    </div>
+  </div>
+
+</body>
+</html>
