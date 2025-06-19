@@ -1,20 +1,41 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "../components/ui/Input";
 import { Button } from "../components/ui/Button";
+import { getUser, updateUser } from "../api/users";
+import { useAuth } from "../context/AuthProvider";
+import { useToast } from "../context/ToastProvider";
 
 export default function SettingsPage() {
+  const { userId } = useAuth();
+  const { show } = useToast();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [institution, setInstitution] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = () => {
-    console.log("Update settings", {
-      firstName,
-      lastName,
-      institution,
-      password,
-    });
+  useEffect(() => {
+    if (!userId) return;
+    getUser(userId)
+      .then((u) => {
+        setFirstName(u.first_name);
+        setLastName(u.last_name);
+      })
+      .catch(() => {});
+  }, [userId]);
+
+  const handleSubmit = async () => {
+    if (!userId) return;
+    try {
+      await updateUser(userId, {
+        first_name: firstName,
+        last_name: lastName,
+        password: password || undefined,
+      });
+      show("Settings updated");
+      setPassword("");
+    } catch (err) {
+      show((err as Error).message);
+    }
   };
 
   return (

@@ -2,6 +2,8 @@ import { useState } from "react";
 import { Input } from "../components/ui/Input";
 import { Button } from "../components/ui/Button";
 import { UserRole } from "../types/global";
+import { createUser } from "../api/users";
+import { useToast } from "../context/ToastProvider";
 
 interface UserItem {
   email: string;
@@ -12,12 +14,18 @@ export default function AdminUserManagementPage() {
   const [users, setUsers] = useState<UserItem[]>([]);
   const [email, setEmail] = useState("");
   const [role, setRole] = useState<UserRole>(UserRole.applicant);
+  const { show } = useToast();
 
-  const handleAdd = (e: React.FormEvent) => {
+  const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Create user", { email, role });
-    setUsers((prev) => [...prev, { email, role }]);
-    setEmail("");
+    try {
+      await createUser({ email, role });
+      setUsers((prev) => [...prev, { email, role }]);
+      setEmail("");
+      show("User created");
+    } catch (err) {
+      show((err as Error).message);
+    }
   };
 
   return (
