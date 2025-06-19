@@ -1,5 +1,5 @@
 import { apiFetch } from "../lib/api";
-import type { GetCallsResponse, GetCallResponse } from "../types/calls.types";
+import type { GetCallsResponse, GetCallResponse, CallInput } from "../types/calls.types";
 
 
 export function getCalls() {
@@ -10,7 +10,7 @@ export function getCall(id: string) {
   return apiFetch(`/calls/${id}`) as Promise<GetCallResponse>;
 }
 
-export function createCall(data: { title: string; description?: string }) {
+export function createCall(data: CallInput) {
   return apiFetch(`/calls`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -18,7 +18,7 @@ export function createCall(data: { title: string; description?: string }) {
   });
 }
 
-export function updateCall(id: string, data: { title: string; description?: string }) {
+export function updateCall(id: string, data: CallInput) {
   return apiFetch(`/calls/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
