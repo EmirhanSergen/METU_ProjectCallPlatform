@@ -62,6 +62,18 @@ export default function CallPage() {
             >
               Apply Now
             </Link>
+            {role === "applicant" && (
+              <Link
+                to={`/call/${c.id}/apply`}
+                className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+              >
+                Apply
+              </Link>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
           )}
 
           {role === "admin" && (

@@ -7,7 +7,6 @@ import CallApplicationsPage from "./pages/CallApplicationsPage";
 import CallDetailPage from "./pages/CallDetailPage";
 import CallManagementPage from "./pages/CallManagementPage";
 import CallFormPage from "./pages/CallFormPage";
-import CallPreviewPage from "./pages/CallPreviewPage";
 import CallPage from "./pages/CallPage";
 import DashboardPage from "./pages/DashboardPage";
 import HomePage from "./pages/HomePage";
@@ -72,7 +71,6 @@ const applicationRoutes = (
          <Route path="about" element={<AboutPage />} />
         {adminRoutes}
          <Route path="call/:callId" element={<CallDetailPage />} />
-         <Route path="call/:callId/preview" element={<CallPreviewPage />} />
         {applicantRoutes}
         {reviewerRoutes}
         {applicationRoutes}
