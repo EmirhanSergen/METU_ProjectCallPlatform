@@ -24,6 +24,24 @@ export function uploadAttachment(applicationId: string, file: File) {
   }) as Promise<UploadAttachmentResponse>;
 }
 
+export function uploadProposal(applicationId: string, file: File) {
+  const formData = new FormData();
+  formData.append("proposal", file);
+  return apiFetch(`/applications/${applicationId}/upload_file`, {
+    method: "POST",
+    body: formData,
+  }) as Promise<UploadAttachmentResponse>;
+}
+
+export function uploadCV(applicationId: string, file: File) {
+  const formData = new FormData();
+  formData.append("cv", file);
+  return apiFetch(`/applications/${applicationId}/upload_file`, {
+    method: "POST",
+    body: formData,
+  }) as Promise<UploadAttachmentResponse>;
+}
+
 export function getApplications() {
   return apiFetch(`/applications`) as Promise<any[]>;
 }
