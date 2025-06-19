@@ -27,9 +27,17 @@ export default function LoginPage() {
     setLoading(true);
     setError(null);
     try {
-      await login(email, password);
+      const user = await login(email, password);
       show("Logged in successfully");
-      navigate("/");
+      if (user?.role === "admin" || user?.role === "super_admin") {
+        navigate("/dashboard");
+      } else if (user?.role === "reviewer") {
+        navigate("/reviewer");
+      } else if (user?.role === "applicant") {
+        navigate("/my-applications");
+      } else {
+        navigate("/");
+      }
     } catch (err) {
       const msg = (err as Error).message || "Login failed";
       setError(msg);
