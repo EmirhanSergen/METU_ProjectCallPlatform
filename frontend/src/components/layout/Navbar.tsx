@@ -22,7 +22,7 @@ export default function Navbar() {
           {token && role === "applicant" && (
             <Link to="/my-applications" className="hover:underline">My Applications</Link>
           )}
-          {token && role === "admin" && (
+          {token && (role === "admin" || role === "super_admin") && (
             <Link to="/calls/manage" className="hover:underline">Manage Calls</Link>
           )}
           {token && role === "reviewer" && (
