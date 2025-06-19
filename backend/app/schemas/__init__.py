@@ -26,7 +26,7 @@ from .security_other import SecurityOtherBase, SecurityOtherCreate, SecurityOthe
 from .suggested_reference import SuggestedReferenceBase, SuggestedReferenceCreate, SuggestedReferenceRead
 from .supervisor import SupervisorBase, SupervisorCreate, SupervisorRead
 from .user import UserBase, UserCreate, UserRead, UserUpdate
-from .auth import Token, Login
+from .auth import Token, Login, PasswordResetRequest
 
 __all__ = [
     "AcademicPortfolioBase",
@@ -115,5 +115,6 @@ __all__ = [
     "UserUpdate",
     "UserRead",
     "Token",
-    "Login"
+    "Login",
+    "PasswordResetRequest"
 ]

@@ -17,3 +17,11 @@ export function register(data: RegisterData) {
     body: JSON.stringify(data),
   });
 }
+
+export function requestPasswordReset(email: string) {
+  return apiFetch("/auth/password_reset", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email }),
+  });
+}

@@ -9,3 +9,7 @@ class Token(BaseModel):
 class Login(BaseModel):
     email: str
     password: str
+
+
+class PasswordResetRequest(BaseModel):
+    email: str
