@@ -1,4 +1,4 @@
-import type { ReviewReport, Attachment } from "../types/reviews.types";
+// Utility fetch wrapper for API requests
 
 const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:8000";
 
@@ -17,18 +17,3 @@ export async function apiFetch(path: string, options: RequestInit = {}) {
   return res.json();
 }
 
-export function getReviewReport(id: string) {
-  return apiFetch(`/review_reports/${id}`) as Promise<ReviewReport>;
-}
-
-export function getApplicationAttachments(applicationId: string) {
-  return apiFetch(`/attachments/application/${applicationId}`) as Promise<Attachment[]>;
-}
-
-export function createReviewReport(data: ReviewReport) {
-  return apiFetch(`/review_reports`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  });
-}

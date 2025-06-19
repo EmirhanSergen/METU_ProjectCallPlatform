@@ -1,10 +1,6 @@
-import { NavLink, Outlet, useLocation, useParams } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
+import Stepper, { Step } from "../../../components/common/Stepper";
 import { ApplicationProvider } from "../../../context/ApplicationProvider";
-
-interface Step {
-  name: string;
-  path: string;
-}
 
 
 const steps: Step[] = [
@@ -36,8 +32,8 @@ export default function ApplicationLayout() {
                 [
                   "block px-4 py-2 rounded-md",
                   index === activeIndex
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-100 text-gray-600",
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-muted text-muted-foreground",
                 ].join(" ")
               }
             >

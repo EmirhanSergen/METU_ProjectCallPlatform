@@ -15,15 +15,13 @@ export default function Step4_Submit() {
   const handleSubmit = async () => {
     setLoading(true);
     setError(null);
-    try {
-      await submitApplication();
+    const success = await submitApplication();
+    if (success) {
       show("Application submitted");
-    } catch (err) {
-      setError((err as Error).message);
-      show("Submission failed");
-    } finally {
-      setLoading(false);
+    } else {
+      setError("Submission failed");
     }
+    setLoading(false);
   };
 
   return (
