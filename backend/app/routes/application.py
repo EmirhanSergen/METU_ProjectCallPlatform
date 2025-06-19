@@ -5,12 +5,14 @@ import uuid
 from ..database import get_db
 from ..crud import application as crud
 from ..schemas import ApplicationCreate, ApplicationRead
-from ..core.security import get_current_user
+from ..core.security import get_current_user, role_required
+from ..core.enums import UserRole
 from ..models import User
 
 router = APIRouter(prefix="/applications", tags=["Application"])
 
 @router.post('/', response_model=ApplicationRead)
+@role_required(UserRole.applicant)
 def create_application(
     data: ApplicationCreate,
     db: Session = Depends(get_db),
