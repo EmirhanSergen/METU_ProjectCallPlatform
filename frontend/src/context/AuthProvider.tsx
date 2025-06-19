@@ -7,7 +7,7 @@ interface AuthState {
 }
 
 interface AuthContextValue extends AuthState {
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<{ id: string; role: string } | null>;
   register: (email: string, password: string) => Promise<void>;
   logout: () => void;
   role: string | null;
@@ -17,7 +17,7 @@ interface AuthContextValue extends AuthState {
 const AuthContext = createContext<AuthContextValue>({
   token: null,
   user: null,
-  login: async () => {},
+  login: async () => null,
   register: async () => {},
   logout: () => {},
   role: null,
@@ -58,7 +58,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (email: string, password: string) => {
     const data = await apiLogin({ email, password });
-    setState({ token: data.access_token, user: decodeToken(data.access_token) });
+    const user = decodeToken(data.access_token);
+    setState({ token: data.access_token, user });
+    return user;
   };
 
   const register = async (email: string, password: string) => {
