@@ -4,7 +4,7 @@ import { useToast } from "../../../context/ToastProvider";
 
 import { FileInput } from "../../../components/ui";
 export default function Step7_ProposalCV() {
-  const { uploadProposal, uploadCV } = useApplication();
+  const { uploadProposal, uploadCV, completeStep } = useApplication();
   const { show } = useToast();
   const [loadingProposal, setLoadingProposal] = useState(false);
   const [loadingCV, setLoadingCV] = useState(false);
@@ -20,6 +20,7 @@ export default function Step7_ProposalCV() {
     setError(null);
     try {
       await uploadFunc(file);
+      completeStep("step7");
       show(`${type.toUpperCase()} uploaded successfully.`);
     } catch (err) {
       setError((err as Error).message);

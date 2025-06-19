@@ -5,7 +5,7 @@ import DocumentList from "../../../components/ui/DocumentList";
 
 import { FileInput } from "../../../components/ui";
 export default function Step4_DocumentsUpload() {
-  const { uploadAttachment, attachments, deleteAttachment } = useApplication();
+  const { uploadAttachment, attachments, deleteAttachment, completeStep } = useApplication();
   const { show } = useToast();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -20,6 +20,7 @@ export default function Step4_DocumentsUpload() {
     setError(null);
     try {
       await uploadAttachment(file, field);
+      completeStep("step4");
       show("File uploaded");
     } catch (err) {
       setError((err as Error).message);

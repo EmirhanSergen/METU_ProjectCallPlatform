@@ -30,7 +30,7 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 export default function Step2_ApplicantInfo() {
-  const { updateApplication } = useApplication();
+  const { updateApplication, completeStep } = useApplication();
   const { show } = useToast();
 
   const {
@@ -58,6 +58,7 @@ export default function Step2_ApplicantInfo() {
   const onSubmit = async (data: ApplicantInfoForm) => {
     try {
       await updateApplication(data);
+      completeStep("step2");
       show("Applicant Info saved");
     } catch (error) {
       show("Failed to save applicant info");

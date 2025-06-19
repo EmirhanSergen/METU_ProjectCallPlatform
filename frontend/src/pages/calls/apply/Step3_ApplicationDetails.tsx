@@ -21,7 +21,7 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 export default function Step3_ApplicationDetails() {
-  const { application, updateApplicationField } = useApplication();
+  const { application, updateApplicationField, completeStep } = useApplication();
   const { show } = useToast();
 
 
@@ -45,6 +45,7 @@ export default function Step3_ApplicationDetails() {
   });
 
   const onSubmit = () => {
+    completeStep("step3");
     show("Application details saved");
   };
 

@@ -28,6 +28,7 @@ interface ApplicationContextValue {
   application: Record<string, any>;
   attachments: Attachment[];
   mobilityEntries: MobilityEntry[];
+  completedSteps: string[];
   createApplication: () => Promise<boolean>;
   uploadAttachment: (file: File, field: string) => Promise<boolean>;
   deleteAttachment: (id: string) => Promise<boolean>;
@@ -36,6 +37,7 @@ interface ApplicationContextValue {
   removeMobilityEntry: (id: string) => Promise<boolean>;
   submitApplication: () => Promise<boolean>;
   updateApplicationField: (field: string, value: unknown) => Promise<void>;
+  completeStep: (step: string) => Promise<void>;
 }
 
 const ApplicationContext = createContext<ApplicationContextValue>({
@@ -44,6 +46,7 @@ const ApplicationContext = createContext<ApplicationContextValue>({
   application: {},
   attachments: [],
   mobilityEntries: [],
+  completedSteps: [],
   createApplication: async () => false,
   uploadAttachment: async () => false,
   uploadProposal: async () => false,
@@ -54,6 +57,7 @@ const ApplicationContext = createContext<ApplicationContextValue>({
   removeMobilityEntry: async () => false,
   submitApplication: async () => false,
   updateApplicationField: async () => {},
+  completeStep: async () => {},
 });
 
 export function useApplication() {
@@ -74,6 +78,7 @@ export function ApplicationProvider({
   const [application, setApplication] = useState<Record<string, any>>({});
   const [attachments, setAttachments] = useState<Attachment[]>([]);
   const [mobilityEntries, setMobilityEntries] = useState<MobilityEntry[]>([]);
+  const [completedSteps, setCompletedSteps] = useState<string[]>([]);
   const { show } = useToast();
 
   useEffect(() => {
@@ -105,6 +110,7 @@ export function ApplicationProvider({
         ]);
         setApplication(app);
         setAttachments(files);
+        setCompletedSteps(app.completed_steps || []);
       } catch {
         setApplication({});
         setAttachments([]);
@@ -162,6 +168,19 @@ export function ApplicationProvider({
     }
   };
 
+  const completeStep = async (step: string) => {
+    if (!applicationId) return;
+    setCompletedSteps((prev) => {
+      if (prev.includes(step)) return prev;
+      const updated = [...prev, step];
+      setApplication((app) => ({ ...app, completed_steps: updated }));
+      updateApplication(applicationId, { completed_steps: updated }).catch(() =>
+        show("Failed to update application")
+      );
+      return updated;
+    });
+  };
+
   const deleteAttachment = async (id: string) => {
     try {
       await apiDeleteAttachment(id);
@@ -174,14 +193,6 @@ export function ApplicationProvider({
   };
 
 
-  const updateApplicationField = async (field: string, value: any) => {
-    if (!applicationId) return false;
-    try {
-      await patchApplication(applicationId, { [field]: value });
-      setApplication((prev) => ({ ...prev, [field]: value }));
-      return true;
-    } catch {
-      show("Failed to save application");
   const addMobilityEntry = async (data: MobilityEntryInput) => {
     if (!applicationId) return false;
     try {
@@ -238,6 +249,7 @@ export function ApplicationProvider({
         application,
         attachments,
         mobilityEntries,
+        completedSteps,
         createApplication,
         uploadAttachment,
         uploadProposal,
@@ -248,6 +260,7 @@ export function ApplicationProvider({
         removeMobilityEntry,
         submitApplication,
         updateApplicationField,
+        completeStep,
       }}
     >
       {children}

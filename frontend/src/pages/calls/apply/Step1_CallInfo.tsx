@@ -4,7 +4,7 @@ import { useToast } from "../../../context/ToastProvider";
 import { useApplication } from "../../../context/ApplicationProvider";
 
 export default function Step1_CallInfo() {
-  const { call, createApplication, applicationId } = useApplication();
+  const { call, createApplication, applicationId, completeStep } = useApplication();
   const { show } = useToast();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -13,8 +13,11 @@ export default function Step1_CallInfo() {
     setLoading(true);
     setError(null);
     try {
-      await createApplication();
-      show("Application created");
+      const ok = await createApplication();
+      if (ok) {
+        completeStep("step1");
+        show("Application created");
+      }
     } catch (err) {
       setError((err as Error).message);
       show("Failed to create application");

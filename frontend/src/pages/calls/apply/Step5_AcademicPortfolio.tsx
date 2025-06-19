@@ -2,8 +2,10 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { Input } from "../../../components/ui/Input";
 import { Textarea } from "../../../components/ui/Textarea";
 import { Button } from "../../../components/ui/Button";
+import { useApplication } from "../../../context/ApplicationProvider";
 
 export default function Step5_AcademicPortfolio() {
+  const { completeStep } = useApplication();
   const { register, control, handleSubmit } = useForm({
     defaultValues: {
       doctoral_discipline: "",
@@ -35,6 +37,7 @@ export default function Step5_AcademicPortfolio() {
 
   const onSubmit = (data: any) => {
     console.log("Academic Portfolio Data:", data);
+    completeStep("step5");
   };
 
   return (

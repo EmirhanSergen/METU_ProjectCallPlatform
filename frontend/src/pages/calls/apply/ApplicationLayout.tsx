@@ -1,5 +1,5 @@
 import { NavLink, Outlet, useLocation, useParams } from "react-router-dom";
-import { ApplicationProvider } from "../../../context/ApplicationProvider";
+import { ApplicationProvider, useApplication } from "../../../context/ApplicationProvider";
 
 interface Step {
   name: string;
@@ -20,19 +20,29 @@ const steps: Step[] = [
 
 export default function ApplicationLayout() {
   const { callId } = useParams<{ callId: string }>();
-  const location = useLocation();
-
   if (!callId) return null;
+
+  return (
+    <ApplicationProvider callId={callId}>
+      <LayoutInner />
+    </ApplicationProvider>
+  );
+}
+
+function LayoutInner() {
+  const location = useLocation();
+  const { completedSteps } = useApplication();
 
   const activeIndex = steps.findIndex((s) =>
     location.pathname.includes(s.path)
   );
 
   return (
-    <ApplicationProvider callId={callId}>
-      <div className="p-6 md:flex md:space-x-6">
-        <nav className="w-full md:w-64 space-y-2 mb-4 md:mb-0" aria-label="Progress">
-          {steps.map((step, index) => (
+    <div className="p-6 md:flex md:space-x-6">
+      <nav className="w-full md:w-64 space-y-2 mb-4 md:mb-0" aria-label="Progress">
+        {steps.map((step, index) => {
+          const done = completedSteps.includes(step.path);
+          return (
             <NavLink
               key={step.path}
               to={step.path}
@@ -41,18 +51,20 @@ export default function ApplicationLayout() {
                   "block px-4 py-2 rounded-lg font-medium text-sm transition",
                   index === activeIndex || isActive
                     ? "bg-blue-600 text-white"
+                    : done
+                    ? "bg-green-100 text-green-700 hover:bg-green-200"
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200",
                 ].join(" ")
               }
             >
-              {index + 1}. {step.name}
+              {done ? "✓" : index + 1}. {step.name}
             </NavLink>
-          ))}
-        </nav>
-        <div className="flex-1 bg-white p-4 rounded-lg shadow">
-          <Outlet />
-        </div>
+          );
+        })}
+      </nav>
+      <div className="flex-1 bg-white p-4 rounded-lg shadow">
+        <Outlet />
       </div>
-    </ApplicationProvider>
+    </div>
   );
 }
