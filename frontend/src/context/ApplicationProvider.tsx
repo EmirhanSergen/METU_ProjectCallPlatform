@@ -29,6 +29,7 @@ interface ApplicationContextValue {
   application: Record<string, any>;
   attachments: Attachment[];
   mobilityEntries: MobilityEntry[];
+  completedSteps: string[];
   createApplication: () => Promise<string | null>;
   uploadAttachment: (file: File, field: string) => Promise<boolean>;
   uploadProposal: (file: File) => Promise<boolean>;
@@ -39,6 +40,7 @@ interface ApplicationContextValue {
   removeMobilityEntry: (id: string) => Promise<boolean>;
   submitApplication: () => Promise<boolean>;
   updateApplicationField: (field: string, value: unknown) => Promise<void>;
+  completeStep: (step: string) => Promise<void>;
 }
 
 const ApplicationContext = createContext<ApplicationContextValue>({
@@ -47,6 +49,7 @@ const ApplicationContext = createContext<ApplicationContextValue>({
   application: {},
   attachments: [],
   mobilityEntries: [],
+  completedSteps: [],
   createApplication: async () => null,
   uploadAttachment: async () => false,
   uploadProposal: async () => false,
@@ -57,6 +60,7 @@ const ApplicationContext = createContext<ApplicationContextValue>({
   removeMobilityEntry: async () => false,
   submitApplication: async () => false,
   updateApplicationField: async () => {},
+  completeStep: async () => {},
 });
 
 export function useApplication() {
@@ -77,6 +81,7 @@ export function ApplicationProvider({
   const [application, setApplication] = useState<Record<string, any>>({});
   const [attachments, setAttachments] = useState<Attachment[]>([]);
   const [mobilityEntries, setMobilityEntries] = useState<MobilityEntry[]>([]);
+  const [completedSteps, setCompletedSteps] = useState<string[]>([]);
   const { show } = useToast();
 
   useEffect(() => {
@@ -97,6 +102,7 @@ export function ApplicationProvider({
       localStorage.removeItem(`applicationId_${callId}`);
       setAttachments([]);
       setApplication({});
+      setCompletedSteps([]);
       return;
     }
     localStorage.setItem(`applicationId_${callId}`, applicationId);
@@ -108,6 +114,7 @@ export function ApplicationProvider({
         ]);
         setApplication(app);
         setAttachments(files);
+        setCompletedSteps(app.completed_steps || []);
       } catch {
         setApplication({});
         setAttachments([]);
@@ -134,6 +141,7 @@ export function ApplicationProvider({
       const data = await apiCreateApplication(callId);
       setApplicationId(data.id as string);
       setApplication({ ...data, completed_steps: [] } as Record<string, any>);
+      setCompletedSteps([]);
       return data.id as string;
     } catch {
       show("Failed to create application");
@@ -179,11 +187,22 @@ export function ApplicationProvider({
   const updateApplicationField = async (field: string, value: unknown) => {
     if (!applicationId) return;
     setApplication((prev) => ({ ...prev, [field]: value }));
+    if (field === "completed_steps") {
+      setCompletedSteps(value as string[]);
+    }
     try {
       await patchApplication(applicationId, { [field]: value });
     } catch {
       show("Failed to update application");
     }
+  };
+
+  const completeStep = async (step: string) => {
+    const steps = new Set<string>(completedSteps);
+    steps.add(step);
+    const newList = Array.from(steps);
+    setCompletedSteps(newList);
+    await updateApplicationField("completed_steps", newList);
   };
 
   const deleteAttachment = async (id: string) => {
@@ -255,6 +274,7 @@ export function ApplicationProvider({
         application,
         attachments,
         mobilityEntries,
+        completedSteps,
         createApplication,
         uploadAttachment,
         uploadProposal,
@@ -265,6 +285,7 @@ export function ApplicationProvider({
         removeMobilityEntry,
         submitApplication,
         updateApplicationField,
+        completeStep,
       }}
     >
       {children}

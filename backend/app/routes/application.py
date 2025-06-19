@@ -62,6 +62,25 @@ def update_application(
     data_dict["user_id"] = current_user.id
     return crud.update(db, obj, data_dict)
 
+
+@router.patch('/{obj_id}', response_model=ApplicationRead)
+def partial_update_application(
+    obj_id: uuid.UUID,
+    data: ApplicationCreate,
+    db: Session = Depends(get_db),
+    current_user = Depends(get_current_user),
+):
+    """Update only provided fields for the application."""
+    obj = crud.get_by_id(db, obj_id)
+    if not obj:
+        raise HTTPException(status_code=404, detail="Application not found")
+    if obj.user_id != current_user.id:
+        raise HTTPException(status_code=403, detail="Forbidden")
+    data_dict = data.dict(exclude_unset=True, exclude={"user_id"})
+    if not data_dict:
+        return obj
+    return crud.update(db, obj, data_dict)
+
 @router.delete('/{obj_id}')
 def delete_application(
     obj_id: uuid.UUID,

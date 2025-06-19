@@ -4,7 +4,7 @@ import { useToast } from "../../../context/ToastProvider";
 import { useApplication } from "../../../context/ApplicationProvider";
 
 export default function Step1_CallInfo() {
-  const { call, createApplication, applicationId, application, updateApplicationField } = useApplication();
+  const { call, createApplication, applicationId, completeStep } = useApplication();
   const { show } = useToast();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -15,9 +15,7 @@ export default function Step1_CallInfo() {
     try {
       const id = await createApplication();
       if (id) {
-        const steps = new Set<string>(application.completed_steps || []);
-        steps.add("step1");
-        await updateApplicationField("completed_steps", Array.from(steps));
+        await completeStep("step1");
         show("Application created");
       }
     } catch (err) {

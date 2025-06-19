@@ -15,6 +15,7 @@ export default function Step6_Mobility() {
     application,
   } = useApplication();
 
+
   type EntryState = MobilityEntryInput & Partial<MobilityEntry>;
 
   const [entries, setEntries] = useState<EntryState[]>(mobilityEntries);
