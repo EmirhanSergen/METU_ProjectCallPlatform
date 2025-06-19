@@ -182,6 +182,10 @@ export function ApplicationProvider({
       return true;
     } catch {
       show("Failed to save application");
+      return false;
+    }
+  };
+
   const addMobilityEntry = async (data: MobilityEntryInput) => {
     if (!applicationId) return false;
     try {
