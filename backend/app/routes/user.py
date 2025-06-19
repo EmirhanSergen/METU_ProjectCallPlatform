@@ -4,7 +4,7 @@ import uuid
 
 from ..database import get_db
 from ..crud import user as crud
-from ..schemas import UserCreate, UserRead
+from ..schemas import UserCreate, UserRead, UserUpdate
 from ..core.security import role_required
 from ..core.enums import UserRole
 
@@ -31,7 +31,7 @@ def read_users(db: Session = Depends(get_db)):
 
 @router.put('/{obj_id}', response_model=UserRead)
 @role_required(UserRole.super_admin)
-def update_user(obj_id: uuid.UUID, data: UserCreate, db: Session = Depends(get_db)):
+def update_user(obj_id: uuid.UUID, data: UserUpdate, db: Session = Depends(get_db)):
     obj = crud.get_by_id(db, obj_id)
     if not obj:
         raise HTTPException(status_code=404, detail="User not found")

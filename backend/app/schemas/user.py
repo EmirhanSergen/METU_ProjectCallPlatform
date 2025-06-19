@@ -11,6 +11,10 @@ class UserCreate(UserBase):
     password: str
 
 
+class UserUpdate(UserBase):
+    password: Optional[str] = None
+
+
 class UserRead(UserBase):
     id: uuid.UUID
     created_at: Optional[datetime]
