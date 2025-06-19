@@ -1,4 +1,4 @@
-import { apiFetch } from "../api";
+import { apiFetch } from "../lib/api";
 import type { ReviewReport, SubmitReviewResponse } from "../../types/reviews.types";
 
 export function submitReview(data: ReviewReport) {
