@@ -27,6 +27,9 @@ export default function ReviewerPage() {
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div className="text-red-500">Error: {error}</div>;
+  if (reviews.length === 0) {
+    return <div>No reviews assigned at the moment.</div>;
+  }
 
   return (
     <div>

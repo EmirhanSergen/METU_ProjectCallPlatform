@@ -29,7 +29,7 @@ export default function LoginPage() {
     try {
       await login(email, password);
       show("Logged in successfully");
-      navigate("/"); // Giriş sonrası yönlendirme
+      navigate("/");
     } catch (err) {
       const msg = (err as Error).message || "Login failed";
       setError(msg);
