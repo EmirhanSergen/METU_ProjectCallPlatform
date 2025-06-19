@@ -23,6 +23,14 @@ def read_mobility_entry(obj_id: uuid.UUID, db: Session = Depends(get_db)):
 def read_mobility_entries(db: Session = Depends(get_db)):
     return list(crud.get_all(db))
 
+
+@router.get('/application_form/{application_form_id}', response_model=list[MobilityEntryRead])
+def read_mobility_entries_by_application_form(
+    application_form_id: uuid.UUID, db: Session = Depends(get_db)
+):
+    """Return mobility entries belonging to a specific application form."""
+    return list(crud.get_mobility_entries_by_application_form_id(db, application_form_id))
+
 @router.put('/{obj_id}', response_model=MobilityEntryRead)
 def update_mobility_entry(obj_id: uuid.UUID, data: MobilityEntryCreate, db: Session = Depends(get_db)):
     obj = crud.get_by_id(db, obj_id)
