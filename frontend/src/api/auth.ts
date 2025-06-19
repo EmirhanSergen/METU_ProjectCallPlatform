@@ -1,6 +1,7 @@
 import { apiFetch } from "../lib/api";
 import type { LoginData, RegisterData } from "../types/auth.types";
 
+
 export function login(data: LoginData) {
   return apiFetch("/auth/login", {
     method: "POST",
