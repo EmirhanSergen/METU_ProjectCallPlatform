@@ -156,10 +156,11 @@ export function ApplicationProvider({
   const uploadProposal = async (file: File) => {
     if (!applicationId) return false;
     try {
-      await apiUploadProposal(applicationId, file);
+      const data = await apiUploadProposal(applicationId, file);
+      setAttachments((prev) => [...prev, data]);
       return true;
     } catch {
-      show("Failed to upload proposal");
+      show("Failed to upload file");
       return false;
     }
   };
@@ -167,10 +168,10 @@ export function ApplicationProvider({
   const uploadCV = async (file: File) => {
     if (!applicationId) return false;
     try {
-      await apiUploadCV(applicationId, file);
+      const data = await apiUploadCV(applicationId, file);
+      setAttachments((prev) => [...prev, data]);
       return true;
     } catch {
-      show("Failed to upload cv");
       return false;
     }
   };
