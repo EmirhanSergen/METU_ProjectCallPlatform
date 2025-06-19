@@ -1,14 +1,16 @@
 import { useState } from "react";
-import { Button } from "../components/ui/Button";
+import { useNavigate } from "react-router-dom";
 import { Input } from "../components/ui/Input";
+import { Button } from "../components/ui/Button";
+import Navbar from "../components/layout/Navbar";
 import { useToast } from "../context/ToastProvider";
 import { useAuth } from "../context/AuthProvider";
-import Navbar from "../components/layout/Navbar";
-
 
 export default function LoginPage() {
   const { show } = useToast();
   const { login } = useAuth();
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -20,8 +22,10 @@ export default function LoginPage() {
     try {
       await login(email, password);
       show("Logged in successfully");
+      navigate("/"); // Giriş sonrası yönlendirme
     } catch (err) {
-      setError((err as Error).message);
+      const msg = (err as Error).message || "Login failed";
+      setError(msg);
       show("Login failed");
     } finally {
       setLoading(false);
@@ -31,24 +35,56 @@ export default function LoginPage() {
   return (
     <>
       <Navbar />
-      <div className="space-y-2 p-4">
-        <h1>Login</h1>
-        <Input
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <Input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <Button onClick={handleLogin} disabled={loading}>
-          {loading ? "Loading..." : "Login"}
-        </Button>
-        {error && <div className="text-red-500">Error: {error}</div>}
-      </div>
+      <section className="w-full bg-gray-50 py-16 px-4 min-h-screen">
+        <div className="max-w-md mx-auto bg-white p-8 rounded-lg shadow-lg">
+          <h1 className="text-2xl font-bold text-center mb-4">Welcome Back</h1>
+          <p className="text-sm text-gray-600 text-center mb-6">
+            <strong>All users (applicant, reviewer, admin)</strong> can log in through this page.
+          </p>
+
+          <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); handleLogin(); }}>
+            {/* Email */}
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="you@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+
+            {/* Password */}
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
+              <Input
+                id="password"
+                type="password"
+                placeholder="Your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+
+            {/* Error */}
+            {error && <p className="text-sm text-red-600 text-center">{error}</p>}
+
+            {/* Submit */}
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? "Logging in..." : "Login"}
+            </Button>
+
+            <p className="text-center text-sm text-gray-600">
+              <a href="/password-reset" className="text-blue-600 hover:underline">
+                Forgot your password?
+              </a>
+            </p>
+          </form>
+        </div>
+      </section>
     </>
   );
 }
