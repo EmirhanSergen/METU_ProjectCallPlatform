@@ -15,6 +15,7 @@ import LoginPage from "./pages/LoginPage";
 import MyApplicationsPage from "./pages/MyApplicationsPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import RegisterPage from "./pages/RegisterPage";
+import PasswordResetPage from "./pages/PasswordResetPage";
 import ReviewPage from "./pages/ReviewPage";
 import ReviewerPage from "./pages/ReviewerPage";
 import ApplicationLayout from "./pages/calls/apply/ApplicationLayout";
@@ -35,7 +36,6 @@ const adminRoutes = (
 
 const applicantRoutes = (
   <Route element={<AuthRoute roles={[UserRole.applicant]} />}>
-    <Route path="my-applications" element={<MyApplicationsPage />} />
     <Route path="applications/me" element={<MyApplicationsPage />} />
   </Route>
 );
