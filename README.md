@@ -59,6 +59,10 @@ components include:
 
  - `components/ui/DocumentList.tsx` – lists uploaded attachments with
   download and delete options.
- - `components/ui/Stepper.tsx` – displays progress across application
+- `components/ui/Stepper.tsx` – displays progress across application
   steps and is used by `ApplicationLayout`.
+- Layout elements such as `ApplicationLayout` and `Navbar` are in
+  `components/layout/`.
+- Route components live under the `pages/` directory and are loaded
+  through `routes/index.tsx`.
 
