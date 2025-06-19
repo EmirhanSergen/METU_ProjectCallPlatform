@@ -2,7 +2,7 @@ import { FormEvent, useEffect, useState } from "react";
 import  { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
 import Table from "../components/ui/Table";
-import { getCalls, createCall, updateCall, deleteCall } from "../lib/api/calls";
+import { getCalls, createCall, updateCall, deleteCall } from "../api/calls";
 import { Call } from "../types/global";
 
 export default function CallManagementPage() {

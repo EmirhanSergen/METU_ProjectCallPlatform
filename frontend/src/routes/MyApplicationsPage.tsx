@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { apiFetch } from "../lib/api";
+import { apiFetch } from "../api";
 import { useToast } from "../context/ToastProvider";
 
 interface Application {

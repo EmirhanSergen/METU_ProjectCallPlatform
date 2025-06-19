@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useToast } from "../context/ToastProvider";
-import { getApplications } from "../lib/api/applications";
+import { getApplications } from "../api/applications";
 
 interface Application {
   id: string;
