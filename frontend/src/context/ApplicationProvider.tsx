@@ -30,6 +30,8 @@ interface ApplicationContextValue {
   mobilityEntries: MobilityEntry[];
   createApplication: () => Promise<boolean>;
   uploadAttachment: (file: File, field: string) => Promise<boolean>;
+  uploadProposal: (file: File) => Promise<boolean>;
+  uploadCV: (file: File) => Promise<boolean>;
   deleteAttachment: (id: string) => Promise<boolean>;
   addMobilityEntry: (data: MobilityEntryInput) => Promise<boolean>;
   updateMobilityEntry: (id: string, data: MobilityEntryInput) => Promise<boolean>;
@@ -144,6 +146,30 @@ export function ApplicationProvider({
     if (!applicationId) return false;
     try {
       const data = await apiUploadAttachment(applicationId, file, field);
+      setAttachments((prev) => [...prev, data]);
+      return true;
+    } catch {
+      show("Failed to upload file");
+      return false;
+    }
+  };
+
+  const uploadProposal = async (file: File) => {
+    if (!applicationId) return false;
+    try {
+      const data = await apiUploadProposal(applicationId, file);
+      setAttachments((prev) => [...prev, data]);
+      return true;
+    } catch {
+      show("Failed to upload file");
+      return false;
+    }
+  };
+
+  const uploadCV = async (file: File) => {
+    if (!applicationId) return false;
+    try {
+      const data = await apiUploadCV(applicationId, file);
       setAttachments((prev) => [...prev, data]);
       return true;
     } catch {
