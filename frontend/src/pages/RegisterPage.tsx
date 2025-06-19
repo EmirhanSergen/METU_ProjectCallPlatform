@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Input } from "../components/ui/Input";
 import { Button } from "../components/ui/Button";
 import Navbar from "../components/layout/Navbar";
@@ -64,7 +64,7 @@ export default function RegisterPage() {
 
             <p className="text-center text-sm text-gray-600">
               Already have an account?{" "}
-              <a href="/login" className="text-blue-600 hover:underline">Log in</a>
+              <Link to="/login" className="text-blue-600 hover:underline">Log in</Link>
             </p>
           </form>
         </div>
