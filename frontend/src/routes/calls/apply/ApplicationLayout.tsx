@@ -1,6 +1,10 @@
 import { NavLink, Outlet, useLocation, useParams } from "react-router-dom";
-import { Step } from "../../../components/common/Stepper";
 import { ApplicationProvider } from "../../../context/ApplicationProvider";
+
+interface Step {
+  name: string;
+  path: string;
+}
 
 
 const steps: Step[] = [
