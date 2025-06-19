@@ -1,5 +1,7 @@
 
+import { useState } from "react";
 import { Attachment } from "../types/application";
+import ConfirmModal from "./ui/ConfirmModal";
 
 export default function DocumentList({
   documents,
@@ -8,6 +10,7 @@ export default function DocumentList({
   documents: Attachment[];
   onDelete?: (id: string) => void;
 }) {
+  const [confirmId, setConfirmId] = useState<string | null>(null);
   if (documents.length === 0) {
     return <p>No documents uploaded.</p>;
   }
@@ -18,12 +21,21 @@ export default function DocumentList({
         <li key={doc.id} className="flex justify-between border p-2 rounded">
           <span>{doc.doc_name}</span>
           {onDelete && (
-            <button
-              className="text-red-500"
-              onClick={() => onDelete(doc.id)}
-            >
-              Delete
-            </button>
+            <>
+              <button
+                className="text-red-500"
+                onClick={() => setConfirmId(doc.id)}
+              >
+                Delete
+              </button>
+              <ConfirmModal
+                open={confirmId === doc.id}
+                onOpenChange={() => setConfirmId(null)}
+                title="Delete document?"
+                description="This action cannot be undone."
+                onConfirm={() => onDelete(doc.id)}
+              />
+            </>
           )}
         </li>
       ))}
