@@ -1,5 +1,5 @@
 import { NavLink, Outlet, useLocation, useParams } from "react-router-dom";
-import { ApplicationProvider } from "../../../context/ApplicationProvider";
+import { ApplicationProvider, useApplication } from "../../../context/ApplicationProvider";
 
 interface Step {
   name: string;
@@ -30,29 +30,42 @@ export default function ApplicationLayout() {
 
   return (
     <ApplicationProvider callId={callId}>
-      <div className="p-6 md:flex md:space-x-6">
-        <nav className="w-full md:w-64 space-y-2 mb-4 md:mb-0" aria-label="Progress">
-          {steps.map((step, index) => (
-            <NavLink
-              key={step.path}
-              to={step.path}
-              className={({ isActive }) =>
-                [
-                  "block px-4 py-2 rounded-lg font-medium text-sm transition",
-                  index === activeIndex || isActive
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200",
-                ].join(" ")
-              }
-            >
-              {index + 1}. {step.name}
-            </NavLink>
-          ))}
-        </nav>
-        <div className="flex-1 bg-white p-4 rounded-lg shadow">
-          <Outlet />
-        </div>
-      </div>
+      <LayoutContent activeIndex={activeIndex} />
     </ApplicationProvider>
+  );
+}
+
+function LayoutContent({ activeIndex }: { activeIndex: number }) {
+  const { application } = useApplication();
+  const completed = application.completed_steps || [];
+  return (
+    <div className="p-6 md:flex md:space-x-6">
+      <nav className="w-full md:w-64 space-y-2 mb-4 md:mb-0" aria-label="Progress">
+        {steps.map((step, index) => (
+          <NavLink
+            key={step.path}
+            to={step.path}
+            className={({ isActive }) =>
+              [
+                "block px-4 py-2 rounded-lg font-medium text-sm transition",
+                index === activeIndex || isActive
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200",
+              ].join(" ")
+            }
+          >
+            {completed.includes(step.path) ? (
+              <span className="text-green-600 mr-1">✓</span>
+            ) : (
+              <span className="mr-1">{index + 1}.</span>
+            )}
+            {step.name}
+          </NavLink>
+        ))}
+      </nav>
+      <div className="flex-1 bg-white p-4 rounded-lg shadow">
+        <Outlet />
+      </div>
+    </div>
   );
 }

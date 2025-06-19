@@ -1,34 +1,65 @@
-import { useState } from "react";
+
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 import { Input } from "../../../components/ui/Input";
-import { useToast } from "../../../context/ToastProvider";
 import { useApplication } from "../../../context/ApplicationProvider";
+import { useToast } from "../../../context/ToastProvider";
+import {
+  applicantInfoSchema,
+  type ApplicantInfoForm,
+} from "./schemas";
+
+const schema = z.object({
+  title: z.string().optional(),
+  surname: z.string().min(1, "Required"),
+  first_name: z.string().min(1, "Required"),
+  year_of_birth: z.string().optional(),
+  nationality: z.string().optional(),
+  organisation: z.string().optional(),
+  university: z.string().optional(),
+  department: z.string().optional(),
+  town_or_city: z.string().optional(),
+  country: z.string().optional(),
+  current_position: z.string().optional(),
+  gender: z.string().optional(),
+});
+
 
 export default function Step2_ApplicantInfo() {
-  const { applicationData, updateApplication } = useApplication();
+  const { updateApplicationField, application } = useApplication();
   const { show } = useToast();
-  const [form, setForm] = useState({
-    title: "",
-    surname: "",
-    first_name: "",
-    year_of_birth: "",
-    nationality: "",
-    organisation: "",
-    university: "",
-    department: "",
-    town_or_city: "",
-    country: "",
-    current_position: "",
-    gender: "",
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<ApplicantInfoForm>({
+    resolver: zodResolver(applicantInfoSchema),
+    defaultValues: {
+      title: application.title || "",
+      surname: application.surname || "",
+      first_name: application.first_name || "",
+      year_of_birth: application.year_of_birth || "",
+      nationality: application.nationality || "",
+      organisation: application.organisation || "",
+      university: application.university || "",
+      department: application.department || "",
+      town_or_city: application.town_or_city || "",
+      country: application.country || "",
+      current_position: application.current_position || "",
+      gender: application.gender || "",
+    },
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleSave = async () => {
+  const onSubmit = async (data: ApplicantInfoForm) => {
     try {
-      await updateApplication(form);
+      for (const [field, value] of Object.entries(data)) {
+        await updateApplicationField(field, value);
+      }
+      const steps = new Set<string>(application.completed_steps || []);
+      steps.add("step2");
+      await updateApplicationField("completed_steps", Array.from(steps));
       show("Applicant Info saved");
     } catch (error) {
       show("Failed to save applicant info");
@@ -36,28 +67,59 @@ export default function Step2_ApplicantInfo() {
   };
 
   return (
-    <div className="space-y-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <h2 className="text-lg font-semibold">Applicant Info</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Input name="title" label="Title" value={form.title} onChange={handleChange} />
-        <Input name="surname" label="Surname" value={form.surname} onChange={handleChange} />
-        <Input name="first_name" label="First Name" value={form.first_name} onChange={handleChange} />
-        <Input name="year_of_birth" label="Year of Birth" value={form.year_of_birth} onChange={handleChange} />
-        <Input name="nationality" label="Nationality" value={form.nationality} onChange={handleChange} />
-        <Input name="organisation" label="Organisation" value={form.organisation} onChange={handleChange} />
-        <Input name="university" label="University" value={form.university} onChange={handleChange} />
-        <Input name="department" label="Department" value={form.department} onChange={handleChange} />
-        <Input name="town_or_city" label="Town or City" value={form.town_or_city} onChange={handleChange} />
-        <Input name="country" label="Country" value={form.country} onChange={handleChange} />
-        <Input name="current_position" label="Current Position" value={form.current_position} onChange={handleChange} />
-        <Input name="gender" label="Gender" value={form.gender} onChange={handleChange} />
+        <div>
+          <Input {...register("title") } placeholder="Title" />
+          {errors.title && <p className="text-red-500 text-sm">{errors.title.message}</p>}
+        </div>
+        <div>
+          <Input {...register("surname") } placeholder="Surname" />
+          {errors.surname && <p className="text-red-500 text-sm">{errors.surname.message}</p>}
+        </div>
+        <div>
+          <Input {...register("first_name") } placeholder="First Name" />
+          {errors.first_name && <p className="text-red-500 text-sm">{errors.first_name.message}</p>}
+        </div>
+        <div>
+          <Input {...register("year_of_birth") } placeholder="Year of Birth" />
+          {errors.year_of_birth && <p className="text-red-500 text-sm">{errors.year_of_birth.message}</p>}
+        </div>
+        <div>
+          <Input {...register("nationality") } placeholder="Nationality" />
+          {errors.nationality && <p className="text-red-500 text-sm">{errors.nationality.message}</p>}
+        </div>
+        <div>
+          <Input {...register("organisation") } placeholder="Organisation" />
+        </div>
+        <div>
+          <Input {...register("university") } placeholder="University" />
+        </div>
+        <div>
+          <Input {...register("department") } placeholder="Department" />
+        </div>
+        <div>
+          <Input {...register("town_or_city") } placeholder="Town or City" />
+        </div>
+        <div>
+          <Input {...register("country") } placeholder="Country" />
+          {errors.country && <p className="text-red-500 text-sm">{errors.country.message}</p>}
+        </div>
+        <div>
+          <Input {...register("current_position") } placeholder="Current Position" />
+        </div>
+        <div>
+          <Input {...register("gender") } placeholder="Gender" />
+        </div>
       </div>
       <button
-        onClick={handleSave}
+        type="submit"
+        disabled={isSubmitting}
         className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
       >
         Save
       </button>
-    </div>
+    </form>
   );
 }

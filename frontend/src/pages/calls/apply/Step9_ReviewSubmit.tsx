@@ -4,7 +4,7 @@ import { Button } from "../../../components/ui/Button";
 import ConfirmModal from "../../../components/ui/ConfirmModal";
 
 export default function Step9_ReviewSubmit() {
-  const { applicationId, submitApplication } = useApplication();
+  const { applicationId, submitApplication, updateApplicationField, application } = useApplication();
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [open, setOpen] = useState(false);
@@ -17,6 +17,9 @@ export default function Step9_ReviewSubmit() {
       const success = await submitApplication();
       if (success) {
         setSubmitted(true);
+        const steps = new Set<string>(application.completed_steps || []);
+        steps.add("step9");
+        await updateApplicationField("completed_steps", Array.from(steps));
       } else {
         setError("Submission failed. Please try again.");
       }

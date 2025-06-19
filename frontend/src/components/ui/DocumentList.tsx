@@ -19,7 +19,9 @@ export default function DocumentList({
     <ul className="space-y-2">
       {documents.map((doc) => (
         <li key={doc.id} className="flex justify-between border p-2 rounded">
-          <span>{doc.doc_name}</span>
+          <span>
+            {doc.field_name ? `${doc.field_name}: ${doc.doc_name}` : doc.doc_name}
+          </span>
           {onDelete && (
             <>
               <button

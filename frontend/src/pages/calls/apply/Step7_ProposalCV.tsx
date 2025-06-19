@@ -2,8 +2,11 @@ import { useState } from "react";
 import { useApplication } from "../../../context/ApplicationProvider";
 import { useToast } from "../../../context/ToastProvider";
 
+import { FileInput } from "../../../components/ui";
+import DocumentList from "../../../components/ui/DocumentList";
 export default function Step7_ProposalCV() {
-  const { uploadProposal, uploadCV, application } = useApplication();
+  const { uploadProposal, uploadCV, updateApplicationField, application } = useApplication();
+
   const { show } = useToast();
   const [loadingProposal, setLoadingProposal] = useState(false);
   const [loadingCV, setLoadingCV] = useState(false);
@@ -19,6 +22,9 @@ export default function Step7_ProposalCV() {
     setError(null);
     try {
       await uploadFunc(file);
+      const steps = new Set<string>(application.completed_steps || []);
+      steps.add("step7");
+      await updateApplicationField("completed_steps", Array.from(steps));
       show(`${type.toUpperCase()} uploaded successfully.`);
     } catch (err) {
       setError((err as Error).message);
@@ -44,12 +50,15 @@ export default function Step7_ProposalCV() {
         >
           Download Proposal Template
         </a>
-        <input
-          type="file"
+        <FileInput
           accept="application/pdf"
           onChange={(e) => handleUpload(e, "proposal")}
           disabled={loadingProposal}
           className="mt-2"
+        />
+        <DocumentList
+          documents={attachments.filter((a) => a.field_name === "proposal")}
+          onDelete={deleteAttachment}
         />
       </div>
 
@@ -66,12 +75,15 @@ export default function Step7_ProposalCV() {
         >
           Download CV Template
         </a>
-        <input
-          type="file"
+        <FileInput
           accept="application/pdf"
           onChange={(e) => handleUpload(e, "cv")}
           disabled={loadingCV}
           className="mt-2"
+        />
+        <DocumentList
+          documents={attachments.filter((a) => a.field_name === "cv")}
+          onDelete={deleteAttachment}
         />
       </div>
 
