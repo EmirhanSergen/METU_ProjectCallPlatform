@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { apiFetch } from "../lib/api";
+import { getMyApplications } from "../api/applications";
 import { useToast } from "../context/ToastProvider";
 
 interface Application {
@@ -17,7 +17,7 @@ export default function MyApplicationsPage() {
   useEffect(() => {
     setLoading(true);
     setError(null);
-    apiFetch("/applications/me")
+    getMyApplications()
       .then((data) => {
         setApplications(data);
         show("Applications loaded");
