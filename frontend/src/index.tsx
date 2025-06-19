@@ -63,7 +63,9 @@ const applicationRoutes = (
      <Routes>
        <Route path="/login" element={<LoginPage />} />
        <Route path="/register" element={<RegisterPage />} />
-       <Route path="/review/:reviewId" element={<ReviewPage />} />
+      <Route element={<AuthRoute roles={[UserRole.reviewer]} />}> 
+        <Route path="/review/:reviewId" element={<ReviewPage />} />
+      </Route>
        <Route path="/" element={<PageContainer />}>
          <Route index element={<HomePage />} />
          <Route path="call" element={<CallPage />} />
