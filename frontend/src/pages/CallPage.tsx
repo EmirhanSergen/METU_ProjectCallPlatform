@@ -38,6 +38,9 @@ export default function CallPage() {
         {calls.map((c) => (
           <li key={c.id} className="flex items-center space-x-4">
             <span>{c.title}</span>
+            <Link to={`/calls/${c.id}`} className="text-blue-600 underline">
+              Details
+            </Link>
             <Link to={`/calls/${c.id}/preview`} className="text-blue-600 underline">
               Preview
             </Link>
