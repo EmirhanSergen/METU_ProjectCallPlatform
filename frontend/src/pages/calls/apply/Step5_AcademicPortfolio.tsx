@@ -6,7 +6,7 @@ import { useApplication } from "../../../context/ApplicationProvider";
 import { useToast } from "../../../context/ToastProvider";
 
 export default function Step5_AcademicPortfolio() {
-  const { updateApplicationField, application } = useApplication();
+  const { updateApplicationField, application, completeStep } = useApplication();
   const { show } = useToast();
   const { register, control, handleSubmit } = useForm({
     defaultValues: {
@@ -43,9 +43,7 @@ export default function Step5_AcademicPortfolio() {
   const onSubmit = async (data: any) => {
     try {
       await updateApplicationField("academic_portfolio", data);
-      const steps = new Set<string>(application.completed_steps || []);
-      steps.add("step5");
-      await updateApplicationField("completed_steps", Array.from(steps));
+      await completeStep("step5");
       show("Academic portfolio saved");
     } catch {
       show("Failed to save portfolio");
