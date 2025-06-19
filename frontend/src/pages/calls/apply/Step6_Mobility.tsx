@@ -10,27 +10,27 @@ interface MobilityEntry {
 }
 
 export default function Step6_Mobility() {
-  const { updateField, data } = useApplication();
-  const [entries, setEntries] = useState<MobilityEntry[]>(data.mobility_entries || []);
+  const { updateApplicationField, application } = useApplication();
+  const [entries, setEntries] = useState<MobilityEntry[]>(application.mobility_entries || []);
 
   const handleChange = (index: number, field: keyof MobilityEntry, value: string) => {
     const updated = [...entries];
     updated[index][field] = value;
     setEntries(updated);
-    updateField("mobility_entries", updated);
+    updateApplicationField("mobility_entries", updated);
   };
 
   const handleAdd = () => {
     const newEntry = { from_date: "", to_date: "", organisation: "", country: "" };
     const updated = [...entries, newEntry];
     setEntries(updated);
-    updateField("mobility_entries", updated);
+    updateApplicationField("mobility_entries", updated);
   };
 
   const handleRemove = (index: number) => {
     const updated = entries.filter((_, i) => i !== index);
     setEntries(updated);
-    updateField("mobility_entries", updated);
+    updateApplicationField("mobility_entries", updated);
   };
 
   return (
