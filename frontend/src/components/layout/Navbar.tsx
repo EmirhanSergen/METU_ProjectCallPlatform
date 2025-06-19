@@ -28,6 +28,9 @@ export default function Navbar() {
           <Link to="/" className="hover:underline">Home</Link>
           {token && <Link to="/call" className="hover:underline">Call</Link>}
           <Link to="/about" className="hover:underline">About</Link>
+          <Link to="/terms" className="hover:underline">Terms</Link>
+          <Link to="/privacy" className="hover:underline">Privacy</Link>
+          {token && <Link to="/settings" className="hover:underline">Settings</Link>}
           {token && role === UserRole.applicant && (
             <Link to="/applications/me" className="hover:underline">My Applications</Link>
           )}
@@ -36,6 +39,9 @@ export default function Navbar() {
               <Link to="/dashboard" className="hover:underline">Dashboard</Link>
               <Link to="/call/manage" className="hover:underline">Manage Call</Link>
             </>
+          )}
+          {token && role === UserRole.super_admin && (
+            <Link to="/admin/users" className="hover:underline">User Management</Link>
           )}
           {token && role === UserRole.reviewer && (
             <Link to="/reviewer" className="hover:underline">My Reviews</Link>
