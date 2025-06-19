@@ -2,6 +2,8 @@ import { createContext, useContext, useEffect, useState, ReactNode } from "react
 import {
   createApplication as apiCreateApplication,
   uploadAttachment as apiUploadAttachment,
+  uploadProposal as apiUploadProposal,
+  uploadCV as apiUploadCV,
   deleteAttachment as apiDeleteAttachment,
   updateApplication,
   getApplicationAttachments,
@@ -18,6 +20,8 @@ interface ApplicationContextValue {
   attachments: Attachment[];
   createApplication: () => Promise<boolean>;
   uploadAttachment: (file: File) => Promise<boolean>;
+  uploadProposal: (file: File) => Promise<boolean>;
+  uploadCV: (file: File) => Promise<boolean>;
   deleteAttachment: (id: string) => Promise<boolean>;
   submitApplication: () => Promise<boolean>;
 }
@@ -28,6 +32,8 @@ const ApplicationContext = createContext<ApplicationContextValue>({
   attachments: [],
   createApplication: async () => false,
   uploadAttachment: async () => false,
+  uploadProposal: async () => false,
+  uploadCV: async () => false,
   deleteAttachment: async () => false,
   submitApplication: async () => false,
 });
@@ -106,6 +112,28 @@ export function ApplicationProvider({
     }
   };
 
+  const uploadProposal = async (file: File) => {
+    if (!applicationId) return false;
+    try {
+      await apiUploadProposal(applicationId, file);
+      return true;
+    } catch {
+      show("Failed to upload proposal");
+      return false;
+    }
+  };
+
+  const uploadCV = async (file: File) => {
+    if (!applicationId) return false;
+    try {
+      await apiUploadCV(applicationId, file);
+      return true;
+    } catch {
+      show("Failed to upload CV");
+      return false;
+    }
+  };
+
   const deleteAttachment = async (id: string) => {
     try {
       await apiDeleteAttachment(id);
@@ -139,6 +167,8 @@ export function ApplicationProvider({
         attachments,
         createApplication,
         uploadAttachment,
+        uploadProposal,
+        uploadCV,
         deleteAttachment,
         submitApplication,
       }}
