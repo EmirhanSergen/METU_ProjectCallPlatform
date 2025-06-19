@@ -10,6 +10,7 @@ import CallFormPage from "./pages/CallFormPage";
 import CallPreviewPage from "./pages/CallPreviewPage";
 import CallPage from "./pages/CallPage";
 import DashboardPage from "./pages/DashboardPage";
+import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import MyApplicationsPage from "./pages/MyApplicationsPage";
 import NotFoundPage from "./pages/NotFoundPage";

@@ -64,21 +64,25 @@ def get_current_user(
 def role_required(*roles: UserRole) -> Callable:
     def decorator(func: Callable) -> Callable:
         sig = inspect.signature(func)
+        has_current_user = "current_user" in sig.parameters
         params = list(sig.parameters.values())
-        params.append(
-            inspect.Parameter(
-                "current_user",
-                inspect.Parameter.POSITIONAL_OR_KEYWORD,
-                annotation=User,
-                default=Depends(get_current_user),
+        if not has_current_user:
+            params.append(
+                inspect.Parameter(
+                    "current_user",
+                    inspect.Parameter.POSITIONAL_OR_KEYWORD,
+                    annotation=User,
+                    default=Depends(get_current_user),
+                )
             )
-        )
         new_sig = sig.replace(parameters=params)
 
         @wraps(func)
         async def wrapper(*args, current_user: User = Depends(get_current_user), **kwargs):
             if current_user.role not in roles:
                 raise HTTPException(status_code=403, detail="Forbidden")
+            if has_current_user:
+                kwargs["current_user"] = current_user
             if iscoroutinefunction(func):
                 return await func(*args, **kwargs)
             return func(*args, **kwargs)
