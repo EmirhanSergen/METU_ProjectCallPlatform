@@ -4,10 +4,12 @@ import { useToast } from "../context/ToastProvider";
 import { getCall } from "../api/calls";
 import { Call } from "../types/global";
 import { Button } from "../components/ui/Button";
+import { useAuth } from "../context/AuthProvider";
 
 export default function CallDetailPage() {
   const { callId } = useParams<{ callId: string }>();
   const { show } = useToast();
+  const { role } = useAuth();
   const [call, setCall] = useState<Call | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -35,7 +37,7 @@ export default function CallDetailPage() {
     <div className="space-y-4">
       <h1 className="text-xl font-bold">{call?.title}</h1>
       <p>{call?.description}</p>
-      {callId && (
+      {role === "applicant" && callId && (
         <Link to={`/calls/${callId}/apply`}>
           <Button>Apply</Button>
         </Link>

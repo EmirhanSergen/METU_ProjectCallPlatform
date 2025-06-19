@@ -6,6 +6,7 @@ import AboutPage from "./pages/AboutPage";
 import CallApplicationsPage from "./pages/CallApplicationsPage";
 import CallDetailPage from "./pages/CallDetailPage";
 import CallManagementPage from "./pages/CallManagementPage";
+import CallFormPage from "./pages/CallFormPage";
 import CallPreviewPage from "./pages/CallPreviewPage";
 import CallsPage from "./pages/CallsPage";
 import DashboardPage from "./pages/DashboardPage";
@@ -26,6 +27,8 @@ const adminRoutes = (
   <Route element={<AuthRoute roles={[UserRole.admin, UserRole.super_admin]} />}>
     <Route path="dashboard" element={<DashboardPage />} />
     <Route path="calls/manage" element={<CallManagementPage />} />
+    <Route path="calls/manage/new" element={<CallFormPage />} />
+    <Route path="calls/manage/:callId" element={<CallFormPage />} />
     <Route path="calls/:callId/applications" element={<CallApplicationsPage />} />
   </Route>
 );
@@ -43,7 +46,7 @@ const reviewerRoutes = (
 );
 
 const applicationRoutes = (
-  <Route element={<AuthRoute />}>
+  <Route element={<AuthRoute roles={[UserRole.applicant]} />}>
     <Route path="calls/:callId/apply" element={<ApplicationLayout />}>
       <Route index element={<Navigate to="step1" replace />} />
       <Route path="step1" element={<Step1_CallInfo />} />

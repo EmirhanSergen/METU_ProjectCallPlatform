@@ -34,6 +34,9 @@ export default function MyApplicationsPage() {
     return (
       <div className="text-red-500">Failed to load applications: {error}</div>
     );
+  if (applications.length === 0) {
+    return <div>No applications found.</div>;
+  }
 
   return (
     <div>
