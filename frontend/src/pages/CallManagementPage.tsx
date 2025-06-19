@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/Button";
 import Table from "../components/ui/Table";
+import ConfirmModal from "../components/ui/ConfirmModal";
 import { getCalls, deleteCall } from "../api/calls";
 import { Call } from "../types/global";
 
@@ -9,6 +10,7 @@ export default function CallManagementPage() {
   const [calls, setCalls] = useState<Call[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [confirmId, setConfirmId] = useState<string | null>(null);
   const navigate = useNavigate();
 
   async function load() {
@@ -53,6 +55,9 @@ export default function CallManagementPage() {
         <thead>
           <tr className="bg-gray-100">
             <th>Title</th>
+            <th>Status</th>
+            <th>Start Date</th>
+            <th>End Date</th>
             <th>Actions</th>
             <th>Applications</th>
           </tr>
@@ -61,13 +66,23 @@ export default function CallManagementPage() {
           {calls.map((c) => (
             <tr key={c.id}>
               <td>{c.title}</td>
+              <td>{c.status}</td>
+              <td>{c.start_date ? c.start_date.substring(0, 10) : "-"}</td>
+              <td>{c.end_date ? c.end_date.substring(0, 10) : "-"}</td>
               <td className="space-x-2">
                 <Button type="button" onClick={() => navigate(`/calls/manage/${c.id}`)}>
                   Edit
                 </Button>
-                <Button type="button" onClick={() => remove(c.id)}>
+                <Button type="button" onClick={() => setConfirmId(c.id)}>
                   Delete
                 </Button>
+                <ConfirmModal
+                  open={confirmId === c.id}
+                  onOpenChange={() => setConfirmId(null)}
+                  title="Delete call?"
+                  description="This action cannot be undone."
+                  onConfirm={() => remove(c.id)}
+                />
               </td>
               <td>
                 <Link to={`/calls/${c.id}/applications`}>

@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthProvider";
+import { UserRole } from "../../types/global";
 
 export default function Navbar() {
   const { token, role, logout } = useAuth();
@@ -27,16 +28,16 @@ export default function Navbar() {
           <Link to="/" className="hover:underline">Home</Link>
           {token && <Link to="/call" className="hover:underline">Call</Link>}
           <Link to="/about" className="hover:underline">About</Link>
-          {token && role === "applicant" && (
+          {token && role === UserRole.applicant && (
             <Link to="/applications/me" className="hover:underline">My Applications</Link>
           )}
-          {token && (role === "admin" || role === "super_admin") && (
+          {token && (role === UserRole.admin || role === UserRole.super_admin) && (
             <>
               <Link to="/dashboard" className="hover:underline">Dashboard</Link>
               <Link to="/calls/manage" className="hover:underline">Manage Call</Link>
             </>
           )}
-          {token && role === "reviewer" && (
+          {token && role === UserRole.reviewer && (
             <Link to="/reviewer" className="hover:underline">My Reviews</Link>
           )}
         </div>
