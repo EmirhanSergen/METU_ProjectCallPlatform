@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useToast } from "../context/ToastProvider";
 import { getCalls } from "../lib/api/calls";
 import { Call } from "../types/global";
@@ -31,9 +32,20 @@ export default function CallsPage() {
   return (
     <div>
       <h1>Open Calls</h1>
-      <ul className="list-disc pl-5">
+      <ul className="list-disc pl-5 space-y-2">
         {calls.map((c) => (
-          <li key={c.id}>{c.title}</li>
+          <li key={c.id} className="flex items-center space-x-4">
+            <span>{c.title}</span>
+            <Link to={`/calls/${c.id}/preview`} className="text-blue-600 underline">
+              Preview
+            </Link>
+            <Link
+              to={`/calls/${c.id}/apply`}
+              className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+            >
+              Apply
+            </Link>
+          </li>
         ))}
       </ul>
     </div>

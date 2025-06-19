@@ -24,4 +24,11 @@ This directory contains the React application built with Vite and TypeScript.
 
 ## Environment Variables
 
-The frontend does not require any environment variables by default. The API base URL is set in [`src/lib/api.ts`](src/lib/api.ts) and defaults to `http://localhost:8000`. Adjust this constant if the backend runs on a different host or port.
+The API base URL is configured using the `VITE_API_BASE` environment variable. Create a `.env` file (see `.env.example`) and set this variable to the URL where the backend is running:
+
+```bash
+cp .env.example .env
+echo "VITE_API_BASE=http://localhost:8000" > .env
+```
+
+Vite reads variables prefixed with `VITE_` at build time, so rebuild the project after changing the value.

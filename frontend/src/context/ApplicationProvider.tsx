@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
-import { apiFetch } from "../lib/api";
+import { apiFetch, getApplicationAttachments } from "../lib/api";
 import { getCall } from "../lib/api/calls";
 import { Call } from "../types";
 import { Attachment } from "../types/application";
@@ -37,7 +37,9 @@ export function ApplicationProvider({
   children: ReactNode;
 }) {
   const [call, setCall] = useState<Call | null>(null);
-  const [applicationId, setApplicationId] = useState<string | null>(null);
+  const [applicationId, setApplicationId] = useState<string | null>(() =>
+    localStorage.getItem(`applicationId_${callId}`)
+  );
   const [attachments, setAttachments] = useState<Attachment[]>([]);
 
   useEffect(() => {
@@ -47,6 +49,18 @@ export function ApplicationProvider({
         .catch(() => {});
     }
   }, [callId]);
+
+  useEffect(() => {
+    if (!applicationId) {
+      localStorage.removeItem(`applicationId_${callId}`);
+      setAttachments([]);
+      return;
+    }
+    localStorage.setItem(`applicationId_${callId}`, applicationId);
+    getApplicationAttachments(applicationId)
+      .then(setAttachments)
+      .catch(() => setAttachments([]));
+  }, [applicationId, callId]);
 
   const createApplication = async () => {
     if (applicationId) return;

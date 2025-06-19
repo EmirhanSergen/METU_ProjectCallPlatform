@@ -31,6 +31,10 @@ def get_all(db: Session, include_deleted: bool = False):
 
 
 def update(db: Session, obj: User, data: dict) -> User:
+    if "password" in data:
+        password = data.pop("password")
+        if password is not None:
+            data["password_hash"] = hash_password(password)
     return _update(db, obj, data)
 
 
