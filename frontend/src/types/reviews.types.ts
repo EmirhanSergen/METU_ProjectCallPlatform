@@ -35,3 +35,7 @@ export interface ReviewReport extends Review {
   created_at?: string;
 
 }
+
+export interface SubmitReviewResponse {
+  id: string;
+}
