@@ -15,7 +15,7 @@ export default function CallPage() {
   useEffect(() => {
     setLoading(true);
     setError(null);
-    getCalls()
+    getCalls("PUBLISHED")
       .then((data) => {
         const openCall = data.find((c) => c.status === "PUBLISHED"); // tek çağrı mantığına uygun
         if (!openCall) throw new Error("No active call available");

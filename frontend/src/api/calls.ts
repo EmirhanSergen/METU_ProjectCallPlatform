@@ -2,8 +2,9 @@ import { apiFetch } from "../lib/api";
 import type { GetCallsResponse, GetCallResponse, CallInput } from "../types/calls.types";
 
 
-export function getCalls() {
-  return apiFetch("/call") as Promise<GetCallsResponse>;
+export function getCalls(status?: string) {
+  const query = status ? `?status=${encodeURIComponent(status)}` : "";
+  return apiFetch(`/call${query}`) as Promise<GetCallsResponse>;
 }
 
 export function getCall(id: string) {
