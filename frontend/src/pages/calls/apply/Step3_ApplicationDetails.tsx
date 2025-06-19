@@ -1,12 +1,25 @@
-import { Input, TextArea, Checkbox } from "../../../components/ui";
+
+import { useState } from "react";
+import { Input, Textarea, Checkbox } from "../../../components/ui";
+import { useToast } from "../../../context/ToastProvider";
+
 import { useApplication } from "../../../context/ApplicationProvider";
 
 export default function Step3_ApplicationDetails() {
   const { application, updateApplicationField } = useApplication();
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const [form, setForm] = useState({
+    project_title: "",
+    acronym: "",
+    keywords: "",
+    abstract: "",
+    selected_supervisor: "",
+    has_secondment: false,
+    selected_from_db: false,
+    institution_name: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextareaElement>) => {
     const { name, value, type, checked } = e.target;
     updateApplicationField(name, type === "checkbox" ? checked : value);
   };
@@ -20,9 +33,10 @@ export default function Step3_ApplicationDetails() {
         <Input name="keywords" label="Keywords (semicolon separated)" value={application.keywords || ""} onChange={handleChange} />
         <Input name="selected_supervisor" label="Selected Supervisor" value={application.selected_supervisor || ""} onChange={handleChange} />
       </div>
-      <TextArea name="abstract" label="Abstract (max 400 words)" value={application.abstract || ""} onChange={handleChange} />
-      <Checkbox name="has_secondment" label="Has Secondment?" checked={application.has_secondment || false} onChange={handleChange} />
-      {application.has_secondment && (
+      <Textarea name="abstract" label="Abstract (max 400 words)" value={form.abstract} onChange={handleChange} />
+      <Checkbox name="has_secondment" label="Has Secondment?" checked={form.has_secondment} onChange={handleChange} />
+      {form.has_secondment && (
+
         <>
           <Checkbox
             name="selected_from_db"
