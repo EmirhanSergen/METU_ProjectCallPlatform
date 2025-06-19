@@ -15,6 +15,7 @@ import LoginPage from "./pages/LoginPage";
 import MyApplicationsPage from "./pages/MyApplicationsPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import RegisterPage from "./pages/RegisterPage";
+import PasswordResetPage from "./pages/PasswordResetPage";
 import ReviewPage from "./pages/ReviewPage";
 import ReviewerPage from "./pages/ReviewerPage";
 import ApplicationLayout from "./pages/calls/apply/ApplicationLayout";
@@ -59,10 +60,11 @@ const applicationRoutes = (
 
  export default function AppRoutes() {
    return (
-     <Routes>
-       <Route path="/login" element={<LoginPage />} />
-       <Route path="/register" element={<RegisterPage />} />
-       <Route path="/review/:reviewId" element={<ReviewPage />} />
+    <Routes>
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+      <Route path="/password-reset" element={<PasswordResetPage />} />
+      <Route path="/review/:reviewId" element={<ReviewPage />} />
        <Route path="/" element={<PageContainer />}>
          <Route index element={<HomePage />} />
          <Route path="call" element={<CallPage />} />
