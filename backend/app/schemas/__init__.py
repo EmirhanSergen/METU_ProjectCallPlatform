@@ -25,7 +25,7 @@ from .security_misuse import SecurityMisuseBase, SecurityMisuseCreate, SecurityM
 from .security_other import SecurityOtherBase, SecurityOtherCreate, SecurityOtherRead
 from .suggested_reference import SuggestedReferenceBase, SuggestedReferenceCreate, SuggestedReferenceRead
 from .supervisor import SupervisorBase, SupervisorCreate, SupervisorRead
-from .user import UserBase, UserCreate, UserRead
+from .user import UserBase, UserCreate, UserRead, UserUpdate
 from .auth import Token, Login
 
 __all__ = [
@@ -112,6 +112,7 @@ __all__ = [
     "SupervisorRead",
     "UserBase",
     "UserCreate",
+    "UserUpdate",
     "UserRead",
     "Token",
     "Login"
