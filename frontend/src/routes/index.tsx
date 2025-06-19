@@ -29,6 +29,7 @@ export default function AppRoutes() {
       <Route path="/review/:reviewId" element={<ReviewPage />} />
       <Route path="/" element={<PageContainer />}>
         <Route index element={<CallsPage />} />
+        <Route path="calls" element={<CallsPage />} />
         <Route path="about" element={<AboutPage />} />
         <Route element={<PrivateRoute roles={[UserRole.admin, UserRole.super_admin]} />}>
           <Route path="dashboard" element={<DashboardPage />} />
