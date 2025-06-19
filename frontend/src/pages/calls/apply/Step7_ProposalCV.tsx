@@ -5,7 +5,14 @@ import { useToast } from "../../../context/ToastProvider";
 import { FileInput } from "../../../components/ui";
 import DocumentList from "../../../components/ui/DocumentList";
 export default function Step7_ProposalCV() {
-  const { uploadProposal, uploadCV, updateApplicationField, application } = useApplication();
+  const {
+    uploadProposal,
+    uploadCV,
+    updateApplicationField,
+    application,
+    attachments,
+    deleteAttachment,
+  } = useApplication();
 
   const { show } = useToast();
   const [loadingProposal, setLoadingProposal] = useState(false);
