@@ -47,7 +47,7 @@ export default function CallManagementPage() {
       {loading && <div>Loading...</div>}
       {error && <div className="text-red-500">Error: {error}</div>}
       <div>
-        <Button onClick={() => navigate("/calls/manage/new")}>Create New Call</Button>
+        <Button onClick={() => navigate("/call/manage/new")}>Create New Call</Button>
       </div>
       <Table>
         <thead>
@@ -62,7 +62,7 @@ export default function CallManagementPage() {
             <tr key={c.id}>
               <td>{c.title}</td>
               <td className="space-x-2">
-                <Button type="button" onClick={() => navigate(`/calls/manage/${c.id}`)}>
+                <Button type="button" onClick={() => navigate(`/call/manage/${c.id}`)}>
                   Edit
                 </Button>
                 <Button type="button" onClick={() => remove(c.id)}>
@@ -70,7 +70,7 @@ export default function CallManagementPage() {
                 </Button>
               </td>
               <td>
-                <Link to={`/calls/${c.id}/applications`}>
+                <Link to={`/call/${c.id}/applications`}>
                   <Button variant="link">Applications</Button>
                 </Link>
               </td>

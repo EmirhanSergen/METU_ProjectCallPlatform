@@ -10,7 +10,7 @@ from ..core.enums import UserRole
 router = APIRouter(prefix="/admin", tags=["Admin"])
 
 
-@router.get("/calls", response_model=list[CallRead])
+@router.get("/call", response_model=list[CallRead])
 @role_required(UserRole.admin, UserRole.super_admin)
 def list_calls(db: Session = Depends(get_db)):
     return list(crud_call.get_all(db))

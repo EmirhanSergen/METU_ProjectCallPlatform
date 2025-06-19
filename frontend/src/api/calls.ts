@@ -3,15 +3,15 @@ import type { GetCallsResponse, GetCallResponse, CallInput } from "../types/call
 
 
 export function getCalls() {
-  return apiFetch("/calls") as Promise<GetCallsResponse>;
+  return apiFetch("/call") as Promise<GetCallsResponse>;
 }
 
 export function getCall(id: string) {
-  return apiFetch(`/calls/${id}`) as Promise<GetCallResponse>;
+  return apiFetch(`/call/${id}`) as Promise<GetCallResponse>;
 }
 
 export function createCall(data: CallInput) {
-  return apiFetch(`/calls`, {
+  return apiFetch(`/call`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
@@ -19,7 +19,7 @@ export function createCall(data: CallInput) {
 }
 
 export function updateCall(id: string, data: CallInput) {
-  return apiFetch(`/calls/${id}`, {
+  return apiFetch(`/call/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
@@ -27,5 +27,5 @@ export function updateCall(id: string, data: CallInput) {
 }
 
 export function deleteCall(id: string) {
-  return apiFetch(`/calls/${id}`, { method: "DELETE" });
+  return apiFetch(`/call/${id}`, { method: "DELETE" });
 }

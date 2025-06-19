@@ -53,7 +53,7 @@ export default function HomePage() {
 
         <div className="flex space-x-4">
           <Link
-            to="/calls"
+            to="/call"
             className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow hover:bg-blue-700 transition"
           >
             Browse Calls

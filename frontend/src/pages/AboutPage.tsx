@@ -47,7 +47,7 @@ export default function AboutPage() {
             to="/call"
             className="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg shadow hover:bg-blue-700 transition"
           >
-            Browse Call
+            Browse Calls
           </Link>
         </div>
       </div>

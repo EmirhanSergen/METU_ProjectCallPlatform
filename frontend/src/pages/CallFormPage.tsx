@@ -62,7 +62,7 @@ export default function CallFormPage() {
         await createCall(payload);
         show("Call created");
       }
-      navigate("/calls/manage");
+      navigate("/call/manage");
     } catch (err) {
       setError((err as Error).message);
     } finally {
@@ -114,7 +114,7 @@ export default function CallFormPage() {
           />
         </div>
         <Button type="submit">{callId ? "Update" : "Create"}</Button>
-        <Button type="button" variant="outline" onClick={() => navigate("/calls/manage")}>Cancel</Button>
+        <Button type="button" variant="outline" onClick={() => navigate("/call/manage")}>Cancel</Button>
       </form>
     </div>
   );

@@ -38,7 +38,7 @@ export default function CallDetailPage() {
       <h1 className="text-xl font-bold">{call?.title}</h1>
       <p>{call?.description}</p>
       {role === "applicant" && callId && (
-        <Link to={`/calls/${callId}/apply`}>
+        <Link to={`/call/${callId}/apply`}>
           <Button>Apply</Button>
         </Link>
       )}

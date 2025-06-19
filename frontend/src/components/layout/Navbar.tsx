@@ -33,7 +33,7 @@ export default function Navbar() {
           {token && (role === "admin" || role === "super_admin") && (
             <>
               <Link to="/dashboard" className="hover:underline">Dashboard</Link>
-              <Link to="/calls/manage" className="hover:underline">Manage Call</Link>
+              <Link to="/call/manage" className="hover:underline">Manage Call</Link>
             </>
           )}
           {token && role === "reviewer" && (
