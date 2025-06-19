@@ -17,6 +17,13 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null);
 
   const handleLogin = async () => {
+    if (!email || !password) {
+      const msg = "Email and password are required";
+      setError(msg);
+      show(msg);
+      return;
+    }
+
     setLoading(true);
     setError(null);
     try {
@@ -26,7 +33,7 @@ export default function LoginPage() {
     } catch (err) {
       const msg = (err as Error).message || "Login failed";
       setError(msg);
-      show("Login failed");
+      show(msg);
     } finally {
       setLoading(false);
     }
