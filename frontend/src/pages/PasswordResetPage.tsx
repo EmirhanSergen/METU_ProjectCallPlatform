@@ -3,6 +3,7 @@ import Navbar from "../components/layout/Navbar";
 import { Input } from "../components/ui/Input";
 import { Button } from "../components/ui/Button";
 import { useToast } from "../context/ToastProvider";
+import { requestPasswordReset } from "../api/auth";
 
 export default function PasswordResetPage() {
   const { show } = useToast();
@@ -12,7 +13,7 @@ export default function PasswordResetPage() {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      // TODO: integrate password reset API
+      await requestPasswordReset(email);
       show(
         "If an account exists for that email, instructions have been sent."
       );
