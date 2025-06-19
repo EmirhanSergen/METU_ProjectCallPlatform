@@ -17,6 +17,7 @@ import CallApplicationsPage from "./CallApplicationsPage";
 import CallPreviewPage from "./CallPreviewPage";
 import ReviewPage from "./ReviewPage";
 import NotFoundPage from "./NotFoundPage";
+import MyApplicationsPage from "../pages/MyApplicationsPage";
 
 export default function AppRoutes() {
   return (
@@ -33,6 +34,9 @@ export default function AppRoutes() {
           <Route path="calls/:callId/applications" element={<CallApplicationsPage />} />
         </Route>
         <Route path="calls/:callId/preview" element={<CallPreviewPage />} />
+        <Route element={<ProtectedRoute roles={[UserRole.applicant]} />}>
+          <Route path="my-applications" element={<MyApplicationsPage />} />
+        </Route>
         <Route element={<ProtectedRoute />}>
           <Route path="calls/:callId/apply" element={<ApplicationLayout />}>
             <Route index element={<Navigate to="step1" replace />} />
