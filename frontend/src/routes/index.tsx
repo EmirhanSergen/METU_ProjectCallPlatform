@@ -20,6 +20,7 @@ import CallDetailPage from "../pages/calls/CallDetailPage";
 import ReviewPage from "./ReviewPage";
 import NotFoundPage from "./NotFoundPage";
 import MyApplicationsPage from "../pages/MyApplicationsPage";
+import ReviewerPage from "./ReviewerPage";
 
 export default function AppRoutes() {
   return (
@@ -39,6 +40,9 @@ export default function AppRoutes() {
         <Route path="calls/:callId/preview" element={<CallPreviewPage />} />
         <Route element={<ProtectedRoute roles={[UserRole.applicant]} />}>
           <Route path="my-applications" element={<MyApplicationsPage />} />
+        </Route>
+        <Route element={<ProtectedRoute roles={[UserRole.reviewer]} />}>
+          <Route path="reviewer" element={<ReviewerPage />} />
         </Route>
         <Route element={<ProtectedRoute />}>
           <Route path="calls/:callId/apply" element={<ApplicationLayout />}>
