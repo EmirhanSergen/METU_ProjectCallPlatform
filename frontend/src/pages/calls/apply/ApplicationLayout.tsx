@@ -6,12 +6,16 @@ interface Step {
   path: string;
 }
 
-
 const steps: Step[] = [
   { name: "Call Info", path: "step1" },
-  { name: "Upload", path: "step2" },
-  { name: "Review", path: "step3" },
-  { name: "Submit", path: "step4" },
+  { name: "Applicant Info", path: "step2" },
+  { name: "Application Details", path: "step3" },
+  { name: "Documents Upload", path: "step4" },
+  { name: "Academic Portfolio", path: "step5" },
+  { name: "Mobility", path: "step6" },
+  { name: "Proposal & CV", path: "step7" },
+  { name: "Ethics & Security", path: "step8" },
+  { name: "Review & Submit", path: "step9" },
 ];
 
 export default function ApplicationLayout() {
@@ -26,26 +30,26 @@ export default function ApplicationLayout() {
 
   return (
     <ApplicationProvider callId={callId}>
-      <div className="p-4 flex space-x-4">
-        <nav className="w-48 space-y-2" aria-label="Progress">
+      <div className="p-6 md:flex md:space-x-6">
+        <nav className="w-full md:w-64 space-y-2 mb-4 md:mb-0" aria-label="Progress">
           {steps.map((step, index) => (
             <NavLink
               key={step.path}
               to={step.path}
               className={({ isActive }) =>
                 [
-                  "block px-4 py-2 rounded-md",
-                  index === activeIndex
+                  "block px-4 py-2 rounded-lg font-medium text-sm transition",
+                  index === activeIndex || isActive
                     ? "bg-blue-600 text-white"
-                    : "bg-gray-100 text-gray-600",
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200",
                 ].join(" ")
               }
             >
-              {step.name}
+              {index + 1}. {step.name}
             </NavLink>
           ))}
         </nav>
-        <div className="flex-1">
+        <div className="flex-1 bg-white p-4 rounded-lg shadow">
           <Outlet />
         </div>
       </div>

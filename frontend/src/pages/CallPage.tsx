@@ -22,7 +22,7 @@ export default function CallPage() {
         setCall(openCall);
       })
       .catch((err) => {
-        setError(err.message);
+        setError((err as Error).message);
         show("Failed to load call");
       })
       .finally(() => setLoading(false));
@@ -48,13 +48,6 @@ export default function CallPage() {
         </div>
 
         <div className="flex flex-wrap justify-center gap-4 pt-4">
-          <Link
-            to={`/call/${call.id}/preview`}
-            className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded"
-          >
-            Preview
-          </Link>
-
           {role === "applicant" && (
             <Link
               to={`/call/${call.id}/apply`}
@@ -62,18 +55,6 @@ export default function CallPage() {
             >
               Apply Now
             </Link>
-            {role === "applicant" && (
-              <Link
-                to={`/call/${c.id}/apply`}
-                className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
-              >
-                Apply
-              </Link>
-            )}
-          </li>
-        ))}
-      </ul>
-    </div>
           )}
 
           {role === "admin" && (

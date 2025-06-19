@@ -1,10 +1,9 @@
-
 import { ChangeEvent, useState } from "react";
-import DocumentList from "../../../components/ui/DocumentList";
 import { useToast } from "../../../context/ToastProvider";
 import { useApplication } from "../../../context/ApplicationProvider";
+import DocumentList from "../../../components/ui/DocumentList";
 
-export default function Step2_Upload() {
+export default function Step4_DocumentsUpload() {
   const { uploadAttachment, attachments, deleteAttachment } = useApplication();
   const { show } = useToast();
   const [loading, setLoading] = useState(false);
@@ -28,9 +27,20 @@ export default function Step2_Upload() {
   };
 
   return (
-    <div className="space-y-2">
-      <input type="file" onChange={handleChange} disabled={loading} />
+    <div className="space-y-4">
+      <div>
+        <label className="font-medium">Upload Required Documents</label>
+        <input
+          type="file"
+          accept="application/pdf,image/jpeg,image/jpg"
+          onChange={handleChange}
+          disabled={loading}
+          className="block mt-2"
+        />
+      </div>
+
       <DocumentList documents={attachments} onDelete={deleteAttachment} />
+
       {error && <div className="text-red-500">Error: {error}</div>}
     </div>
   );

@@ -19,9 +19,9 @@ import ReviewPage from "./pages/ReviewPage";
 import ReviewerPage from "./pages/ReviewerPage";
 import ApplicationLayout from "./pages/calls/apply/ApplicationLayout";
 import Step1_CallInfo from "./pages/calls/apply/Step1_CallInfo";
-import Step2_Upload from "./pages/calls/apply/Step2_Upload";
-import Step3_Review from "./pages/calls/apply/Step3_Review";
-import Step4_Submit from "./pages/calls/apply/Step4_Submit";
+import Step2_Upload from "./pages/calls/apply/Step2_ApplicantInfo";
+import Step3_Review from "./pages/calls/apply/Step3_ApplicationDetails";
+import Step4_Submit from "./pages/calls/apply/Step4_DocumentsUpload";
 
 const adminRoutes = (
   <Route element={<AuthRoute roles={[UserRole.admin, UserRole.super_admin]} />}>
