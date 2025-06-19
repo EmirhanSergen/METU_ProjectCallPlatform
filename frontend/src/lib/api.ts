@@ -13,7 +13,12 @@ export async function apiFetch(path: string, options: RequestInit = {}) {
     let message = res.statusText;
     try {
       const data = await res.clone().json();
-      message = data.detail || data.message || message;
+      const detail = data.detail;
+      if (detail && typeof detail !== "string") {
+        message = JSON.stringify(detail);
+      } else {
+        message = detail || data.message || message;
+      }
     } catch {
       try {
         const text = await res.text();

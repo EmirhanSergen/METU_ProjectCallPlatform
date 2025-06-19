@@ -27,6 +27,13 @@ def create_application(
     data_dict["user_id"] = current_user.id
     return crud.create(db, data_dict)
 
+@router.get('/me', response_model=list[ApplicationRead])
+def read_my_applications(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    return list(crud.get_applications_by_user_id(db, current_user.id))
+
 @router.get('/{obj_id}', response_model=ApplicationRead)
 def read_application(obj_id: uuid.UUID, db: Session = Depends(get_db)):
     obj = crud.get_by_id(db, obj_id)
@@ -38,13 +45,6 @@ def read_application(obj_id: uuid.UUID, db: Session = Depends(get_db)):
 def read_applications(db: Session = Depends(get_db)):
     return list(crud.get_all(db))
 
-
-@router.get('/me', response_model=list[ApplicationRead])
-def read_my_applications(
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
-):
-    return list(crud.get_applications_by_user_id(db, current_user.id))
 
 @router.put('/{obj_id}', response_model=ApplicationRead)
 def update_application(
