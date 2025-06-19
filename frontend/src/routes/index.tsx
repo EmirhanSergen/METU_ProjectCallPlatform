@@ -15,6 +15,7 @@ import DashboardPage from "./DashboardPage";
 import CallManagementPage from "./CallManagementPage";
 import CallApplicationsPage from "./CallApplicationsPage";
 import CallPreviewPage from "./CallPreviewPage";
+import CallDetailPage from "../pages/calls/CallDetailPage";
 import ReviewPage from "./ReviewPage";
 import NotFoundPage from "./NotFoundPage";
 import MyApplicationsPage from "../pages/MyApplicationsPage";
@@ -33,6 +34,7 @@ export default function AppRoutes() {
           <Route path="calls/manage" element={<CallManagementPage />} />
           <Route path="calls/:callId/applications" element={<CallApplicationsPage />} />
         </Route>
+        <Route path="calls/:callId" element={<CallDetailPage />} />
         <Route path="calls/:callId/preview" element={<CallPreviewPage />} />
         <Route element={<ProtectedRoute roles={[UserRole.applicant]} />}>
           <Route path="my-applications" element={<MyApplicationsPage />} />
