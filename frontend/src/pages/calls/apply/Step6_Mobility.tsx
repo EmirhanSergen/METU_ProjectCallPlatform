@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button } from "../../../components/ui/Button";
+import { Button, Input, DatePicker } from "../../../components/ui";
 import { useApplication } from "../../../context/ApplicationProvider";
 
 interface MobilityEntry {
@@ -43,38 +43,30 @@ export default function Step6_Mobility() {
         >
           <div>
             <label className="block text-sm font-medium">From</label>
-            <input
-              type="date"
+            <DatePicker
               value={entry.from_date}
               onChange={(e) => handleChange(index, "from_date", e.target.value)}
-              className="input"
             />
           </div>
           <div>
             <label className="block text-sm font-medium">To</label>
-            <input
-              type="date"
+            <DatePicker
               value={entry.to_date}
               onChange={(e) => handleChange(index, "to_date", e.target.value)}
-              className="input"
             />
           </div>
           <div>
             <label className="block text-sm font-medium">Organisation</label>
-            <input
-              type="text"
+            <Input type="text"
               value={entry.organisation}
               onChange={(e) => handleChange(index, "organisation", e.target.value)}
-              className="input"
             />
           </div>
           <div>
             <label className="block text-sm font-medium">Country</label>
-            <input
-              type="text"
+            <Input type="text"
               value={entry.country}
               onChange={(e) => handleChange(index, "country", e.target.value)}
-              className="input"
             />
           </div>
           <div className="col-span-1 md:col-span-4 text-right">

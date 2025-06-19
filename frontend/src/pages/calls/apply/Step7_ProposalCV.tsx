@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useApplication } from "../../../context/ApplicationProvider";
 import { useToast } from "../../../context/ToastProvider";
 
+import { FileInput } from "../../../components/ui";
 export default function Step7_ProposalCV() {
   const { uploadProposal, uploadCV, application } = useApplication();
   const { show } = useToast();
@@ -44,13 +45,12 @@ export default function Step7_ProposalCV() {
         >
           Download Proposal Template
         </a>
-        <input
-          type="file"
-          accept="application/pdf"
-          onChange={(e) => handleUpload(e, "proposal")}
-          disabled={loadingProposal}
-          className="mt-2"
-        />
+          <FileInput
+            accept="application/pdf"
+            onChange={(e) => handleUpload(e, "proposal")}
+            disabled={loadingProposal}
+            className="mt-2"
+          />
       </div>
 
       <div>
@@ -66,13 +66,12 @@ export default function Step7_ProposalCV() {
         >
           Download CV Template
         </a>
-        <input
-          type="file"
-          accept="application/pdf"
-          onChange={(e) => handleUpload(e, "cv")}
-          disabled={loadingCV}
-          className="mt-2"
-        />
+          <FileInput
+            accept="application/pdf"
+            onChange={(e) => handleUpload(e, "cv")}
+            disabled={loadingCV}
+            className="mt-2"
+          />
       </div>
 
       {error && <div className="text-red-500">Error: {error}</div>}

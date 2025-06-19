@@ -3,6 +3,7 @@ import { useToast } from "../../../context/ToastProvider";
 import { useApplication } from "../../../context/ApplicationProvider";
 import DocumentList from "../../../components/ui/DocumentList";
 
+import { FileInput } from "../../../components/ui";
 export default function Step4_DocumentsUpload() {
   const { uploadAttachment, attachments, deleteAttachment } = useApplication();
   const { show } = useToast();
@@ -30,13 +31,7 @@ export default function Step4_DocumentsUpload() {
     <div className="space-y-4">
       <div>
         <label className="font-medium">Upload Required Documents</label>
-        <input
-          type="file"
-          accept="application/pdf,image/jpeg,image/jpg"
-          onChange={handleChange}
-          disabled={loading}
-          className="block mt-2"
-        />
+        <FileInput accept="application/pdf,image/jpeg,image/jpg" onChange={handleChange} disabled={loading} className="block mt-2" />
       </div>
 
       <DocumentList documents={attachments} onDelete={deleteAttachment} />

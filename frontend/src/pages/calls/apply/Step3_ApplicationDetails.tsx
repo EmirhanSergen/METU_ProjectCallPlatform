@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Input, TextArea, Checkbox } from "../../../components/ui";
+import { Input, Textarea, Checkbox } from "../../../components/ui";
 import { useToast } from "../../../context/ToastProvider";
 import { useApplication } from "../../../context/ApplicationProvider";
 
@@ -18,7 +18,7 @@ export default function Step3_ApplicationDetails() {
     institution_name: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextareaElement>) => {
     const { name, value, type, checked } = e.target;
     setForm((prev) => ({
       ...prev,
@@ -44,7 +44,7 @@ export default function Step3_ApplicationDetails() {
         <Input name="keywords" label="Keywords (semicolon separated)" value={form.keywords} onChange={handleChange} />
         <Input name="selected_supervisor" label="Selected Supervisor" value={form.selected_supervisor} onChange={handleChange} />
       </div>
-      <TextArea name="abstract" label="Abstract (max 400 words)" value={form.abstract} onChange={handleChange} />
+      <Textarea name="abstract" label="Abstract (max 400 words)" value={form.abstract} onChange={handleChange} />
       <Checkbox name="has_secondment" label="Has Secondment?" checked={form.has_secondment} onChange={handleChange} />
       {form.has_secondment && (
         <>
