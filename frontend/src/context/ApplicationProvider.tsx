@@ -196,6 +196,7 @@ export function ApplicationProvider({
     }
   };
 
+
   const addMobilityEntry = async (data: MobilityEntryInput) => {
     if (!applicationId) return false;
     try {
