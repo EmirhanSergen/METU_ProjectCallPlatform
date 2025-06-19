@@ -1,4 +1,4 @@
-import { cn } from "../../lib/utils"; // cn: conditional className joiner
+import { cn } from "../lib/utils"; // cn: conditional className joiner
 import React from "react";
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {

@@ -1,7 +1,7 @@
 
 import { useState } from "react";
-import { Button } from "../../../components/ui/Button";
-import ConfirmModal from "../../../components/ui/ConfirmModal";
+import { Button } from "../../../ui/Button";
+import ConfirmModal from "../../../ui/ConfirmModal";
 import { useToast } from "../../../context/ToastProvider";
 import { useApplication } from "../../../context/ApplicationProvider";
 

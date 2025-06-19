@@ -1,5 +1,5 @@
-import { apiFetch } from "../api";
-import type { GetCallsResponse, GetCallResponse } from "../../types/calls.types";
+import { apiFetch } from "../lib/api";
+import type { GetCallsResponse, GetCallResponse } from "../types/calls.types";
 
 export function getCalls() {
   return apiFetch("/calls") as Promise<GetCallsResponse>;

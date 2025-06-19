@@ -1,5 +1,5 @@
 import React from "react";
-import { cn } from "../../lib/utils"; // cn fonksiyonu class merge için
+import { cn } from "../lib/utils"; // cn fonksiyonu class merge için
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
 

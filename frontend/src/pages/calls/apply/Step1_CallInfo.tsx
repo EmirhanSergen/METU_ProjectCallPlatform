@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button } from "../../../components/ui/Button";
+import { Button } from "../../../ui/Button";
 import { useToast } from "../../../context/ToastProvider";
 import { useApplication } from "../../../context/ApplicationProvider";
 

@@ -1,11 +1,6 @@
-
-<<<<<<< HEAD:frontend/src/components/ui/DocumentList.tsx
-import { Attachment } from "../../types/application";
-=======
 import { useState } from "react";
 import { Attachment } from "../types/application";
-import ConfirmModal from "./ui/ConfirmModal";
->>>>>>> main:frontend/src/components/DocumentList.tsx
+import ConfirmModal from "./ConfirmModal";
 
 export default function DocumentList({
   documents,

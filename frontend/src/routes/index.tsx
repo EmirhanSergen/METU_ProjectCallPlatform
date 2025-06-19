@@ -14,27 +14,12 @@ import AboutPage from "../pages/AboutPage";
 import DashboardPage from "../pages/DashboardPage";
 import CallManagementPage from "../pages/CallManagementPage";
 import CallApplicationsPage from "../pages/CallApplicationsPage";
-import CallPreviewPage from "../pages/CallPreviewage";
+import CallPreviewPage from "../pages/CallPreviewPage";
+import CallDetailPage from "../pages/CallDetailPage";
 import ReviewPage from "../pages/ReviewPage";
 import NotFoundPage from "../pages/NotFoundPage";
-import ApplicationLayout from "./calls/apply/ApplicationLayout";
-import Step1_CallInfo from "./calls/apply/Step1_CallInfo";
-import Step2_Upload from "./calls/apply/Step2_Upload";
-import Step3_Review from "./calls/apply/Step3_Review";
-import Step4_Submit from "./calls/apply/Step4_Submit";
-import LoginPage from "./LoginPage";
-import RegisterPage from "./RegisterPage";
-import CallsPage from "./CallsPage";
-import AboutPage from "./AboutPage";
-import DashboardPage from "./DashboardPage";
-import CallManagementPage from "./CallManagementPage";
-import CallApplicationsPage from "./CallApplicationsPage";
-import CallPreviewPage from "./CallPreviewPage";
-import CallDetailPage from "./CallDetailPage";
-import ReviewPage from "./ReviewPage";
-import NotFoundPage from "./NotFoundPage";
 import MyApplicationsPage from "../pages/MyApplicationsPage";
-import ReviewerPage from "./ReviewerPage";
+import ReviewerPage from "../pages/ReviewerPage";
 
 export default function AppRoutes() {
   return (
