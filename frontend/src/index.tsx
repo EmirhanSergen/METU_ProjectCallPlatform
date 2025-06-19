@@ -42,7 +42,7 @@ const reviewerRoutes = (
 );
 
 const applicationRoutes = (
-  <Route element={<AuthRoute />}>
+  <Route element={<AuthRoute roles={[UserRole.applicant]} />}>
     <Route path="calls/:callId/apply" element={<ApplicationLayout />}>
       <Route index element={<Navigate to="step1" replace />} />
       <Route path="step1" element={<Step1_CallInfo />} />
