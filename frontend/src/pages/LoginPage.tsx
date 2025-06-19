@@ -5,6 +5,7 @@ import { Button } from "../components/ui/Button";
 import Navbar from "../components/layout/Navbar";
 import { useToast } from "../context/ToastProvider";
 import { useAuth } from "../context/AuthProvider";
+import { UserRole } from "../types/global";
 
 export default function LoginPage() {
   const { show } = useToast();
@@ -29,12 +30,12 @@ export default function LoginPage() {
     try {
       const user = await login(email, password);
       show("Logged in successfully");
-      if (user?.role === "admin" || user?.role === "super_admin") {
+      if (user?.role === UserRole.admin || user?.role === UserRole.super_admin) {
         navigate("/dashboard");
-      } else if (user?.role === "reviewer") {
+      } else if (user?.role === UserRole.reviewer) {
         navigate("/reviewer");
-      } else if (user?.role === "applicant") {
-        navigate("/my-applications");
+      } else if (user?.role === UserRole.applicant) {
+        navigate("/applications/me");
       } else {
         navigate("/");
       }

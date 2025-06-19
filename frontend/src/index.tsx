@@ -36,7 +36,6 @@ const adminRoutes = (
 
 const applicantRoutes = (
   <Route element={<AuthRoute roles={[UserRole.applicant]} />}>
-    <Route path="my-applications" element={<MyApplicationsPage />} />
     <Route path="applications/me" element={<MyApplicationsPage />} />
   </Route>
 );
