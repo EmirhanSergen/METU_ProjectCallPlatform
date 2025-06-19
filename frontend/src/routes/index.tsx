@@ -16,11 +16,12 @@ import DashboardPage from "./DashboardPage";
 import CallManagementPage from "./CallManagementPage";
 import CallApplicationsPage from "./CallApplicationsPage";
 import CallPreviewPage from "./CallPreviewPage";
-import CallDetailPage from "../pages/calls/CallDetailPage";
+import CallDetailPage from "./CallDetailPage";
 import ReviewPage from "./ReviewPage";
 import NotFoundPage from "./NotFoundPage";
-import MyApplicationsPage from "../pages/MyApplicationsPage";
+import MyApplicationsPage from "./MyApplicationsPage";
 import ReviewerPage from "./ReviewerPage";
+
 
 export default function AppRoutes() {
   return (
