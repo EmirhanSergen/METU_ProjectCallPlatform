@@ -1,5 +1,6 @@
 import { FormEvent, useEffect, useState } from "react";
-import  { Button } from "../components/ui/Button";
+import { Link } from "react-router-dom";
+import { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
 import Table from "../components/ui/Table";
 import { getCalls, createCall, updateCall, deleteCall } from "../lib/api/calls";
@@ -68,7 +69,8 @@ export default function CallManagementPage() {
         <thead>
           <tr className="bg-gray-100">
             <th>Title</th>
-            <th></th>
+            <th>Actions</th>
+            <th>Applications</th>
           </tr>
         </thead>
         <tbody>
@@ -82,6 +84,11 @@ export default function CallManagementPage() {
                 <Button type="button" onClick={() => remove(c.id)}>
                   Delete
                 </Button>
+              </td>
+              <td>
+                <Link to={`/calls/${c.id}/applications`}>
+                  <Button variant="link">Applications</Button>
+                </Link>
               </td>
             </tr>
           ))}
