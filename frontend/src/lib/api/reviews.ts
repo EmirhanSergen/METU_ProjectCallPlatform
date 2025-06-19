@@ -13,6 +13,10 @@ export function getReviewReport(id: string) {
   return apiFetch(`/review_reports/${id}`) as Promise<ReviewReport>;
 }
 
+export function getReviewReports() {
+  return apiFetch(`/review_reports`) as Promise<ReviewReport[]>;
+}
+
 export function createReviewReport(data: ReviewReport) {
   return apiFetch(`/review_reports`, {
     method: "POST",
