@@ -24,6 +24,24 @@ export function uploadAttachment(applicationId: string, file: File) {
   }) as Promise<UploadAttachmentResponse>;
 }
 
+export function uploadProposal(applicationId: string, file: File) {
+  const formData = new FormData();
+  formData.append("proposal", file);
+  return apiFetch(`/applications/${applicationId}/upload_file`, {
+    method: "POST",
+    body: formData,
+  }) as Promise<UploadAttachmentResponse>;
+}
+
+export function uploadCV(applicationId: string, file: File) {
+  const formData = new FormData();
+  formData.append("cv", file);
+  return apiFetch(`/applications/${applicationId}/upload_file`, {
+    method: "POST",
+    body: formData,
+  }) as Promise<UploadAttachmentResponse>;
+}
+
 export function getApplications() {
   return apiFetch(`/applications`) as Promise<any[]>;
 }
@@ -37,6 +55,18 @@ export function getMyApplications() {
 }
 
 export function updateApplication(id: string, data: Record<string, unknown>) {
+  return apiFetch(`/applications/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+}
+
+export function getApplication(id: string) {
+  return apiFetch(`/applications/${id}`) as Promise<any>;
+}
+
+export function patchApplication(id: string, data: Record<string, unknown>) {
   return apiFetch(`/applications/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
