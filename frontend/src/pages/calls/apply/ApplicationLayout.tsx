@@ -36,8 +36,8 @@ export default function ApplicationLayout() {
 }
 
 function LayoutContent({ activeIndex }: { activeIndex: number }) {
-  const { application } = useApplication();
-  const completed = application.completed_steps || [];
+  const { completedSteps } = useApplication();
+  const completed = completedSteps;
   return (
     <div className="p-6 md:flex md:space-x-6">
       <nav className="w-full md:w-64 space-y-2 mb-4 md:mb-0" aria-label="Progress">

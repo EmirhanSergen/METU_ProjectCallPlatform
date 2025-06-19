@@ -21,7 +21,7 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 export default function Step3_ApplicationDetails() {
-  const { application, updateApplicationField } = useApplication();
+  const { application, updateApplicationField, completeStep } = useApplication();
   const { show } = useToast();
 
 
@@ -44,10 +44,8 @@ export default function Step3_ApplicationDetails() {
     },
   });
 
-  const onSubmit = () => {
-    const steps = new Set<string>(application.completed_steps || []);
-    steps.add("step3");
-    updateApplicationField("completed_steps", Array.from(steps));
+  const onSubmit = async () => {
+    await completeStep("step3");
     show("Application details saved");
   };
 
