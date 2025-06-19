@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import PageContainer from "../components/layout/PageContainer";
 import PrivateRoute from "../components/auth/PrivateRoute";
+import ProtectedRoute from "../components/auth/ProtectedRoute";
 import { UserRole } from "../types/global";
 import ApplicationLayout from "./calls/apply/ApplicationLayout";
 import Step1_CallInfo from "./calls/apply/Step1_CallInfo";
