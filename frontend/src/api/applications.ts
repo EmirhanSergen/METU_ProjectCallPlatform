@@ -28,6 +28,10 @@ export function getApplications() {
   return apiFetch(`/applications`) as Promise<any[]>;
 }
 
+export function getMyApplications() {
+  return apiFetch(`/applications/me`) as Promise<any[]>;
+}
+
 export function updateApplication(id: string, data: Record<string, unknown>) {
   return apiFetch(`/applications/${id}`, {
     method: "PUT",
