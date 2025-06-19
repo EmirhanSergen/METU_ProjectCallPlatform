@@ -25,8 +25,8 @@ export default function Stepper({ steps, currentStepIndex }: StepperProps) {
             [
               "px-4 py-2 rounded-md",
               index === activeIndex
-                ? "bg-primary text-primary-foreground"
-                : "bg-muted text-muted-foreground",
+                ? "bg-blue-600 text-white"
+                : "bg-gray-100 text-gray-600",
             ].join(" ")
           }
         >
