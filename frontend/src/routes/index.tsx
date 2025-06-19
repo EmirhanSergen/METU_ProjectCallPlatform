@@ -2,21 +2,21 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import PageContainer from "../components/layout/PageContainer";
 import ProtectedRoute from "../components/auth/ProtectedRoute";
 import { UserRole } from "../types/global";
-import ApplicationLayout from "./calls/apply/ApplicationLayout";
-import Step1_CallInfo from "./calls/apply/Step1_CallInfo";
-import Step2_Upload from "./calls/apply/Step2_Upload";
-import Step3_Review from "./calls/apply/Step3_Review";
-import Step4_Submit from "./calls/apply/Step4_Submit";
-import LoginPage from "./LoginPage";
-import RegisterPage from "./RegisterPage";
-import CallsPage from "./CallsPage";
-import AboutPage from "./AboutPage";
-import DashboardPage from "./DashboardPage";
-import CallManagementPage from "./CallManagementPage";
-import CallApplicationsPage from "./CallApplicationsPage";
-import CallPreviewPage from "./CallPreviewPage";
-import ReviewPage from "./ReviewPage";
-import NotFoundPage from "./NotFoundPage";
+import ApplicationLayout from "../components/layout/ApplicationLayout";
+import Step1_CallInfo from "../pages/calls/apply/Step1_CallInfo";
+import Step2_Upload from "../pages/calls/apply/Step2_Upload";
+import Step3_Review from "../pages/calls/apply/Step3_Review";
+import Step4_Submit from "../pages/calls/apply/Step4_Submit";
+import LoginPage from "../pages/LoginPage";
+import RegisterPage from "../pages/RegisterPage";
+import CallsPage from "../pages/CallsPage";
+import AboutPage from "../pages/AboutPage";
+import DashboardPage from "../pages/DashboardPage";
+import CallManagementPage from "../pages/CallManagementPage";
+import CallApplicationsPage from "../pages/CallApplicationsPage";
+import CallPreviewPage from "../pages/CallPreviewPage";
+import ReviewPage from "../pages/ReviewPage";
+import NotFoundPage from "../pages/NotFoundPage";
 
 export default function AppRoutes() {
   return (

@@ -1,6 +1,6 @@
 
 import { ChangeEvent } from "react";
-import DocumentList from "../../../components/DocumentList";
+import DocumentList from "../../../components/ui/DocumentList";
 import { useApplication } from "../../../context/ApplicationProvider";
 
 export default function Step2_Upload() {

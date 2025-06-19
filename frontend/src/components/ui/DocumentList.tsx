@@ -1,5 +1,5 @@
 
-import { Attachment } from "../types/application";
+import { Attachment } from "../../types/application";
 
 export default function DocumentList({
   documents,

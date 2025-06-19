@@ -1,6 +1,6 @@
 import { Outlet, useParams } from "react-router-dom";
-import Stepper, { Step } from "../../../components/common/Stepper";
-import { ApplicationProvider } from "../../../context/ApplicationProvider";
+import Stepper, { Step } from "../ui/Stepper";
+import { ApplicationProvider } from "../../context/ApplicationProvider";
 
 
 const steps: Step[] = [
