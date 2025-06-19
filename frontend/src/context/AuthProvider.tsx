@@ -59,6 +59,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (email: string, password: string) => {
     const data = await apiLogin({ email, password });
     const user = decodeToken(data.access_token);
+    localStorage.setItem("token", data.access_token);
     setState({ token: data.access_token, user });
     return user;
   };
@@ -74,6 +75,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const logout = () => {
+    localStorage.removeItem("token");
     setState({ token: null, user: null });
   };
 
