@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { useApplication } from "../../../context/ApplicationProvider";
+import { useToast } from "../../../context/ToastProvider";
 import EthicsIssuesTable from "../../../components/application/EthicsIssuesTable";
 import SecurityIssuesTable from "../../../components/application/SecurityIssuesTable";
 
 export default function Step8_EthicsSecurity() {
   const { application, updateApplicationField } = useApplication();
+  const { show } = useToast();
   const [ethicsConfirmed, setEthicsConfirmed] = useState(
     application.ethics_confirmed || false
   );
@@ -26,6 +28,10 @@ export default function Step8_EthicsSecurity() {
       "security_self_assessment_text",
       securitySelfAssessment
     );
+    const steps = new Set<string>(application.completed_steps || []);
+    steps.add("step8");
+    updateApplicationField("completed_steps", Array.from(steps));
+    show("Section saved");
   };
 
   return (

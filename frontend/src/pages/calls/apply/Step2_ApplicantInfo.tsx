@@ -5,8 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Input } from "../../../components/ui/Input";
 import { useApplication } from "../../../context/ApplicationProvider";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useToast } from "../../../context/ToastProvider";
 import {
   applicantInfoSchema,
   type ApplicantInfoForm,
@@ -30,7 +29,7 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 export default function Step2_ApplicantInfo() {
-  const { updateApplication } = useApplication();
+  const { updateApplicationField, application } = useApplication();
   const { show } = useToast();
 
   const {
@@ -57,7 +56,12 @@ export default function Step2_ApplicantInfo() {
 
   const onSubmit = async (data: ApplicantInfoForm) => {
     try {
-      await updateApplication(data);
+      for (const [field, value] of Object.entries(data)) {
+        await updateApplicationField(field, value);
+      }
+      const steps = new Set<string>(application.completed_steps || []);
+      steps.add("step2");
+      await updateApplicationField("completed_steps", Array.from(steps));
       show("Applicant Info saved");
     } catch (error) {
       show("Failed to save applicant info");

@@ -2,8 +2,12 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { Input } from "../../../components/ui/Input";
 import { Textarea } from "../../../components/ui/Textarea";
 import { Button } from "../../../components/ui/Button";
+import { useApplication } from "../../../context/ApplicationProvider";
+import { useToast } from "../../../context/ToastProvider";
 
 export default function Step5_AcademicPortfolio() {
+  const { updateApplicationField, application } = useApplication();
+  const { show } = useToast();
   const { register, control, handleSubmit } = useForm({
     defaultValues: {
       doctoral_discipline: "",
@@ -33,8 +37,16 @@ export default function Step5_AcademicPortfolio() {
     name: "reference_list"
   });
 
-  const onSubmit = (data: any) => {
-    console.log("Academic Portfolio Data:", data);
+  const onSubmit = async (data: any) => {
+    try {
+      await updateApplicationField("academic_portfolio", data);
+      const steps = new Set<string>(application.completed_steps || []);
+      steps.add("step5");
+      await updateApplicationField("completed_steps", Array.from(steps));
+      show("Academic portfolio saved");
+    } catch {
+      show("Failed to save portfolio");
+    }
   };
 
   return (
