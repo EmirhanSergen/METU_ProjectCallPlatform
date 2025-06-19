@@ -10,7 +10,14 @@ export async function apiFetch(path: string, options: RequestInit = {}) {
   }
   const res = await fetch(`${API_BASE}${path}`, { ...options, headers });
   if (!res.ok) {
-    const message = await res.text();
+    const text = await res.text();
+    let message: string | undefined = undefined;
+    try {
+      const data = JSON.parse(text);
+      message = data.detail || data.message || text;
+    } catch {
+      message = text;
+    }
     throw new Error(message || res.statusText);
   }
   if (res.status === 204) return null;
