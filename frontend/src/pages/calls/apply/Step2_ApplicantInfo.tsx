@@ -28,7 +28,7 @@ const schema = z.object({
 
 
 export default function Step2_ApplicantInfo() {
-  const { updateApplicationField, application } = useApplication();
+  const { updateApplicationField, application, completeStep } = useApplication();
   const { show } = useToast();
   const {
     register,
@@ -57,9 +57,7 @@ export default function Step2_ApplicantInfo() {
       for (const [field, value] of Object.entries(data)) {
         await updateApplicationField(field, value);
       }
-      const steps = new Set<string>(application.completed_steps || []);
-      steps.add("step2");
-      await updateApplicationField("completed_steps", Array.from(steps));
+      await completeStep("step2");
       show("Applicant Info saved");
     } catch (error) {
       show("Failed to save applicant info");
