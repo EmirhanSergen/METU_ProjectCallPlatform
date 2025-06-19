@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
-import { apiFetch } from "../lib/api";
+import { login as apiLogin, register as apiRegister } from "../lib/api/auth";
 
 interface AuthState {
   token: string | null;
@@ -51,19 +51,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [state.token]);
 
   const login = async (email: string, password: string) => {
-    const data = await apiFetch("/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
+    const data = await apiLogin({ email, password });
     setState({ token: data.access_token, user: decodeToken(data.access_token) });
   };
 
   const register = async (email: string, password: string) => {
-    await apiFetch("/auth/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password, first_name: "", last_name: "" }),
+    await apiRegister({
+      email,
+      password,
+      first_name: "",
+      last_name: "",
     });
     await login(email, password);
   };

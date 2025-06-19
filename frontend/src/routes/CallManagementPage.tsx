@@ -2,8 +2,7 @@ import { FormEvent, useEffect, useState } from "react";
 import  { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
 import Table from "../components/ui/Table";
-import { apiFetch } from "../lib/api";
-import { getCalls } from "../lib/api/calls";
+import { getCalls, createCall, updateCall, deleteCall } from "../lib/api/calls";
 import { Call } from "../types/global";
 
 export default function CallManagementPage() {
@@ -29,19 +28,18 @@ export default function CallManagementPage() {
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    const body = JSON.stringify({ title, description });
-    const headers = { "Content-Type": "application/json" };
+    const data = { title, description };
     if (editing) {
-      await apiFetch(`/calls/${editing.id}`, { method: "PUT", headers, body });
+      await updateCall(editing.id, data);
     } else {
-      await apiFetch("/calls", { method: "POST", headers, body });
+      await createCall(data);
     }
     reset();
     load();
   }
 
   async function remove(id: string) {
-    await apiFetch(`/calls/${id}`, { method: "DELETE" });
+    await deleteCall(id);
     load();
   }
 
