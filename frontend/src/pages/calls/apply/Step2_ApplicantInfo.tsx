@@ -5,8 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Input } from "../../../components/ui/Input";
 import { useApplication } from "../../../context/ApplicationProvider";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useToast } from "../../../context/ToastProvider";
 import {
   applicantInfoSchema,
   type ApplicantInfoForm,
@@ -27,10 +26,9 @@ const schema = z.object({
   gender: z.string().optional(),
 });
 
-type FormValues = z.infer<typeof schema>;
 
 export default function Step2_ApplicantInfo() {
-  const { updateApplication } = useApplication();
+  const { application, updateApplicationField } = useApplication();
   const { show } = useToast();
 
   const {
@@ -40,24 +38,28 @@ export default function Step2_ApplicantInfo() {
   } = useForm<ApplicantInfoForm>({
     resolver: zodResolver(applicantInfoSchema),
     defaultValues: {
-      title: "",
-      surname: "",
-      first_name: "",
-      year_of_birth: "",
-      nationality: "",
-      organisation: "",
-      university: "",
-      department: "",
-      town_or_city: "",
-      country: "",
-      current_position: "",
-      gender: "",
+      title: application.title || "",
+      surname: application.surname || "",
+      first_name: application.first_name || "",
+      year_of_birth: application.year_of_birth || "",
+      nationality: application.nationality || "",
+      organisation: application.organisation || "",
+      university: application.university || "",
+      department: application.department || "",
+      town_or_city: application.town_or_city || "",
+      country: application.country || "",
+      current_position: application.current_position || "",
+      gender: application.gender || "",
     },
   });
 
   const onSubmit = async (data: ApplicantInfoForm) => {
     try {
-      await updateApplication(data);
+      await Promise.all(
+        Object.entries(data).map(([key, value]) =>
+          updateApplicationField(key, value)
+        )
+      );
       show("Applicant Info saved");
     } catch (error) {
       show("Failed to save applicant info");
