@@ -2,7 +2,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Input } from "../components/ui/Input";
 import { Button } from "../components/ui/Button";
-import { createCall, updateCall, getCall } from "../api/calls";
+import { createCall, updateCall, getCall, getCalls } from "../api/calls";
 import { CallStatus, Call } from "../types/global";
 import type { CallInput } from "../types/calls.types";
 import { useToast } from "../context/ToastProvider";
@@ -53,6 +53,21 @@ export default function CallFormPage() {
     e.preventDefault();
     setLoading(true);
     setError(null);
+    if (form.status === "PUBLISHED") {
+      try {
+        const published = await getCalls("PUBLISHED");
+        if (
+          published.length > 0 &&
+          (!callId || published[0].id !== callId)
+        ) {
+          setError("Another call is already published. Choose a different status.");
+          setLoading(false);
+          return;
+        }
+      } catch (err) {
+        // ignore errors in checking published call
+      }
+    }
     const payload: CallInput = {
       ...form,
       start_date: form.start_date || undefined,

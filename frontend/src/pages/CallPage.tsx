@@ -15,7 +15,7 @@ export default function CallPage() {
   useEffect(() => {
     setLoading(true);
     setError(null);
-    getCalls()
+    getCalls("PUBLISHED")
       .then((data) => {
         setCalls(data);
         show("Call loaded");
