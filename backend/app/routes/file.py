@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 import uuid
 
 from ..database import get_db
-from ..services import file_service
+from ..services import file_service, pdf_service
 from ..core.security import get_current_user
 from ..models import User
 from ..crud import application as crud_application, attachment as crud_attachment
@@ -52,3 +52,25 @@ def get_file(
     return Response(
         content=data, media_type="application/octet-stream", headers=headers
     )
+
+
+@router.get("/applications/{application_id}/export_pdf")
+def export_application_pdf(
+    application_id: uuid.UUID,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """Generate a simple PDF for the application and return it."""
+    application = crud_application.get_by_id(db, application_id)
+    if not application:
+        raise HTTPException(status_code=404, detail="Application not found")
+    if (
+        application.user_id != current_user.id
+        and current_user.role not in {UserRole.admin, UserRole.super_admin}
+    ):
+        raise HTTPException(status_code=403, detail="Forbidden")
+    pdf_data = pdf_service.create_simple_pdf(f"Application: {application_id}")
+    headers = {
+        "Content-Disposition": f'attachment; filename="application_{application_id}.pdf"'
+    }
+    return Response(content=pdf_data, media_type="application/pdf", headers=headers)
