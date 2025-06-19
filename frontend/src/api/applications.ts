@@ -15,9 +15,28 @@ export function createApplication(callId: string) {
   }) as Promise<CreateApplicationResponse>;
 }
 
-export function uploadAttachment(applicationId: string, file: File) {
+export function uploadAttachment(applicationId: string, file: File, field: string) {
   const formData = new FormData();
   formData.append("upload", file);
+  formData.append("field", field);
+  return apiFetch(`/applications/${applicationId}/upload_file`, {
+    method: "POST",
+    body: formData,
+  }) as Promise<UploadAttachmentResponse>;
+}
+
+export function uploadProposal(applicationId: string, file: File) {
+  const formData = new FormData();
+  formData.append("proposal", file);
+  return apiFetch(`/applications/${applicationId}/upload_file`, {
+    method: "POST",
+    body: formData,
+  }) as Promise<UploadAttachmentResponse>;
+}
+
+export function uploadCV(applicationId: string, file: File) {
+  const formData = new FormData();
+  formData.append("cv", file);
   return apiFetch(`/applications/${applicationId}/upload_file`, {
     method: "POST",
     body: formData,
@@ -28,11 +47,27 @@ export function getApplications() {
   return apiFetch(`/applications`) as Promise<any[]>;
 }
 
+export function getApplication(id: string) {
+  return apiFetch(`/applications/${id}`) as Promise<any>;
+}
+
 export function getMyApplications() {
   return apiFetch(`/applications/me`) as Promise<any[]>;
 }
 
 export function updateApplication(id: string, data: Record<string, unknown>) {
+  return apiFetch(`/applications/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+}
+
+export function getApplication(id: string) {
+  return apiFetch(`/applications/${id}`) as Promise<any>;
+}
+
+export function patchApplication(id: string, data: Record<string, unknown>) {
   return apiFetch(`/applications/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },

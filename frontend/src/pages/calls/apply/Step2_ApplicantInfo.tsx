@@ -1,5 +1,9 @@
+
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 import { Input } from "../../../components/ui/Input";
-import { useToast } from "../../../context/ToastProvider";
 import { useApplication } from "../../../context/ApplicationProvider";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -7,6 +11,23 @@ import {
   applicantInfoSchema,
   type ApplicantInfoForm,
 } from "./schemas";
+
+const schema = z.object({
+  title: z.string().optional(),
+  surname: z.string().min(1, "Required"),
+  first_name: z.string().min(1, "Required"),
+  year_of_birth: z.string().optional(),
+  nationality: z.string().optional(),
+  organisation: z.string().optional(),
+  university: z.string().optional(),
+  department: z.string().optional(),
+  town_or_city: z.string().optional(),
+  country: z.string().optional(),
+  current_position: z.string().optional(),
+  gender: z.string().optional(),
+});
+
+type FormValues = z.infer<typeof schema>;
 
 export default function Step2_ApplicantInfo() {
   const { updateApplication } = useApplication();
