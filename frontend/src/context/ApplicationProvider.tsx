@@ -9,7 +9,6 @@ import {
   patchApplication,
   getApplication,
   getApplicationAttachments,
-  patchApplication,
 } from "../api/applications";
 import {
   getMobilityEntries as apiGetMobilityEntries,
