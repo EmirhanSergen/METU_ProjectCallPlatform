@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { useToast } from "../../context/ToastProvider";
-import { getCall } from "../../lib/api/calls";
-import { Call } from "../../types/global";
-import { Button } from "../../components/ui/Button";
+import { useToast } from "../context/ToastProvider";
+import { getCall } from "../lib/api/calls";
+import { Call } from "../types/global";
+import { Button } from "../components/ui/Button";
 
 export default function CallDetailPage() {
   const { callId } = useParams<{ callId: string }>();
