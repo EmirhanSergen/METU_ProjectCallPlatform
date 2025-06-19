@@ -29,9 +29,7 @@ interface ApplicationContextValue {
   attachments: Attachment[];
   mobilityEntries: MobilityEntry[];
   createApplication: () => Promise<boolean>;
-  uploadAttachment: (file: File) => Promise<boolean>;
-  uploadProposal: (file: File) => Promise<boolean>;
-  uploadCV: (file: File) => Promise<boolean>;
+  uploadAttachment: (file: File, field: string) => Promise<boolean>;
   deleteAttachment: (id: string) => Promise<boolean>;
   addMobilityEntry: (data: MobilityEntryInput) => Promise<boolean>;
   updateMobilityEntry: (id: string, data: MobilityEntryInput) => Promise<boolean>;
@@ -142,10 +140,10 @@ export function ApplicationProvider({
     }
   };
 
-  const uploadAttachment = async (file: File) => {
+  const uploadAttachment = async (file: File, field: string) => {
     if (!applicationId) return false;
     try {
-      const data = await apiUploadAttachment(applicationId, file);
+      const data = await apiUploadAttachment(applicationId, file, field);
       setAttachments((prev) => [...prev, data]);
       return true;
     } catch {

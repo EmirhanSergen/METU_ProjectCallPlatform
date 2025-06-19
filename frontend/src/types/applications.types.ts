@@ -9,4 +9,5 @@ export interface CreateApplicationResponse {
 export interface UploadAttachmentResponse {
   id: string;
   doc_name: string;
+  field_name?: string;
 }
