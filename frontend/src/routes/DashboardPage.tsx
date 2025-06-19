@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Card from "../components/ui/Card";
-import { apiFetch } from "../lib/api";
+import { getApplications } from "../lib/api/applications";
 import { getCalls } from "../lib/api/calls";
 
 export default function DashboardPage() {
@@ -10,7 +10,7 @@ export default function DashboardPage() {
     async function load() {
       try {
         const calls = await getCalls();
-        const apps = await apiFetch("/applications");
+        const apps = await getApplications();
         setStats({ calls: calls.length, applications: apps.length });
       } catch {
         // ignore errors for demo

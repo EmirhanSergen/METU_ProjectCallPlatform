@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useToast } from "../context/ToastProvider";
-import { apiFetch } from "../lib/api";
+import { getApplications } from "../lib/api/applications";
 
 interface Application {
   id: string;
@@ -15,7 +15,7 @@ export default function CallApplicationsPage() {
   useEffect(() => {
     setLoading(true);
     setError(null);
-    apiFetch("/applications")
+    getApplications()
       .then((data) => {
         setApps(data);
         show("Applications loaded");
