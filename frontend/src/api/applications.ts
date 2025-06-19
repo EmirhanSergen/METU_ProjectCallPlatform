@@ -58,6 +58,18 @@ export function updateApplication(id: string, data: Record<string, unknown>) {
   });
 }
 
+export function getApplication(id: string) {
+  return apiFetch(`/applications/${id}`) as Promise<any>;
+}
+
+export function patchApplication(id: string, data: Record<string, unknown>) {
+  return apiFetch(`/applications/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+}
+
 export function getApplicationAttachments(id: string) {
   return apiFetch(`/attachments/application/${id}`) as Promise<Attachment[]>;
 }

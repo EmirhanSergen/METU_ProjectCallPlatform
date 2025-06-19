@@ -1,31 +1,35 @@
+
+import { useState, useEffect } from "react";
 import { Button } from "../../../components/ui/Button";
 import { useApplication } from "../../../context/ApplicationProvider";
 import type { MobilityEntryInput, MobilityEntry } from "../../../types/mobility.types";
 
 export default function Step6_Mobility() {
-  const {
-    mobilityEntries,
-    addMobilityEntry,
-    updateMobilityEntry,
-    removeMobilityEntry,
-  } = useApplication();
+  const { application, updateApplicationField } = useApplication();
+  const [entries, setEntries] = useState<MobilityEntry[]>(application.mobility_entries || []);
 
-  const handleChange = (
-    id: string,
-    field: keyof MobilityEntryInput,
-    value: string
-  ) => {
-    const entry = mobilityEntries.find((e) => e.id === id);
-    if (!entry) return;
-    updateMobilityEntry(id, { ...entry, [field]: value });
+  useEffect(() => {
+    setEntries(application.mobility_entries || []);
+  }, [application.mobility_entries]);
+
+  const handleChange = (index: number, field: keyof MobilityEntry, value: string) => {
+    const updated = [...entries];
+    updated[index][field] = value;
+    setEntries(updated);
+    updateApplicationField("mobility_entries", updated);
   };
 
-  const handleAdd = async () => {
-    await addMobilityEntry({ from_date: "", to_date: "", organisation: "", country: "" });
+  const handleAdd = () => {
+    const newEntry = { from_date: "", to_date: "", organisation: "", country: "" };
+    const updated = [...entries, newEntry];
+    setEntries(updated);
+    updateApplicationField("mobility_entries", updated);
   };
 
-  const handleRemove = (id: string) => {
-    removeMobilityEntry(id);
+  const handleRemove = (index: number) => {
+    const updated = entries.filter((_, i) => i !== index);
+    setEntries(updated);
+    updateApplicationField("mobility_entries", updated);
   };
 
   return (
