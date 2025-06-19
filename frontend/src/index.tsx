@@ -8,7 +8,7 @@ import CallDetailPage from "./pages/CallDetailPage";
 import CallManagementPage from "./pages/CallManagementPage";
 import CallFormPage from "./pages/CallFormPage";
 import CallPreviewPage from "./pages/CallPreviewPage";
-import CallsPage from "./pages/CallsPage";
+import CallPage from "./pages/CallPage";
 import DashboardPage from "./pages/DashboardPage";
 import LoginPage from "./pages/LoginPage";
 import MyApplicationsPage from "./pages/MyApplicationsPage";
@@ -63,8 +63,8 @@ const applicationRoutes = (
        <Route path="/register" element={<RegisterPage />} />
        <Route path="/review/:reviewId" element={<ReviewPage />} />
        <Route path="/" element={<PageContainer />}>
-         <Route index element={<CallsPage />} />
-         <Route path="calls" element={<CallsPage />} />
+         <Route index element={<CallPage />} />
+         <Route path="call" element={<CallPage />} />
          <Route path="about" element={<AboutPage />} />
         {adminRoutes}
          <Route path="calls/:callId" element={<CallDetailPage />} />

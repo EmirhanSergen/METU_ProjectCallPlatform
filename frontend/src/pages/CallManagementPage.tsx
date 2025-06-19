@@ -43,7 +43,7 @@ export default function CallManagementPage() {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-xl font-bold">Manage Calls</h1>
+      <h1 className="text-xl font-bold">Manage Call</h1>
       {loading && <div>Loading...</div>}
       {error && <div className="text-red-500">Error: {error}</div>}
       <div>

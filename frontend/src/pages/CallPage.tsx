@@ -5,7 +5,7 @@ import { getCalls } from "../api/calls";
 import { Call } from "../types/global";
 import { useAuth } from "../context/AuthProvider";
 
-export default function CallsPage() {
+export default function CallPage() {
   const { show } = useToast();
   const { role } = useAuth();
   const [calls, setCalls] = useState<Call[]>([]);
@@ -18,11 +18,11 @@ export default function CallsPage() {
     getCalls()
       .then((data) => {
         setCalls(data);
-        show("Calls loaded");
+        show("Call loaded");
       })
       .catch((err) => {
         setError(err.message);
-        show("Failed to load calls");
+        show("Failed to load call");
       })
       .finally(() => setLoading(false));
   }, [show]);
@@ -33,7 +33,7 @@ export default function CallsPage() {
 
   return (
     <div>
-      <h1>Open Calls</h1>
+      <h1>Open Call</h1>
       <ul className="list-disc pl-5 space-y-2">
         {calls.map((c) => (
           <li key={c.id} className="flex items-center space-x-4">
