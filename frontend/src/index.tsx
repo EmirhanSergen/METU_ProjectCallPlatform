@@ -65,7 +65,7 @@ const applicationRoutes = (
        <Route path="/register" element={<RegisterPage />} />
        <Route path="/review/:reviewId" element={<ReviewPage />} />
        <Route path="/" element={<PageContainer />}>
-         <Route index element={<CallPage />} />
+         <Route index element={<HomePage />} />
          <Route path="call" element={<CallPage />} />
          <Route path="about" element={<AboutPage />} />
         {adminRoutes}
