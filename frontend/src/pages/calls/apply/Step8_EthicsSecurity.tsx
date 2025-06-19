@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { useApplication } from "../../../context/ApplicationProvider";
-import { Textarea } from "../../../components/ui/Textarea";
-import { Checkbox } from "../../../components/ui/Checkbox";
 import EthicsIssuesTable from "../../../components/application/EthicsIssuesTable";
 import SecurityIssuesTable from "../../../components/application/SecurityIssuesTable";
 
@@ -22,10 +20,7 @@ export default function Step8_EthicsSecurity() {
 
   const handleChange = () => {
     updateApplicationField("ethics_confirmed", ethicsConfirmed);
-    updateApplicationField(
-      "ethical_dimension_description",
-      ethicalDescription
-    );
+    updateApplicationField("ethical_dimension_description", ethicalDescription);
     updateApplicationField("compliance_text", complianceText);
     updateApplicationField(
       "security_self_assessment_text",
@@ -39,30 +34,42 @@ export default function Step8_EthicsSecurity() {
 
       <div className="space-y-2">
         <EthicsIssuesTable />
-        <Checkbox
-          label="I confirm that I have reviewed the ethical issues."
-          checked={ethicsConfirmed}
-          onChange={(e) => setEthicsConfirmed(e.target.checked)}
-        />
-        <Textarea
-          label="Describe the ethical dimension of your proposal"
-          value={ethicalDescription}
-          onChange={(e) => setEthicalDescription(e.target.value)}
-        />
-        <Textarea
-          label="Compliance with Ethical Principles"
-          value={complianceText}
-          onChange={(e) => setComplianceText(e.target.value)}
-        />
+        <label className="inline-flex items-center space-x-2">
+          <input
+            type="checkbox"
+            checked={ethicsConfirmed}
+            onChange={(e) => setEthicsConfirmed(e.target.checked)}
+          />
+          <span>I confirm that I have reviewed the ethical issues.</span>
+        </label>
+        <div>
+          <label className="block text-sm">Describe the ethical dimension of your proposal</label>
+          <textarea
+            className="input w-full h-24"
+            value={ethicalDescription}
+            onChange={(e) => setEthicalDescription(e.target.value)}
+          />
+        </div>
+        <div>
+          <label className="block text-sm">Compliance with Ethical Principles</label>
+          <textarea
+            className="input w-full h-24"
+            value={complianceText}
+            onChange={(e) => setComplianceText(e.target.value)}
+          />
+        </div>
       </div>
 
       <div className="space-y-2">
         <SecurityIssuesTable />
-        <Textarea
-          label="Security Self-Assessment"
-          value={securitySelfAssessment}
-          onChange={(e) => setSecuritySelfAssessment(e.target.value)}
-        />
+        <div>
+          <label className="block text-sm">Security Self-Assessment</label>
+          <textarea
+            className="input w-full h-24"
+            value={securitySelfAssessment}
+            onChange={(e) => setSecuritySelfAssessment(e.target.value)}
+          />
+        </div>
       </div>
 
       <button

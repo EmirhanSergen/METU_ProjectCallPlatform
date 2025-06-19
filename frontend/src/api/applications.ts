@@ -46,6 +46,10 @@ export function getApplications() {
   return apiFetch(`/applications`) as Promise<any[]>;
 }
 
+export function getApplication(id: string) {
+  return apiFetch(`/applications/${id}`) as Promise<any>;
+}
+
 export function getMyApplications() {
   return apiFetch(`/applications/me`) as Promise<any[]>;
 }

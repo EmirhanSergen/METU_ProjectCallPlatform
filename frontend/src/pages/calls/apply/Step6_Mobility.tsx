@@ -6,12 +6,8 @@ import { useApplication } from "../../../context/ApplicationProvider";
 import type { MobilityEntryInput, MobilityEntry } from "../../../types/mobility.types";
 
 export default function Step6_Mobility() {
-  const { application, updateApplicationField } = useApplication();
+  const { updateApplicationField, application } = useApplication();
   const [entries, setEntries] = useState<MobilityEntry[]>(application.mobility_entries || []);
-
-  useEffect(() => {
-    setEntries(application.mobility_entries || []);
-  }, [application.mobility_entries]);
 
   const handleChange = (index: number, field: keyof MobilityEntry, value: string) => {
     const updated = [...entries];

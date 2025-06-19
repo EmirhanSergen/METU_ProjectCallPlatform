@@ -7,7 +7,6 @@ import {
   deleteAttachment as apiDeleteAttachment,
   updateApplication,
   getApplication,
-  patchApplication,
   getApplicationAttachments,
 } from "../api/applications";
 import {
@@ -27,7 +26,6 @@ interface ApplicationContextValue {
   call: Call | null;
   applicationId: string | null;
   application: Record<string, any>;
-  updateApplicationField: (field: string, value: any) => Promise<boolean>;
   attachments: Attachment[];
   mobilityEntries: MobilityEntry[];
   createApplication: () => Promise<boolean>;
@@ -39,13 +37,13 @@ interface ApplicationContextValue {
   updateMobilityEntry: (id: string, data: MobilityEntryInput) => Promise<boolean>;
   removeMobilityEntry: (id: string) => Promise<boolean>;
   submitApplication: () => Promise<boolean>;
+  updateApplicationField: (field: string, value: unknown) => Promise<void>;
 }
 
 const ApplicationContext = createContext<ApplicationContextValue>({
   call: null,
   applicationId: null,
   application: {},
-  updateApplicationField: async () => false,
   attachments: [],
   mobilityEntries: [],
   createApplication: async () => false,
@@ -57,6 +55,7 @@ const ApplicationContext = createContext<ApplicationContextValue>({
   updateMobilityEntry: async () => false,
   removeMobilityEntry: async () => false,
   submitApplication: async () => false,
+  updateApplicationField: async () => {},
 });
 
 export function useApplication() {
@@ -125,7 +124,9 @@ export function ApplicationProvider({
     };
 
     fetchAttachments();
-    fetchMobility();
+    getApplication(applicationId)
+      .then(setApplication)
+      .catch(() => setApplication({}));
   }, [applicationId, callId, show]);
 
   const createApplication = async () => {
@@ -153,25 +154,13 @@ export function ApplicationProvider({
     }
   };
 
-  const uploadProposal = async (file: File) => {
-    if (!applicationId) return false;
+  const updateApplicationField = async (field: string, value: unknown) => {
+    if (!applicationId) return;
+    setApplication((prev) => ({ ...prev, [field]: value }));
     try {
-      await apiUploadProposal(applicationId, file);
-      return true;
+      await updateApplication(applicationId, { [field]: value });
     } catch {
-      show("Failed to upload proposal");
-      return false;
-    }
-  };
-
-  const uploadCV = async (file: File) => {
-    if (!applicationId) return false;
-    try {
-      await apiUploadCV(applicationId, file);
-      return true;
-    } catch {
-      show("Failed to upload CV");
-      return false;
+      show("Failed to update application");
     }
   };
 
@@ -249,7 +238,6 @@ export function ApplicationProvider({
         call,
         applicationId,
         application,
-        updateApplicationField,
         attachments,
         mobilityEntries,
         createApplication,
@@ -261,6 +249,7 @@ export function ApplicationProvider({
         updateMobilityEntry,
         removeMobilityEntry,
         submitApplication,
+        updateApplicationField,
       }}
     >
       {children}
