@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import PageContainer from "../components/layout/PageContainer";
-import ProtectedRoute from "../components/auth/ProtectedRoute";
+import PrivateRoute from "../components/auth/PrivateRoute";
 import { UserRole } from "../types/global";
 import ApplicationLayout from "./calls/apply/ApplicationLayout";
 import Step1_CallInfo from "./calls/apply/Step1_CallInfo";
@@ -28,7 +28,7 @@ export default function AppRoutes() {
       <Route path="/" element={<PageContainer />}>
         <Route index element={<CallsPage />} />
         <Route path="about" element={<AboutPage />} />
-        <Route element={<ProtectedRoute roles={[UserRole.admin, UserRole.super_admin]} />}>
+        <Route element={<PrivateRoute roles={[UserRole.admin, UserRole.super_admin]} />}>
           <Route path="dashboard" element={<DashboardPage />} />
           <Route path="calls/manage" element={<CallManagementPage />} />
           <Route path="calls/:callId/applications" element={<CallApplicationsPage />} />
