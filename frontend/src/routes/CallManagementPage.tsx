@@ -96,7 +96,8 @@ export default function CallManagementPage() {
         <thead>
           <tr className="bg-gray-100">
             <th>Title</th>
-            <th></th>
+            <th>Actions</th>
+            <th>Applications</th>
           </tr>
         </thead>
         <tbody>
@@ -110,6 +111,11 @@ export default function CallManagementPage() {
                 <Button type="button" onClick={() => remove(c.id)}>
                   Delete
                 </Button>
+              </td>
+              <td>
+                <Link to={`/calls/${c.id}/applications`}>
+                  <Button variant="link">Applications</Button>
+                </Link>
               </td>
             </tr>
           ))}

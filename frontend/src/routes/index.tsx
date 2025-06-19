@@ -16,10 +16,12 @@ import DashboardPage from "./DashboardPage";
 import CallManagementPage from "./CallManagementPage";
 import CallApplicationsPage from "./CallApplicationsPage";
 import CallPreviewPage from "./CallPreviewPage";
-import CallDetailPage from "../pages/calls/CallDetailPage";
+import CallDetailPage from "./CallDetailPage";
 import ReviewPage from "./ReviewPage";
 import NotFoundPage from "./NotFoundPage";
-import MyApplicationsPage from "../pages/MyApplicationsPage";
+import MyApplicationsPage from "./MyApplicationsPage";
+import ReviewerPage from "./ReviewerPage";
+
 
 export default function AppRoutes() {
   return (
@@ -29,6 +31,7 @@ export default function AppRoutes() {
       <Route path="/review/:reviewId" element={<ReviewPage />} />
       <Route path="/" element={<PageContainer />}>
         <Route index element={<CallsPage />} />
+        <Route path="calls" element={<CallsPage />} />
         <Route path="about" element={<AboutPage />} />
         <Route element={<PrivateRoute roles={[UserRole.admin, UserRole.super_admin]} />}>
           <Route path="dashboard" element={<DashboardPage />} />
@@ -39,6 +42,9 @@ export default function AppRoutes() {
         <Route path="calls/:callId/preview" element={<CallPreviewPage />} />
         <Route element={<ProtectedRoute roles={[UserRole.applicant]} />}>
           <Route path="my-applications" element={<MyApplicationsPage />} />
+        </Route>
+        <Route element={<ProtectedRoute roles={[UserRole.reviewer]} />}>
+          <Route path="reviewer" element={<ReviewerPage />} />
         </Route>
         <Route element={<ProtectedRoute />}>
           <Route path="calls/:callId/apply" element={<ApplicationLayout />}>
