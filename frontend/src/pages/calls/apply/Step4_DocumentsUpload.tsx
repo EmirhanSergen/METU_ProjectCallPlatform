@@ -3,6 +3,7 @@ import { useToast } from "../../../context/ToastProvider";
 import { useApplication } from "../../../context/ApplicationProvider";
 import DocumentList from "../../../components/ui/DocumentList";
 
+import { FileInput } from "../../../components/ui";
 export default function Step4_DocumentsUpload() {
   const { uploadAttachment, attachments, deleteAttachment } = useApplication();
   const { show } = useToast();
