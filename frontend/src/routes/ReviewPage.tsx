@@ -5,11 +5,8 @@ import { Input } from "../components/ui/Input";
 import { Button } from "../components/ui/Button";
 import { useToast } from "../context/ToastProvider";
 import type { Attachment, ReviewReport, Review } from "../types/reviews.types";
-import {
-  getReviewReport,
-  getApplicationAttachments,
-  createReviewReport,
-} from "../lib/api";
+import { getReviewReport, createReviewReport } from "../lib/api/reviews";
+import { getApplicationAttachments } from "../lib/api/applications";
 
 
 export default function ReviewPage() {

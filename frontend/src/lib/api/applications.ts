@@ -4,6 +4,7 @@ import type {
   CreateApplicationResponse,
   UploadAttachmentResponse,
 } from "../../types/applications.types";
+import type { Attachment } from "../../types/reviews.types";
 
 export function createApplication(callId: string) {
   const body: CreateApplicationRequest = { call_id: callId };
@@ -21,4 +22,32 @@ export function uploadAttachment(applicationId: string, file: File) {
     method: "POST",
     body: formData,
   }) as Promise<UploadAttachmentResponse>;
+}
+
+export function getApplications() {
+  return apiFetch(`/applications`) as Promise<any[]>;
+}
+
+export function getApplication(id: string) {
+  return apiFetch(`/applications/${id}`) as Promise<any>;
+}
+
+export function updateApplication(id: string, data: Record<string, unknown>) {
+  return apiFetch(`/applications/${id}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+}
+
+export function deleteApplication(id: string) {
+  return apiFetch(`/applications/${id}`, { method: "DELETE" });
+}
+
+export function getApplicationAttachments(id: string) {
+  return apiFetch(`/attachments/application/${id}`) as Promise<Attachment[]>;
+}
+
+export function deleteAttachment(id: string) {
+  return apiFetch(`/attachments/${id}`, { method: "DELETE" });
 }

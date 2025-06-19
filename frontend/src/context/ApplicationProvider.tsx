@@ -1,5 +1,11 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
-import { apiFetch, getApplicationAttachments } from "../lib/api";
+import {
+  createApplication as apiCreateApplication,
+  uploadAttachment as apiUploadAttachment,
+  deleteAttachment as apiDeleteAttachment,
+  updateApplication,
+  getApplicationAttachments,
+} from "../lib/api/applications";
 import { getCall } from "../lib/api/calls";
 import { Call } from "../types";
 import { Attachment } from "../types/application";
@@ -64,39 +70,26 @@ export function ApplicationProvider({
 
   const createApplication = async () => {
     if (applicationId) return;
-    const data = await apiFetch(`/applications/`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ call_id: callId }),
-    });
+    const data = await apiCreateApplication(callId);
     setApplicationId(data.id as string);
   };
 
   const uploadAttachment = async (file: File) => {
     if (!applicationId) return;
-    const formData = new FormData();
-    formData.append("upload", file);
-    const data = await apiFetch(
-      `/applications/${applicationId}/upload_file`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
+    const data = await apiUploadAttachment(applicationId, file);
     setAttachments((prev) => [...prev, data]);
   };
 
   const deleteAttachment = async (id: string) => {
-    await apiFetch(`/attachments/${id}`, { method: "DELETE" });
+    await apiDeleteAttachment(id);
     setAttachments((prev) => prev.filter((a) => a.id !== id));
   };
 
   const submitApplication = async () => {
     if (!applicationId) return;
-    await apiFetch(`/applications/${applicationId}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ call_id: callId, status: "SUBMITTED" }),
+    await updateApplication(applicationId, {
+      call_id: callId,
+      status: "SUBMITTED",
     });
   };
 
