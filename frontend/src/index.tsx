@@ -26,6 +26,11 @@ import Step1_CallInfo from "./pages/calls/apply/Step1_CallInfo";
 import Step2_Upload from "./pages/calls/apply/Step2_ApplicantInfo";
 import Step3_Review from "./pages/calls/apply/Step3_ApplicationDetails";
 import Step4_Submit from "./pages/calls/apply/Step4_DocumentsUpload";
+import Step5_AcademicPortfolio from "./pages/calls/apply/Step5_AcademicPortfolio";
+import Step6_Mobility from "./pages/calls/apply/Step6_Mobility";
+import Step7_ProposalCV from "./pages/calls/apply/Step7_ProposalCV";
+import Step8_EthicsSecurity from "./pages/calls/apply/Step8_EthicsSecurity";
+import Step9_ReviewSubmit from "./pages/calls/apply/Step9_ReviewSubmit";
 
 const adminRoutes = (
   <Route element={<AuthRoute roles={[UserRole.admin, UserRole.super_admin]} />}>
@@ -57,6 +62,11 @@ const applicationRoutes = (
       <Route path="step2" element={<Step2_Upload />} />
       <Route path="step3" element={<Step3_Review />} />
       <Route path="step4" element={<Step4_Submit />} />
+      <Route path="step5" element={<Step5_AcademicPortfolio />} />
+      <Route path="step6" element={<Step6_Mobility />} />
+      <Route path="step7" element={<Step7_ProposalCV />} />
+      <Route path="step8" element={<Step8_EthicsSecurity />} />
+      <Route path="step9" element={<Step9_ReviewSubmit />} />
     </Route>
   </Route>
 );

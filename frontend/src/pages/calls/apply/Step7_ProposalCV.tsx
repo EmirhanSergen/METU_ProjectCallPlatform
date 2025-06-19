@@ -3,8 +3,9 @@ import { useApplication } from "../../../context/ApplicationProvider";
 import { useToast } from "../../../context/ToastProvider";
 
 import { FileInput } from "../../../components/ui";
+import DocumentList from "../../../components/ui/DocumentList";
 export default function Step7_ProposalCV() {
-  const { uploadProposal, uploadCV } = useApplication();
+  const { uploadProposal, uploadCV, attachments, deleteAttachment } = useApplication();
   const { show } = useToast();
   const [loadingProposal, setLoadingProposal] = useState(false);
   const [loadingCV, setLoadingCV] = useState(false);
@@ -45,12 +46,16 @@ export default function Step7_ProposalCV() {
         >
           Download Proposal Template
         </a>
-          <FileInput
-            accept="application/pdf"
-            onChange={(e) => handleUpload(e, "proposal")}
-            disabled={loadingProposal}
-            className="mt-2"
-          />
+        <FileInput
+          accept="application/pdf"
+          onChange={(e) => handleUpload(e, "proposal")}
+          disabled={loadingProposal}
+          className="mt-2"
+        />
+        <DocumentList
+          documents={attachments.filter((a) => a.field_name === "proposal")}
+          onDelete={deleteAttachment}
+        />
       </div>
 
       <div>
@@ -66,12 +71,16 @@ export default function Step7_ProposalCV() {
         >
           Download CV Template
         </a>
-          <FileInput
-            accept="application/pdf"
-            onChange={(e) => handleUpload(e, "cv")}
-            disabled={loadingCV}
-            className="mt-2"
-          />
+        <FileInput
+          accept="application/pdf"
+          onChange={(e) => handleUpload(e, "cv")}
+          disabled={loadingCV}
+          className="mt-2"
+        />
+        <DocumentList
+          documents={attachments.filter((a) => a.field_name === "cv")}
+          onDelete={deleteAttachment}
+        />
       </div>
 
       {error && <div className="text-red-500">Error: {error}</div>}
