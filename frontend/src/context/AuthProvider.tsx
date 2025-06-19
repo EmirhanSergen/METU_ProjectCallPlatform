@@ -24,9 +24,15 @@ const AuthContext = createContext<AuthContextValue>({
   userId: null,
 });
 
+function decodeBase64Url(input: string) {
+  const base64 = input.replace(/-/g, "+").replace(/_/g, "/");
+  const padded = base64 + "=".repeat((4 - (base64.length % 4)) % 4);
+  return atob(padded);
+}
+
 function decodeToken(token: string): { id: string; role: string } | null {
   try {
-    const payload = JSON.parse(atob(token.split(".")[1]));
+    const payload = JSON.parse(decodeBase64Url(token.split(".")[1]));
     return { id: payload.sub, role: payload.role };
   } catch {
     return null;
