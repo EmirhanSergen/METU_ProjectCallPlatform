@@ -45,6 +45,9 @@ export default function Step3_ApplicationDetails() {
   });
 
   const onSubmit = () => {
+    const steps = new Set<string>(application.completed_steps || []);
+    steps.add("step3");
+    updateApplicationField("completed_steps", Array.from(steps));
     show("Application details saved");
   };
 

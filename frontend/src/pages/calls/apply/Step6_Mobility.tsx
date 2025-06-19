@@ -14,6 +14,9 @@ export default function Step6_Mobility() {
     updated[index][field] = value;
     setEntries(updated);
     updateApplicationField("mobility_entries", updated);
+    const steps = new Set<string>(application.completed_steps || []);
+    steps.add("step6");
+    updateApplicationField("completed_steps", Array.from(steps));
   };
 
   const handleAdd = () => {
@@ -21,12 +24,18 @@ export default function Step6_Mobility() {
     const updated = [...entries, newEntry];
     setEntries(updated);
     updateApplicationField("mobility_entries", updated);
+    const steps = new Set<string>(application.completed_steps || []);
+    steps.add("step6");
+    updateApplicationField("completed_steps", Array.from(steps));
   };
 
   const handleRemove = (index: number) => {
     const updated = entries.filter((_, i) => i !== index);
     setEntries(updated);
     updateApplicationField("mobility_entries", updated);
+    const steps = new Set<string>(application.completed_steps || []);
+    steps.add("step6");
+    updateApplicationField("completed_steps", Array.from(steps));
   };
 
   return (

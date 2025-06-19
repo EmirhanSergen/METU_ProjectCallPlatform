@@ -30,7 +30,7 @@ interface ApplicationContextValue {
   application: Record<string, any>;
   attachments: Attachment[];
   mobilityEntries: MobilityEntry[];
-  createApplication: () => Promise<boolean>;
+  createApplication: () => Promise<string | null>;
   uploadAttachment: (file: File, field: string) => Promise<boolean>;
   uploadProposal: (file: File) => Promise<boolean>;
   uploadCV: (file: File) => Promise<boolean>;
@@ -48,7 +48,7 @@ const ApplicationContext = createContext<ApplicationContextValue>({
   application: {},
   attachments: [],
   mobilityEntries: [],
-  createApplication: async () => false,
+  createApplication: async () => null,
   uploadAttachment: async () => false,
   uploadProposal: async () => false,
   uploadCV: async () => false,
@@ -129,16 +129,16 @@ export function ApplicationProvider({
     fetchMobility();
   }, [applicationId, callId, show]);
 
-  const createApplication = async () => {
-    if (applicationId) return true;
+  const createApplication = async (): Promise<string | null> => {
+    if (applicationId) return applicationId;
     try {
       const data = await apiCreateApplication(callId);
       setApplicationId(data.id as string);
-      setApplication(data as Record<string, any>);
-      return true;
+      setApplication({ ...data, completed_steps: [] } as Record<string, any>);
+      return data.id as string;
     } catch {
       show("Failed to create application");
-      return false;
+      return null;
     }
   };
 
