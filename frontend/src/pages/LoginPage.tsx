@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Input } from "../components/ui/Input";
 import { Button } from "../components/ui/Button";
 import Navbar from "../components/layout/Navbar";
@@ -85,9 +85,9 @@ export default function LoginPage() {
             </Button>
 
             <p className="text-center text-sm text-gray-600">
-              <a href="/password-reset" className="text-blue-600 hover:underline">
+              <Link to="/password-reset" className="text-blue-600 hover:underline">
                 Forgot your password?
-              </a>
+              </Link>
             </p>
           </form>
         </div>
