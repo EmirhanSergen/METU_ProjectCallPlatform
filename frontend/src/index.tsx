@@ -60,11 +60,12 @@ const applicationRoutes = (
 
  export default function AppRoutes() {
    return (
-    <Routes>
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
-      <Route path="/password-reset" element={<PasswordResetPage />} />
-      <Route path="/review/:reviewId" element={<ReviewPage />} />
+     <Routes>
+       <Route path="/login" element={<LoginPage />} />
+       <Route path="/register" element={<RegisterPage />} />
+      <Route element={<AuthRoute roles={[UserRole.reviewer]} />}> 
+        <Route path="/review/:reviewId" element={<ReviewPage />} />
+      </Route>
        <Route path="/" element={<PageContainer />}>
          <Route index element={<HomePage />} />
          <Route path="call" element={<CallPage />} />
