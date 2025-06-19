@@ -9,6 +9,7 @@ import CallManagementPage from "./pages/CallManagementPage";
 import CallPreviewPage from "./pages/CallPreviewPage";
 import CallsPage from "./pages/CallsPage";
 import DashboardPage from "./pages/DashboardPage";
+import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import MyApplicationsPage from "./pages/MyApplicationsPage";
 import NotFoundPage from "./pages/NotFoundPage";
@@ -60,7 +61,7 @@ const applicationRoutes = (
        <Route path="/register" element={<RegisterPage />} />
        <Route path="/review/:reviewId" element={<ReviewPage />} />
        <Route path="/" element={<PageContainer />}>
-         <Route index element={<CallsPage />} />
+         <Route index element={<HomePage />} />
          <Route path="calls" element={<CallsPage />} />
          <Route path="about" element={<AboutPage />} />
         {adminRoutes}
