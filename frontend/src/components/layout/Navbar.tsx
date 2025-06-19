@@ -1,8 +1,16 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthProvider";
 
 export default function Navbar() {
   const { token, role, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+    // reload to clear any cached state, optional
+    window.location.reload();
+  };
 
   return (
     <nav className="bg-gray-800 text-white">
@@ -37,7 +45,7 @@ export default function Navbar() {
         <div className="flex space-x-3">
           {token ? (
             <button
-              onClick={logout}
+              onClick={handleLogout}
               className="bg-blue-500 hover:bg-blue-600 px-3 py-1 rounded"
             >
               Logout
