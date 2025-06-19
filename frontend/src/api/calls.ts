@@ -1,4 +1,4 @@
-import { apiFetch } from "../api";
+import { apiFetch } from "../lib/api";
 import type { GetCallsResponse, GetCallResponse } from "../../types/calls.types";
 
 export function getCalls() {
