@@ -6,8 +6,10 @@ import {
   uploadCV as apiUploadCV,
   deleteAttachment as apiDeleteAttachment,
   updateApplication,
+  patchApplication,
   getApplication,
   getApplicationAttachments,
+  patchApplication,
 } from "../api/applications";
 import {
   getMobilityEntries as apiGetMobilityEntries,
@@ -152,11 +154,34 @@ export function ApplicationProvider({
     }
   };
 
+  const uploadProposal = async (file: File) => {
+    if (!applicationId) return false;
+    try {
+      const data = await apiUploadProposal(applicationId, file);
+      setAttachments((prev) => [...prev, data]);
+      return true;
+    } catch {
+      show("Failed to upload file");
+      return false;
+    }
+  };
+
+  const uploadCV = async (file: File) => {
+    if (!applicationId) return false;
+    try {
+      const data = await apiUploadCV(applicationId, file);
+      setAttachments((prev) => [...prev, data]);
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
   const updateApplicationField = async (field: string, value: unknown) => {
     if (!applicationId) return;
     setApplication((prev) => ({ ...prev, [field]: value }));
     try {
-      await updateApplication(applicationId, { [field]: value });
+      await patchApplication(applicationId, { [field]: value });
     } catch {
       show("Failed to update application");
     }
@@ -173,6 +198,19 @@ export function ApplicationProvider({
     }
   };
 
+
+
+const updateApplicationField = async (field: string, value: any) => {
+  if (!applicationId) return false;
+  try {
+    await patchApplication(applicationId, { [field]: value });
+    setApplication((prev) => ({ ...prev, [field]: value }));
+    return true;
+  } catch {
+    show("Failed to save application");
+    return false;
+  }
+};
   const addMobilityEntry = async (data: MobilityEntryInput) => {
     if (!applicationId) return false;
     try {

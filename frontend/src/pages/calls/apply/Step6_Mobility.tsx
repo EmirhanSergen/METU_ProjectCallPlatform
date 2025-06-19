@@ -41,9 +41,9 @@ export default function Step6_Mobility() {
   return (
     <div className="space-y-4">
       <h2 className="text-lg font-semibold">Mobility Entries</h2>
-      {mobilityEntries.map((entry) => (
+      {entries.map((entry, index) => (
         <div
-          key={entry.id}
+          key={entry.id ?? index}
           className="grid grid-cols-1 md:grid-cols-4 gap-4 border p-4 rounded-lg shadow-sm"
         >
           <div>
@@ -76,7 +76,7 @@ export default function Step6_Mobility() {
             />
           </div>
           <div className="col-span-1 md:col-span-4 text-right">
-            <Button variant="destructive" onClick={() => handleRemove(entry.id)}>
+            <Button variant="destructive" onClick={() => handleRemove(index)}>
               Remove
             </Button>
           </div>

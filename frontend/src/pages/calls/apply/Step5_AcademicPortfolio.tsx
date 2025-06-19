@@ -10,26 +10,29 @@ export default function Step5_AcademicPortfolio() {
   const { show } = useToast();
   const { register, control, handleSubmit } = useForm({
     defaultValues: {
-      doctoral_discipline: "",
-      doctoral_thesis_title: "",
-      doctoral_awarding_institution: "",
-      doctoral_award_date: "",
-      current_institution: "",
-      current_department: "",
-      current_institution_town: "",
-      current_institution_country: "",
-      current_phone_number: "",
-      reference_list: [{
-        name_surname: "",
-        institution: "",
-        department: "",
-        country: "",
-        position: "",
-        phone_number: "",
-        email: "",
-        reason: ""
-      }],
-    }
+      doctoral_discipline: application.doctoral_discipline || "",
+      doctoral_thesis_title: application.doctoral_thesis_title || "",
+      doctoral_awarding_institution: application.doctoral_awarding_institution || "",
+      doctoral_award_date: application.doctoral_award_date || "",
+      current_institution: application.current_institution || "",
+      current_department: application.current_department || "",
+      current_institution_town: application.current_institution_town || "",
+      current_institution_country: application.current_institution_country || "",
+      current_phone_number: application.current_phone_number || "",
+      reference_list:
+        application.reference_list || [
+          {
+            name_surname: "",
+            institution: "",
+            department: "",
+            country: "",
+            position: "",
+            phone_number: "",
+            email: "",
+            reason: "",
+          },
+        ],
+    },
   });
 
   const { fields, append, remove } = useFieldArray({
