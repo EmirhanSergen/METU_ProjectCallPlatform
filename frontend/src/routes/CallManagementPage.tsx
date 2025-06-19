@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useState } from "react";
-import  { Button } from "../components/ui/Button";
+import { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
 import Table from "../components/ui/Table";
 import { getCalls, createCall, updateCall, deleteCall } from "../lib/api/calls";
@@ -10,10 +10,20 @@ export default function CallManagementPage() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [editing, setEditing] = useState<Call | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   async function load() {
-    const data = await getCalls();
-    setCalls(data);
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await getCalls();
+      setCalls(data);
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setLoading(false);
+    }
   }
 
   useEffect(() => {
@@ -28,24 +38,42 @@ export default function CallManagementPage() {
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    const data = { title, description };
-    if (editing) {
-      await updateCall(editing.id, data);
-    } else {
-      await createCall(data);
+    setLoading(true);
+    setError(null);
+    try {
+      const data = { title, description };
+      if (editing) {
+        await updateCall(editing.id, data);
+      } else {
+        await createCall(data);
+      }
+      reset();
+      await load();
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setLoading(false);
     }
-    reset();
-    load();
   }
 
   async function remove(id: string) {
-    await deleteCall(id);
-    load();
+    setLoading(true);
+    setError(null);
+    try {
+      await deleteCall(id);
+      await load();
+    } catch (err) {
+      setError((err as Error).message);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
     <div className="space-y-4">
       <h1 className="text-xl font-bold">Manage Calls</h1>
+      {loading && <div>Loading...</div>}
+      {error && <div className="text-red-500">Error: {error}</div>}
       <form onSubmit={handleSubmit} className="space-y-2">
         <Input
           placeholder="Title"
