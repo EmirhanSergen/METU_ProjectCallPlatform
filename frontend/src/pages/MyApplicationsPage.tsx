@@ -30,7 +30,10 @@ export default function MyApplicationsPage() {
   }, [show]);
 
   if (loading) return <div>Loading...</div>;
-  if (error) return <div className="text-red-500">Error: {error}</div>;
+  if (error)
+    return (
+      <div className="text-red-500">Failed to load applications: {error}</div>
+    );
 
   return (
     <div>
