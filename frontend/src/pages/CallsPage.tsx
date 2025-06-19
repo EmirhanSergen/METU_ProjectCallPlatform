@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useToast } from "../context/ToastProvider";
-import { getCalls } from "../lib/api/calls";
+import { getCalls } from "../api/calls";
 import { Call } from "../types/global";
 
 export default function CallsPage() {

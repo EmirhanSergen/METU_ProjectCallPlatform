@@ -1,7 +1,7 @@
 
 import { useState } from "react";
-import { Attachment } from "../types/application";
-import ConfirmModal from "./ui/ConfirmModal";
+import { Attachment } from "../../types/application";
+import ConfirmModal from "./ConfirmModal";
 
 export default function DocumentList({
   documents,

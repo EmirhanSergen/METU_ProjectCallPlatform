@@ -1,6 +1,6 @@
 
 import { ChangeEvent, useState } from "react";
-import DocumentList from "../../../components/DocumentList";
+import DocumentList from "../../../components/ui/DocumentList";
 import { useToast } from "../../../context/ToastProvider";
 import { useApplication } from "../../../context/ApplicationProvider";
 

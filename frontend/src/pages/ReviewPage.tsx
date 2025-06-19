@@ -5,8 +5,8 @@ import { Input } from "../components/ui/Input";
 import { Button } from "../components/ui/Button";
 import { useToast } from "../context/ToastProvider";
 import type { Attachment, ReviewReport, Review } from "../types/reviews.types";
-import { getReviewReport, createReviewReport } from "../lib/api/reviews";
-import { getApplicationAttachments } from "../lib/api/applications";
+import { getReviewReport, createReviewReport } from "../api/reviews";
+import { getApplicationAttachments } from "../api/applications";
 
 
 export default function ReviewPage() {
@@ -47,8 +47,14 @@ export default function ReviewPage() {
     const data = { ...review, ...form };
     createReviewReport(data)
       .then(() => show("Review submitted"))
-      .catch((err) => show(err.message));
-  };
+      .catch((err: unknown) => {
+      if (err instanceof Error) {
+        show(err.message);
+      } else {
+        show("An unexpected error occurred");
+      }
+    });
+  }
 
   if (!review) return <div>Loading...</div>;
 

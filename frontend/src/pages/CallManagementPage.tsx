@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
 import Table from "../components/ui/Table";
-import { getCalls, createCall, updateCall, deleteCall } from "../lib/api/calls";
+import { getCalls, createCall, updateCall, deleteCall } from "../api/calls";
 import { Call } from "../types/global";
 
 export default function CallManagementPage() {
@@ -106,7 +106,7 @@ export default function CallManagementPage() {
             <tr key={c.id}>
               <td>{c.title}</td>
               <td className="space-x-2">
-                <Button type="button" onClick={() => {setEditing(c);setTitle(c.title);setDescription(c.description || "");}}>
+                <Button type="button" onClick={() => {setEditing(c);setTitle(c.title ?? "");setDescription(c.description || "");}}>
                   Edit
                 </Button>
                 <Button type="button" onClick={() => remove(c.id)}>

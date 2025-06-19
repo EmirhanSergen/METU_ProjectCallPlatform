@@ -1,10 +1,10 @@
-import { apiFetch } from "../api";
+import { apiFetch } from "../lib/api";
 import type {
   CreateApplicationRequest,
   CreateApplicationResponse,
   UploadAttachmentResponse,
-} from "../../types/applications.types";
-import type { Attachment } from "../../types/reviews.types";
+} from "../types/applications.types";
+import type { Attachment } from "../types/reviews.types";
 
 export function createApplication(callId: string) {
   const body: CreateApplicationRequest = { call_id: callId };

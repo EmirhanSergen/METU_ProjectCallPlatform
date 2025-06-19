@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useToast } from "../context/ToastProvider";
-import { getCall } from "../lib/api/calls";
+import { getCall } from "../api/calls";
 import { Call } from "../types/global";
 import { Button } from "../components/ui/Button";
 

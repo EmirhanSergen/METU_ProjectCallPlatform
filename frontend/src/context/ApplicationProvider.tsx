@@ -5,9 +5,9 @@ import {
   deleteAttachment as apiDeleteAttachment,
   updateApplication,
   getApplicationAttachments,
-} from "../lib/api/applications";
-import { getCall } from "../lib/api/calls";
-import { Call } from "../types";
+} from "../api/applications";
+import { getCall } from "../api/calls";
+import { Call } from "../types/global";
 import { Attachment } from "../types/application";
 import { useToast } from "./ToastProvider";
 
