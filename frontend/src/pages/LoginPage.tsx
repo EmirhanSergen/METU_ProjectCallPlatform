@@ -34,7 +34,7 @@ export default function LoginPage() {
       } else if (user?.role === "reviewer") {
         navigate("/reviewer");
       } else if (user?.role === "applicant") {
-        navigate("/my-applications");
+        navigate("/applications/me");
       } else {
         navigate("/");
       }
