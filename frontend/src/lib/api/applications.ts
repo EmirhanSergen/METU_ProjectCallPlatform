@@ -28,20 +28,12 @@ export function getApplications() {
   return apiFetch(`/applications`) as Promise<any[]>;
 }
 
-export function getApplication(id: string) {
-  return apiFetch(`/applications/${id}`) as Promise<any>;
-}
-
 export function updateApplication(id: string, data: Record<string, unknown>) {
   return apiFetch(`/applications/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
-}
-
-export function deleteApplication(id: string) {
-  return apiFetch(`/applications/${id}`, { method: "DELETE" });
 }
 
 export function getApplicationAttachments(id: string) {
