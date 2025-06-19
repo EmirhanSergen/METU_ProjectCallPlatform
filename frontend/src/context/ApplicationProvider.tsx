@@ -8,6 +8,7 @@ import {
   updateApplication,
   getApplication,
   getApplicationAttachments,
+  patchApplication,
 } from "../api/applications";
 import {
   getMobilityEntries as apiGetMobilityEntries,
@@ -123,10 +124,8 @@ export function ApplicationProvider({
       }
     };
 
-    fetchAttachments();
-    getApplication(applicationId)
-      .then(setApplication)
-      .catch(() => setApplication({}));
+    fetchData();
+    fetchMobility();
   }, [applicationId, callId, show]);
 
   const createApplication = async () => {
@@ -173,7 +172,6 @@ export function ApplicationProvider({
       setAttachments((prev) => [...prev, data]);
       return true;
     } catch {
-      show("Failed to upload file");
       return false;
     }
   };
@@ -182,7 +180,7 @@ export function ApplicationProvider({
     if (!applicationId) return;
     setApplication((prev) => ({ ...prev, [field]: value }));
     try {
-      await updateApplication(applicationId, { [field]: value });
+      await patchApplication(applicationId, { [field]: value });
     } catch {
       show("Failed to update application");
     }
@@ -208,6 +206,9 @@ export function ApplicationProvider({
       return true;
     } catch {
       show("Failed to save application");
+      return false;
+    }
+  };
   const addMobilityEntry = async (data: MobilityEntryInput) => {
     if (!applicationId) return false;
     try {
