@@ -7,15 +7,15 @@ import { useApplication } from "../../../context/ApplicationProvider";
 import { useToast } from "../../../context/ToastProvider";
 
 export default function Step5_AcademicPortfolio() {
-  const { updateApplicationField, application, completeStep, isSubmitted } = useApplication();
+  const { updateApplicationFormField, applicationForm, completeStep, isSubmitted } = useApplication();
   const { show } = useToast();
   const { register, control, handleSubmit, reset } = useForm({
     defaultValues: {},
   });
 
   useEffect(() => {
-    reset(application as any);
-  }, [application, reset]);
+    reset(applicationForm as any);
+  }, [applicationForm, reset]);
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -24,7 +24,9 @@ export default function Step5_AcademicPortfolio() {
 
   const onSubmit = async (data: any) => {
     try {
-      await updateApplicationField("academic_portfolio", data);
+      for (const [field, value] of Object.entries(data)) {
+        await updateApplicationFormField(field, value);
+      }
       await completeStep("step5");
       show("Academic portfolio saved");
     } catch {

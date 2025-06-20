@@ -5,33 +5,33 @@ import EthicsIssuesTable from "../../../components/application/EthicsIssuesTable
 import SecurityIssuesTable from "../../../components/application/SecurityIssuesTable";
 
 export default function Step8_EthicsSecurity() {
-  const { application, updateApplicationField, completeStep, isSubmitted } = useApplication();
+  const { applicationForm, updateApplicationFormField, completeStep, isSubmitted } = useApplication();
   const { show } = useToast();
   const [ethicsConfirmed, setEthicsConfirmed] = useState(
-    application.ethics_confirmed || false
+    applicationForm.ethics_confirmed || false
   );
   const [ethicalDescription, setEthicalDescription] = useState(
-    application.ethical_dimension_description || ""
+    applicationForm.ethical_dimension_description || ""
   );
   const [complianceText, setComplianceText] = useState(
-    application.compliance_text || ""
+    applicationForm.compliance_text || ""
   );
   const [securitySelfAssessment, setSecuritySelfAssessment] = useState(
-    application.security_self_assessment_text || ""
+    applicationForm.security_self_assessment_text || ""
   );
 
   useEffect(() => {
-    setEthicsConfirmed(application.ethics_confirmed || false);
-    setEthicalDescription(application.ethical_dimension_description || "");
-    setComplianceText(application.compliance_text || "");
-    setSecuritySelfAssessment(application.security_self_assessment_text || "");
-  }, [application]);
+    setEthicsConfirmed(applicationForm.ethics_confirmed || false);
+    setEthicalDescription(applicationForm.ethical_dimension_description || "");
+    setComplianceText(applicationForm.compliance_text || "");
+    setSecuritySelfAssessment(applicationForm.security_self_assessment_text || "");
+  }, [applicationForm]);
 
   const handleChange = () => {
-    updateApplicationField("ethics_confirmed", ethicsConfirmed);
-    updateApplicationField("ethical_dimension_description", ethicalDescription);
-    updateApplicationField("compliance_text", complianceText);
-    updateApplicationField(
+    updateApplicationFormField("ethics_confirmed", ethicsConfirmed);
+    updateApplicationFormField("ethical_dimension_description", ethicalDescription);
+    updateApplicationFormField("compliance_text", complianceText);
+    updateApplicationFormField(
       "security_self_assessment_text",
       securitySelfAssessment
     );
