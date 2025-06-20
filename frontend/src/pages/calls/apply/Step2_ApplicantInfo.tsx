@@ -1,5 +1,6 @@
 
 import { useForm } from "react-hook-form";
+import { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Input } from "../../../components/ui/Input";
@@ -18,6 +19,7 @@ export default function Step2_ApplicantInfo() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<ApplicantInfoForm>({
     resolver: zodResolver(applicantInfoSchema),
@@ -36,6 +38,23 @@ export default function Step2_ApplicantInfo() {
       gender: application.gender || "",
     },
   });
+
+  useEffect(() => {
+    reset({
+      title: application.title || "",
+      surname: application.surname || "",
+      first_name: application.first_name || "",
+      year_of_birth: application.year_of_birth || "",
+      nationality: application.nationality || "",
+      organisation: application.organisation || "",
+      university: application.university || "",
+      department: application.department || "",
+      town_or_city: application.town_or_city || "",
+      country: application.country || "",
+      current_position: application.current_position || "",
+      gender: application.gender || "",
+    });
+  }, [application, reset]);
 
   const onSubmit = async (data: ApplicantInfoForm) => {
     try {
