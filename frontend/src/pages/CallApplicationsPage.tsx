@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useToast } from "../context/ToastProvider";
-import { getApplicationsByCall } from "../api/applications";
+import { getApplicationsByCall } from "../api";
 
 interface Application {
   id: string;
