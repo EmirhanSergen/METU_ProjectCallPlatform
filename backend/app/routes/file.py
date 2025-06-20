@@ -8,11 +8,15 @@ from ..core.security import get_current_user
 from ..models import User
 from ..crud import application as crud_application, attachment as crud_attachment
 from ..core.enums import UserRole
+from ..schemas import AttachmentRead
 
 router = APIRouter(tags=["File"])
 
 
-@router.post("/applications/{application_id}/upload_file")
+@router.post(
+    "/applications/{application_id}/upload_file",
+    response_model=AttachmentRead,
+)
 def upload_file(
     application_id: uuid.UUID,
     upload: UploadFile | None = File(None),
