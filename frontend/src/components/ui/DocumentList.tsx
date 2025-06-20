@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { Attachment } from "../../types/application";
+import { Attachment } from "../../types/attachments";
 import ConfirmModal from "./ConfirmModal";
 import { apiFetch } from "../../lib/api";
 
