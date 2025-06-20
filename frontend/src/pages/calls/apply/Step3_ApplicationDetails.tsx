@@ -22,7 +22,7 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 export default function Step3_ApplicationDetails() {
-  const { application, updateApplicationField, completeStep, isSubmitted } = useApplication();
+  const { applicationForm, updateApplicationFormField, completeStep, isSubmitted } = useApplication();
   const { show } = useToast();
 
 
@@ -38,8 +38,8 @@ export default function Step3_ApplicationDetails() {
   });
 
   useEffect(() => {
-    reset(application as Partial<FormValues>);
-  }, [application, reset]);
+    reset(applicationForm as Partial<FormValues>);
+  }, [applicationForm, reset]);
 
   const onSubmit = async () => {
     await completeStep("step3");
@@ -52,12 +52,12 @@ export default function Step3_ApplicationDetails() {
         if (isSubmitted) return;
         const value =
           e.target.type === "checkbox" ? (e.target as HTMLInputElement).checked : e.target.value;
-        updateApplicationField(name, value);
+        updateApplicationFormField(name, value);
       },
       onChange: (e) => {
         if (isSubmitted) return;
         if (e.target.type === "checkbox") {
-          updateApplicationField(name, (e.target as HTMLInputElement).checked);
+          updateApplicationFormField(name, (e.target as HTMLInputElement).checked);
         }
       },
     });

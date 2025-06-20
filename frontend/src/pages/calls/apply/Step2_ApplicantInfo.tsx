@@ -14,7 +14,7 @@ import {
 
 
 export default function Step2_ApplicantInfo() {
-  const { updateApplicationField, application, completeStep, isSubmitted } = useApplication();
+  const { updateApplicationFormField, applicationForm, completeStep, isSubmitted } = useApplication();
   const { show } = useToast();
   const {
     register,
@@ -27,13 +27,13 @@ export default function Step2_ApplicantInfo() {
   });
 
   useEffect(() => {
-    reset(application as Partial<ApplicantInfoForm>);
-  }, [application, reset]);
+    reset(applicationForm as Partial<ApplicantInfoForm>);
+  }, [applicationForm, reset]);
 
   const onSubmit = async (data: ApplicantInfoForm) => {
     try {
       for (const [field, value] of Object.entries(data)) {
-        await updateApplicationField(field, value);
+        await updateApplicationFormField(field, value);
       }
       await completeStep("step2");
       show("Applicant Info saved");

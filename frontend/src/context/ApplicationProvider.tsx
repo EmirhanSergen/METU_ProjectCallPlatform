@@ -11,6 +11,11 @@ import {
   getApplicationAttachments,
 } from "../api/applications";
 import {
+  createApplicationForm as apiCreateApplicationForm,
+  getApplicationForm as apiGetApplicationForm,
+  updateApplicationForm as apiUpdateApplicationForm,
+} from "../api/applicationForms";
+import {
   getMobilityEntries as apiGetMobilityEntries,
   createMobilityEntry as apiCreateMobilityEntry,
   updateMobilityEntry as apiUpdateMobilityEntry,
@@ -28,6 +33,7 @@ interface ApplicationContextValue {
   call: Call | null;
   applicationId: string | null;
   applicationFormId: string | null;
+  applicationForm: Record<string, any>;
   application: Record<string, any>;
   attachments: Attachment[];
   mobilityEntries: MobilityEntry[];
@@ -43,6 +49,7 @@ interface ApplicationContextValue {
   removeMobilityEntry: (id: string) => Promise<boolean>;
   submitApplication: () => Promise<boolean>;
   updateApplicationField: (field: string, value: unknown) => Promise<void>;
+  updateApplicationFormField: (field: string, value: unknown) => Promise<void>;
   completeStep: (step: string) => Promise<void>;
   markPartialStep: (step: string) => void;
   clearPartialStep: (step: string) => void;
@@ -53,6 +60,7 @@ const ApplicationContext = createContext<ApplicationContextValue>({
   call: null,
   applicationId: null,
   applicationFormId: null,
+  applicationForm: {},
   application: {},
   attachments: [],
   mobilityEntries: [],
@@ -68,6 +76,7 @@ const ApplicationContext = createContext<ApplicationContextValue>({
   removeMobilityEntry: async () => false,
   submitApplication: async () => false,
   updateApplicationField: async () => {},
+  updateApplicationFormField: async () => {},
   completeStep: async () => {},
   isSubmitted: false,
 });
@@ -91,6 +100,7 @@ export function ApplicationProvider({
   const [attachments, setAttachments] = useState<Attachment[]>([]);
   const [mobilityEntries, setMobilityEntries] = useState<MobilityEntry[]>([]);
   const [applicationFormId, setApplicationFormId] = useState<string | null>(null);
+  const [applicationForm, setApplicationForm] = useState<Record<string, any>>({});
   const [completedSteps, setCompletedSteps] = useState<string[]>([]);
   const [partialSteps, setPartialSteps] = useState<string[]>([]);
   const { show } = useToast();
@@ -108,6 +118,22 @@ export function ApplicationProvider({
     };
     fetchCall();
   }, [callId, show]);
+
+  useEffect(() => {
+    if (!applicationFormId) {
+      setApplicationForm({});
+      return;
+    }
+    const fetchForm = async () => {
+      try {
+        const form = await apiGetApplicationForm(applicationFormId);
+        setApplicationForm(form);
+      } catch {
+        setApplicationForm({});
+      }
+    };
+    fetchForm();
+  }, [applicationFormId]);
 
   useEffect(() => {
     if (!applicationId) {
@@ -128,6 +154,14 @@ export function ApplicationProvider({
         setApplicationFormId(app.application_form_id ?? null);
         setAttachments(files);
         setCompletedSteps(app.completed_steps || []);
+        if (app.application_form_id) {
+          try {
+            const form = await apiGetApplicationForm(app.application_form_id);
+            setApplicationForm(form);
+          } catch {
+            setApplicationForm({});
+          }
+        }
       } catch (err) {
         if (
           err instanceof ApiError &&
@@ -170,11 +204,32 @@ export function ApplicationProvider({
     try {
       const data = await apiCreateApplication(callId);
       setApplicationId(data.id as string);
-      if ("application_form_id" in data) {
-        setApplicationFormId((data as any).application_form_id as string);
-      }
       setApplication({ ...data, completed_steps: [] } as Record<string, any>);
       setCompletedSteps([]);
+
+      let formId = (data as any).application_form_id as string | undefined;
+      if (formId) {
+        setApplicationFormId(formId);
+        try {
+          const form = await apiGetApplicationForm(formId);
+          setApplicationForm(form);
+        } catch {
+          setApplicationForm({});
+        }
+      } else {
+        try {
+          const form = await apiCreateApplicationForm({
+            application_id: data.id as string,
+          });
+          formId = form.id as string;
+          setApplicationFormId(formId);
+          setApplicationForm(form);
+        } catch {
+          setApplicationFormId(null);
+          setApplicationForm({});
+        }
+      }
+
       return data.id as string;
     } catch {
       show("Failed to create application");
@@ -227,6 +282,20 @@ export function ApplicationProvider({
       await patchApplication(applicationId, { [field]: value });
     } catch {
       show("Failed to update application");
+    }
+  };
+
+  const updateApplicationFormField = async (field: string, value: unknown) => {
+    if (!applicationFormId) return;
+    setApplicationForm((prev) => ({ ...prev, [field]: value }));
+    try {
+      await apiUpdateApplicationForm(applicationFormId, {
+        ...applicationForm,
+        [field]: value,
+        application_id: applicationId as string,
+      });
+    } catch {
+      show("Failed to update application form");
     }
   };
 
@@ -314,6 +383,7 @@ export function ApplicationProvider({
         call,
         applicationId,
         applicationFormId,
+        applicationForm,
         application,
         attachments,
         mobilityEntries,
@@ -329,6 +399,7 @@ export function ApplicationProvider({
         removeMobilityEntry,
         submitApplication,
         updateApplicationField,
+        updateApplicationFormField,
         completeStep,
         markPartialStep,
         clearPartialStep,
