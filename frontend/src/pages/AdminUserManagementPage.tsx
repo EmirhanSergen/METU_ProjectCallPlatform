@@ -1,27 +1,55 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "../components/ui/Input";
 import { Button } from "../components/ui/Button";
 import { UserRole } from "../types/global";
-import { createUser } from "../api/users";
+import { createUser, listUsers } from "../api/users";
 import { useToast } from "../context/ToastProvider";
 
 interface UserItem {
+  id: string;
   email: string;
+  first_name: string;
+  last_name: string;
+  organization?: string | null;
   role: UserRole;
 }
 
 export default function AdminUserManagementPage() {
   const [users, setUsers] = useState<UserItem[]>([]);
   const [email, setEmail] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [organization, setOrganization] = useState("");
   const [role, setRole] = useState<UserRole>(UserRole.applicant);
   const { show } = useToast();
+
+  useEffect(() => {
+    async function fetchUsers() {
+      try {
+        const data = await listUsers();
+        setUsers(data);
+      } catch (err) {
+        show((err as Error).message);
+      }
+    }
+    fetchUsers();
+  }, [show]);
 
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await createUser({ email, role });
-      setUsers((prev) => [...prev, { email, role }]);
+      const newUser = await createUser({
+        email,
+        first_name: firstName,
+        last_name: lastName,
+        organization: organization || undefined,
+        role,
+      });
+      setUsers((prev) => [...prev, newUser]);
       setEmail("");
+      setFirstName("");
+      setLastName("");
+      setOrganization("");
       show("User created");
     } catch (err) {
       show((err as Error).message);
@@ -42,6 +70,38 @@ export default function AdminUserManagementPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
+          />
+        </div>
+        <div>
+          <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
+            First Name
+          </label>
+          <Input
+            id="firstName"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
+            Last Name
+          </label>
+          <Input
+            id="lastName"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="organization" className="block text-sm font-medium text-gray-700">
+            Organization
+          </label>
+          <Input
+            id="organization"
+            value={organization}
+            onChange={(e) => setOrganization(e.target.value)}
           />
         </div>
         <div>
@@ -68,20 +128,28 @@ export default function AdminUserManagementPage() {
               Email
             </th>
             <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Name
+            </th>
+            <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              Organization
+            </th>
+            <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               Role
             </th>
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-200">
-          {users.map((u, idx) => (
-            <tr key={idx}>
+          {users.map((u) => (
+            <tr key={u.id}>
               <td className="px-4 py-2 whitespace-nowrap">{u.email}</td>
+              <td className="px-4 py-2 whitespace-nowrap">{u.first_name} {u.last_name}</td>
+              <td className="px-4 py-2 whitespace-nowrap">{u.organization || '-'}</td>
               <td className="px-4 py-2 whitespace-nowrap">{u.role}</td>
             </tr>
           ))}
           {users.length === 0 && (
             <tr>
-              <td className="px-4 py-2" colSpan={2}>
+              <td className="px-4 py-2" colSpan={4}>
                 No users yet.
               </td>
             </tr>
