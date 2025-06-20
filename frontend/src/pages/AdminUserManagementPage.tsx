@@ -19,6 +19,7 @@ export default function AdminUserManagementPage() {
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [password, setPassword] = useState("");
   const [organization, setOrganization] = useState("");
   const [role, setRole] = useState<UserRole>(UserRole.applicant);
   const { show } = useToast();
@@ -43,12 +44,14 @@ export default function AdminUserManagementPage() {
         first_name: firstName,
         last_name: lastName,
         organization: organization || undefined,
+        password,
         role,
       });
       setUsers((prev) => [...prev, newUser]);
       setEmail("");
       setFirstName("");
       setLastName("");
+      setPassword("");
       setOrganization("");
       show("User created");
     } catch (err) {
@@ -67,6 +70,7 @@ export default function AdminUserManagementPage() {
           <Input
             id="email"
             type="email"
+            placeholder="you@example.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -78,6 +82,7 @@ export default function AdminUserManagementPage() {
           </label>
           <Input
             id="firstName"
+            placeholder="First name"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
             required
@@ -89,8 +94,22 @@ export default function AdminUserManagementPage() {
           </label>
           <Input
             id="lastName"
+            placeholder="Last name"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            Password
+          </label>
+          <Input
+            id="password"
+            type="password"
+            placeholder="Temporary password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
@@ -100,6 +119,7 @@ export default function AdminUserManagementPage() {
           </label>
           <Input
             id="organization"
+            placeholder="Organization"
             value={organization}
             onChange={(e) => setOrganization(e.target.value)}
           />
