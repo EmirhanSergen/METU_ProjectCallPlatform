@@ -24,5 +24,12 @@ def delete(db: Session, obj: Attachment) -> None:
     _delete(db, obj)
 
 
+def confirm(db: Session, obj: Attachment) -> Attachment:
+    obj.confirmed = True
+    db.commit()
+    db.refresh(obj)
+    return obj
+
+
 def get_attachments_by_application_id(db: Session, application_id: str, include_deleted: bool = False):
     return get_all_by_field(db, Attachment, 'application_id', application_id, include_deleted)
