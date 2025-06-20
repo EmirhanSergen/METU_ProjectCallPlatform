@@ -130,6 +130,8 @@ export function ApplicationProvider({
       } catch {
         setApplication({});
         setAttachments([]);
+        setApplicationId(null);
+        localStorage.removeItem(`applicationId_${callId}`);
         show("Failed to load application");
       }
     };
