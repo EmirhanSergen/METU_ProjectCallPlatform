@@ -15,6 +15,7 @@ export interface UploadAttachmentResponse {
 
 export interface MyApplication {
   id: string;
+  call_id: string;
   status?: string;
   first_name: string;
   last_name: string;

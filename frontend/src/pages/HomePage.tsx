@@ -51,15 +51,9 @@ export default function HomePage() {
           </p>
         </div>
 
-        <div className="flex space-x-4">
+        <div>
           <Link
-            to="/call"
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow hover:bg-blue-700 transition"
-          >
-            Browse Calls
-          </Link>
-          <Link
-            to="/register"
+            to="/login"
             className="bg-green-600 text-white px-6 py-3 rounded-lg shadow hover:bg-green-700 transition"
           >
             Get Started

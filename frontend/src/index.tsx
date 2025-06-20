@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import AuthRoute from "./components/auth/AuthRoute";
+import GuestRoute from "./components/auth/GuestRoute";
 import PageContainer from "./components/layout/PageContainer";
 import { UserRole } from "./types/global";
 import AboutPage from "./pages/AboutPage";
@@ -92,9 +93,11 @@ const superAdminRoutes = (
       <Route path="/review/:reviewId" element={<ReviewPage />} />
     </Route>
       <Route path="/" element={<PageContainer />}>
-        <Route index element={<HomePage />} />
+        <Route element={<GuestRoute />}>
+          <Route index element={<HomePage />} />
+          <Route path="about" element={<AboutPage />} />
+        </Route>
         <Route path="call" element={<CallPage />} />
-        <Route path="about" element={<AboutPage />} />
         <Route path="terms" element={<TermsPage />} />
         <Route path="privacy" element={<PrivacyPage />} />
         {adminRoutes}

@@ -11,7 +11,6 @@ export default function SettingsPage() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [institution, setInstitution] = useState("");
-  const [password, setPassword] = useState("");
 
   useEffect(() => {
     if (!userId) return;
@@ -29,10 +28,8 @@ export default function SettingsPage() {
       await updateUser(userId, {
         first_name: firstName,
         last_name: lastName,
-        password: password || undefined,
       });
       show("Settings updated");
-      setPassword("");
     } catch (err) {
       show((err as Error).message);
     }
@@ -77,17 +74,6 @@ export default function SettingsPage() {
               id="institution"
               value={institution}
               onChange={(e) => setInstitution(e.target.value)}
-            />
-          </div>
-          <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-              Password
-            </label>
-            <Input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <Button type="submit" className="w-full">

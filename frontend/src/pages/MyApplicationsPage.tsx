@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { getMyApplications } from "../api/applications";
+import { getCall } from "../api/calls";
 import { useToast } from "../context/ToastProvider";
 
 interface Application {
   id: string;
+  call_id: string;
   status?: string;
   first_name: string;
   last_name: string;
@@ -14,6 +17,7 @@ interface Application {
 export default function MyApplicationsPage() {
   const { show } = useToast();
   const [applications, setApplications] = useState<Application[]>([]);
+  const [callTitles, setCallTitles] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -21,8 +25,21 @@ export default function MyApplicationsPage() {
     setLoading(true);
     setError(null);
     getMyApplications()
-      .then((data) => {
+      .then(async (data) => {
         setApplications(data);
+        const ids = Array.from(new Set(data.map((a) => a.call_id)));
+        const titles: Record<string, string> = {};
+        await Promise.all(
+          ids.map(async (id) => {
+            try {
+              const call = await getCall(id);
+              titles[id] = call.title ?? id;
+            } catch {
+              titles[id] = id;
+            }
+          })
+        );
+        setCallTitles(titles);
         show("Applications loaded");
       })
       .catch((err) => {
@@ -61,20 +78,18 @@ export default function MyApplicationsPage() {
       <table className="w-full border border-gray-200 shadow-sm rounded-md overflow-hidden">
         <thead className="bg-gray-100 text-gray-600 text-sm uppercase">
           <tr>
-            <th className="px-4 py-3 text-left">Application ID</th>
+            <th className="px-4 py-3 text-left">Application Title</th>
             <th className="px-4 py-3 text-left">Applicant</th>
-            <th className="px-4 py-3 text-left">Email</th>
-            <th className="px-4 py-3 text-left">Created At</th>
             <th className="px-4 py-3 text-left">Status</th>
+            <th className="px-4 py-3 text-left">Submission Date</th>
+            <th className="px-4 py-3 text-left">Action</th>
           </tr>
         </thead>
         <tbody className="bg-white text-gray-800">
           {applications.map((app) => (
             <tr key={app.id} className="border-t border-gray-200 hover:bg-gray-50 transition">
-              <td className="px-4 py-2 font-mono">{app.id}</td>
+              <td className="px-4 py-2">{callTitles[app.call_id] || app.call_id}</td>
               <td className="px-4 py-2">{app.first_name} {app.last_name}</td>
-              <td className="px-4 py-2">{app.email}</td>
-              <td className="px-4 py-2">{new Date(app.created_at).toLocaleDateString()}</td>
               <td className="px-4 py-2">
                 <span
                   className={`px-2 py-1 rounded text-xs font-medium ${
@@ -87,6 +102,12 @@ export default function MyApplicationsPage() {
                 >
                   {app.status || "Unknown"}
                 </span>
+              </td>
+              <td className="px-4 py-2">{new Date(app.created_at).toLocaleDateString()}</td>
+              <td className="px-4 py-2">
+                <Link to={`/call/${app.call_id}/apply`} className="text-blue-600 hover:underline">
+                  {app.status === "DRAFT" ? "Continue" : "View"}
+                </Link>
               </td>
             </tr>
           ))}
