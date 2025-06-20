@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { Input } from "../components/ui/Input";
-import { Button } from "../components/ui/Button";
-import { UserRole } from "../types/global";
-import { createUser, listUsers } from "../api";
-import { useToast } from "../context/ToastProvider";
+import { Input } from "../../../components/ui/Input";
+import { Button } from "../../../components/ui/Button";
+import { UserRole } from "../../../types/global";
+import { createUser, listUsers } from "../../../api";
+import { useToast } from "../../../context/ToastProvider";
 
 interface UserItem {
   id: string;

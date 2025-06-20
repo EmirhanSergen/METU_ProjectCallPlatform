@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Button } from "../components/ui/Button";
-import Table from "../components/ui/Table";
-import ConfirmModal from "../components/ui/ConfirmModal";
-import { getCalls, deleteCall } from "../api";
-import { Call, UserRole } from "../types/global";
-import { useAuth } from "../context/AuthProvider";
+import { Button } from "../../../components/ui/Button";
+import Table from "../../../components/ui/Table";
+import ConfirmModal from "../../../components/ui/ConfirmModal";
+import { getCalls, deleteCall } from "../../../api";
+import { Call, UserRole } from "../../../types/global";
+import { useAuth } from "../../../context/AuthProvider";
 
 export default function CallManagementPage() {
   const [calls, setCalls] = useState<Call[]>([]);

@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { useApplication } from "../../../context/ApplicationProvider";
-import { useToast } from "../../../context/ToastProvider";
-import EthicsIssuesTable from "../../../components/application/EthicsIssuesTable";
-import SecurityIssuesTable from "../../../components/application/SecurityIssuesTable";
+import { useApplication } from "../../context/ApplicationProvider";
+import { useToast } from "../../context/ToastProvider";
+import EthicsIssuesTable from "../../components/application/EthicsIssuesTable";
+import SecurityIssuesTable from "../../components/application/SecurityIssuesTable";
 
 export default function Step8_EthicsSecurity() {
   const { applicationForm, updateApplicationFormField, completeStep, isSubmitted } = useApplication();

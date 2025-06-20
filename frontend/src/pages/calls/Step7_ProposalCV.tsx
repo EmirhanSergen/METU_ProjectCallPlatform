@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { useApplication } from "../../../context/ApplicationProvider";
-import { useToast } from "../../../context/ToastProvider";
+import { useApplication } from "../../context/ApplicationProvider";
+import { useToast } from "../../context/ToastProvider";
 
-import { FileInput } from "../../../components/ui";
-import DocumentList from "../../../components/ui/DocumentList";
+import { FileInput } from "../../components/ui";
+import DocumentList from "../../components/ui/DocumentList";
 export default function Step7_ProposalCV() {
   const {
     uploadProposal,

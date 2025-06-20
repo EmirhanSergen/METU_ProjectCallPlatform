@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button } from "../../../components/ui/Button";
-import { useToast } from "../../../context/ToastProvider";
-import { useApplication } from "../../../context/ApplicationProvider";
+import { Button } from "../../components/ui/Button";
+import { useToast } from "../../context/ToastProvider";
+import { useApplication } from "../../context/ApplicationProvider";
 
 export default function Step1_CallInfo() {
   const { call, createApplication, applicationId, completeStep } = useApplication();

@@ -3,9 +3,9 @@ import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Input } from "../../../components/ui/Input";
-import { useApplication } from "../../../context/ApplicationProvider";
-import { useToast } from "../../../context/ToastProvider";
+import { Input } from "../../components/ui/Input";
+import { useApplication } from "../../context/ApplicationProvider";
+import { useToast } from "../../context/ToastProvider";
 import {
   applicantInfoSchema,
   type ApplicantInfoForm,

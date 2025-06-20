@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import Card from "../components/ui/Card";
-import { getApplications } from "../api";
-import { getCalls } from "../api";
+import Card from "../../../components/ui/Card";
+import { getApplications } from "../../../api";
+import { getCalls } from "../../../api";
 
 export default function DashboardPage() {
   const [stats, setStats] = useState({ calls: 0, applications: 0 });

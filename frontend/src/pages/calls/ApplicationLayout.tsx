@@ -1,5 +1,5 @@
 import { NavLink, Outlet, useLocation, useParams } from "react-router-dom";
-import { ApplicationProvider, useApplication } from "../../../context/ApplicationProvider";
+import { ApplicationProvider, useApplication } from "../../context/ApplicationProvider";
 
 interface Step {
   name: string;

@@ -1,9 +1,9 @@
 
 import { useState, useEffect } from "react";
-import { Button, Input, DatePicker } from "../../../components/ui";
+import { Button, Input, DatePicker } from "../../components/ui";
 
-import { useApplication } from "../../../context/ApplicationProvider";
-import type { MobilityEntryInput, MobilityEntry } from "../../../types/mobility.types";
+import { useApplication } from "../../context/ApplicationProvider";
+import type { MobilityEntryInput, MobilityEntry } from "../../types/mobility.types";
 
 export default function Step6_Mobility() {
   const {

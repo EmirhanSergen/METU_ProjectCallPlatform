@@ -1,9 +1,9 @@
 import { ChangeEvent, useState, useEffect } from "react";
-import { useToast } from "../../../context/ToastProvider";
-import { useApplication } from "../../../context/ApplicationProvider";
-import DocumentList from "../../../components/ui/DocumentList";
+import { useToast } from "../../context/ToastProvider";
+import { useApplication } from "../../context/ApplicationProvider";
+import DocumentList from "../../components/ui/DocumentList";
 
-import { FileInput } from "../../../components/ui";
+import { FileInput } from "../../components/ui";
 export default function Step4_DocumentsUpload() {
   const {
     uploadAttachment,

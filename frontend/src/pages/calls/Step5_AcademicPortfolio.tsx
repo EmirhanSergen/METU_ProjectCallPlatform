@@ -1,10 +1,10 @@
 import { useForm, useFieldArray } from "react-hook-form";
 import { useEffect } from "react";
-import { Input } from "../../../components/ui/Input";
-import { Textarea } from "../../../components/ui/Textarea";
-import { Button } from "../../../components/ui/Button";
-import { useApplication } from "../../../context/ApplicationProvider";
-import { useToast } from "../../../context/ToastProvider";
+import { Input } from "../../components/ui/Input";
+import { Textarea } from "../../components/ui/Textarea";
+import { Button } from "../../components/ui/Button";
+import { useApplication } from "../../context/ApplicationProvider";
+import { useToast } from "../../context/ToastProvider";
 
 export default function Step5_AcademicPortfolio() {
   const { updateApplicationFormField, applicationForm, completeStep, isSubmitted } = useApplication();

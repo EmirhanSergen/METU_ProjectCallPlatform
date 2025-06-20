@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useApplication } from "../../../context/ApplicationProvider";
-import { Button } from "../../../components/ui/Button";
-import ConfirmModal from "../../../components/ui/ConfirmModal";
+import { useApplication } from "../../context/ApplicationProvider";
+import { Button } from "../../components/ui/Button";
+import ConfirmModal from "../../components/ui/ConfirmModal";
 
 const steps = [
   { name: "Call Info", path: "step1" },

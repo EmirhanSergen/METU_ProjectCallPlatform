@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { useToast } from "../context/ToastProvider";
-import { getReviewReports } from "../api";
-import type { ReviewReport } from "../types/reviews.types";
+import { useToast } from "../../../context/ToastProvider";
+import { getReviewReports } from "../../../api";
+import type { ReviewReport } from "../../../types/reviews.types";
 
 export default function ReviewerPage() {
   const { show } = useToast();

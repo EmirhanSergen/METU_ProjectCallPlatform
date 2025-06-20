@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { useToast } from "../context/ToastProvider";
-import { getCall } from "../api";
-import { Call } from "../types/global";
-import { Button } from "../components/ui/Button";
-import { useAuth } from "../context/AuthProvider";
+import { useToast } from "../../context/ToastProvider";
+import { getCall } from "../../api";
+import { Call } from "../../types/global";
+import { Button } from "../../components/ui/Button";
+import { useAuth } from "../../context/AuthProvider";
 
 export default function CallDetailPage() {
   const { callId } = useParams<{ callId: string }>();
