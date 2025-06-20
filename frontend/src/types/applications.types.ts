@@ -12,3 +12,12 @@ export interface UploadAttachmentResponse {
   doc_name: string;
   field_name?: string;
 }
+
+export interface MyApplication {
+  id: string;
+  status?: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  created_at: string;
+}

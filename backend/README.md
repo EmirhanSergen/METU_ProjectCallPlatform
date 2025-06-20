@@ -13,3 +13,10 @@ veritabanına elle uygulanmalıdır.
 python -c "from app.database import init_db; init_db()"
 ```
 
+If your database was created before the `attachments.field_name` column was
+introduced, add it manually:
+
+```sql
+ALTER TABLE attachments ADD COLUMN field_name VARCHAR;
+```
+

@@ -3,6 +3,7 @@ import type {
   CreateApplicationRequest,
   CreateApplicationResponse,
   UploadAttachmentResponse,
+  MyApplication,
 } from "../types/applications.types";
 import type { Attachment } from "../types/reviews.types";
 
@@ -42,7 +43,7 @@ export function getApplication(id: string) {
 }
 
 export function getMyApplications() {
-  return apiFetch(`/applications/me`) as Promise<any[]>;
+  return apiFetch(`/applications/me`) as Promise<MyApplication[]>;
 }
 
 export function updateApplication(id: string, data: Record<string, unknown>) {
