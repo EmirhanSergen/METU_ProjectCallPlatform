@@ -21,6 +21,7 @@ import { Call } from "../types/global";
 import { Attachment } from "../types/application";
 import type { MobilityEntry, MobilityEntryInput } from "../types/mobility.types";
 import { useToast } from "./ToastProvider";
+import { ApiError } from "../lib/api";
 
 
 interface ApplicationContextValue {
@@ -127,7 +128,14 @@ export function ApplicationProvider({
         setApplicationFormId(app.application_form_id ?? null);
         setAttachments(files);
         setCompletedSteps(app.completed_steps || []);
-      } catch {
+      } catch (err) {
+        if (
+          err instanceof ApiError &&
+          (err.status === 401 || err.status === 403)
+        ) {
+          show("Session expired. Please log in again.");
+          return;
+        }
         setApplication({});
         setAttachments([]);
         setApplicationId(null);
@@ -140,7 +148,14 @@ export function ApplicationProvider({
       try {
         const data = await apiGetMobilityEntries(applicationFormId);
         setMobilityEntries(data);
-      } catch {
+      } catch (err) {
+        if (
+          err instanceof ApiError &&
+          (err.status === 401 || err.status === 403)
+        ) {
+          show("Session expired. Please log in again.");
+          return;
+        }
         setMobilityEntries([]);
         show("Failed to load mobility entries");
       }

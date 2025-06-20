@@ -2,6 +2,15 @@
 
 const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:8000";
 
+export class ApiError extends Error {
+  status: number;
+
+  constructor(status: number, message: string) {
+    super(message);
+    this.status = status;
+  }
+}
+
 export async function apiFetch(
   path: string,
   options: RequestInit & { asBlob?: boolean } = {}
@@ -28,7 +37,7 @@ export async function apiFetch(
         if (text) message = text;
       } catch {}
     }
-    throw new Error(message);
+    throw new ApiError(res.status, message);
   }
   if (res.status === 204) return null;
   if (options.asBlob) {
