@@ -100,6 +100,26 @@ def update_attachment(
         raise HTTPException(status_code=403, detail="Forbidden")
     return crud.update(db, obj, data.dict())
 
+@router.patch('/{obj_id}/confirm', response_model=AttachmentRead)
+def confirm_attachment(
+    obj_id: uuid.UUID,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    """Mark an attachment as confirmed."""
+    obj = crud.get_by_id(db, obj_id)
+    if not obj:
+        raise HTTPException(status_code=404, detail="Attachment not found")
+    application = crud_application.get_by_id(db, obj.application_id)
+    if not application:
+        raise HTTPException(status_code=404, detail="Application not found")
+    if (
+        application.user_id != current_user.id
+        and current_user.role not in {UserRole.admin, UserRole.super_admin}
+    ):
+        raise HTTPException(status_code=403, detail="Forbidden")
+    return crud.confirm(db, obj)
+
 @router.delete('/{obj_id}')
 def delete_attachment(
     obj_id: uuid.UUID,
