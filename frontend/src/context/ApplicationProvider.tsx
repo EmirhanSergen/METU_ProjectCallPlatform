@@ -23,7 +23,7 @@ import {
 } from "../api";
 import { getCall } from "../api";
 import { Call } from "../types/global";
-import { Attachment } from "../types/application";
+import { Attachment } from "../types/attachments";
 import type { MobilityEntry, MobilityEntryInput } from "../types/mobility.types";
 import { useToast } from "./ToastProvider";
 import { ApiError } from "../lib/api";
