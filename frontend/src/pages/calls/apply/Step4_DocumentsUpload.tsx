@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, useEffect } from "react";
 import { useToast } from "../../../context/ToastProvider";
 import { useApplication } from "../../../context/ApplicationProvider";
 import DocumentList from "../../../components/ui/DocumentList";
@@ -9,6 +9,18 @@ export default function Step4_DocumentsUpload() {
   const { show } = useToast();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [passportUploaded, setPassportUploaded] = useState(false);
+  const [phdCertificateUploaded, setPhdCertificateUploaded] = useState(false);
+
+  useEffect(() => {
+    const hasPassport = attachments.some((a) => a.field_name === "passport_or_id");
+    const hasPhd = attachments.some((a) => a.field_name === "phd_certificate");
+    setPassportUploaded(hasPassport);
+    setPhdCertificateUploaded(hasPhd);
+    if (hasPassport && hasPhd) {
+      completeStep("step4");
+    }
+  }, [attachments, completeStep]);
 
   const handleChange = async (
     e: ChangeEvent<HTMLInputElement>,
@@ -20,7 +32,6 @@ export default function Step4_DocumentsUpload() {
     setError(null);
     try {
       await uploadAttachment(file, field);
-      await completeStep("step4");
       show("File uploaded");
     } catch (err) {
       setError((err as Error).message);
