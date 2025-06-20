@@ -18,3 +18,7 @@ class Application(Base, SoftDeleteMixin):
     info = relationship('ApplicationInfo', back_populates='application', uselist=False)
     form = relationship('ApplicationForm', back_populates='application', uselist=False)
     review_reports = relationship('ReviewReport', back_populates='application')
+
+    __table_args__ = (
+        UniqueConstraint('call_id', 'user_id', 'is_deleted', name='uq_application_call_user'),
+    )
