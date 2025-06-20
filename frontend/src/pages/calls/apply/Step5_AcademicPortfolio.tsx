@@ -1,4 +1,5 @@
 import { useForm, useFieldArray } from "react-hook-form";
+import { useEffect } from "react";
 import { Input } from "../../../components/ui/Input";
 import { Textarea } from "../../../components/ui/Textarea";
 import { Button } from "../../../components/ui/Button";
@@ -8,7 +9,7 @@ import { useToast } from "../../../context/ToastProvider";
 export default function Step5_AcademicPortfolio() {
   const { updateApplicationField, application, completeStep } = useApplication();
   const { show } = useToast();
-  const { register, control, handleSubmit } = useForm({
+  const { register, control, handleSubmit, reset } = useForm({
     defaultValues: {
       doctoral_discipline: application.doctoral_discipline || "",
       doctoral_thesis_title: application.doctoral_thesis_title || "",
@@ -34,6 +35,33 @@ export default function Step5_AcademicPortfolio() {
         ],
     },
   });
+
+  useEffect(() => {
+    reset({
+      doctoral_discipline: application.doctoral_discipline || "",
+      doctoral_thesis_title: application.doctoral_thesis_title || "",
+      doctoral_awarding_institution: application.doctoral_awarding_institution || "",
+      doctoral_award_date: application.doctoral_award_date || "",
+      current_institution: application.current_institution || "",
+      current_department: application.current_department || "",
+      current_institution_town: application.current_institution_town || "",
+      current_institution_country: application.current_institution_country || "",
+      current_phone_number: application.current_phone_number || "",
+      reference_list:
+        application.reference_list || [
+          {
+            name_surname: "",
+            institution: "",
+            department: "",
+            country: "",
+            position: "",
+            phone_number: "",
+            email: "",
+            reason: "",
+          },
+        ],
+    });
+  }, [application, reset]);
 
   const { fields, append, remove } = useFieldArray({
     control,

@@ -1,5 +1,6 @@
 
 import { useForm } from "react-hook-form";
+import { useEffect } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../../../components/ui/Input";
@@ -29,6 +30,7 @@ export default function Step3_ApplicationDetails() {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
@@ -43,6 +45,19 @@ export default function Step3_ApplicationDetails() {
       institution_name: application.institution_name || "",
     },
   });
+
+  useEffect(() => {
+    reset({
+      project_title: application.project_title || "",
+      acronym: application.acronym || "",
+      keywords: application.keywords || "",
+      abstract: application.abstract || "",
+      selected_supervisor: application.selected_supervisor || "",
+      has_secondment: application.has_secondment || false,
+      selected_from_db: application.selected_from_db || false,
+      institution_name: application.institution_name || "",
+    });
+  }, [application, reset]);
 
   const onSubmit = async () => {
     await completeStep("step3");
