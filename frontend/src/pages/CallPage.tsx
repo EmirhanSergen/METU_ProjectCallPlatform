@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useToast } from "../context/ToastProvider";
 import { useAuth } from "../context/AuthProvider";
 import { getCalls } from "../api/calls";
+import { UserRole } from "../types/global";
 import type { Call } from "../types/global";
 
 export default function CallPage() {
@@ -57,9 +58,9 @@ export default function CallPage() {
             </Link>
           )}
 
-          {role === "admin" && (
+          {(role === UserRole.admin || role === UserRole.super_admin) && (
             <Link
-              to={`/calls/${call.id}/applications`}
+              to={`/call/${call.id}/applications`}
               className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded"
             >
               View Applications
