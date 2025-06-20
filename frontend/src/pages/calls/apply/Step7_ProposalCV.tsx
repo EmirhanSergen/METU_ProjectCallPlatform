@@ -12,6 +12,7 @@ export default function Step7_ProposalCV() {
     application,
     attachments,
     deleteAttachment,
+    completeStep,
   } = useApplication();
 
 
