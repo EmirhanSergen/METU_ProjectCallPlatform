@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, File, UploadFile, Response, HTTPException
+from fastapi import APIRouter, Depends, File, UploadFile, Response, HTTPException, Form
 from sqlalchemy.orm import Session
 import uuid
 
@@ -15,7 +15,10 @@ router = APIRouter(tags=["File"])
 @router.post("/applications/{application_id}/upload_file")
 def upload_file(
     application_id: uuid.UUID,
-    upload: UploadFile = File(...),
+    upload: UploadFile | None = File(None),
+    proposal: UploadFile | None = File(None),
+    cv: UploadFile | None = File(None),
+    field: str | None = Form(None),
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
@@ -27,7 +30,15 @@ def upload_file(
         and current_user.role not in {UserRole.admin, UserRole.super_admin}
     ):
         raise HTTPException(status_code=403, detail="Forbidden")
-    return file_service.save_attachment_file(db, application_id, upload)
+    file = upload or proposal or cv
+    if not file:
+        raise HTTPException(status_code=400, detail="No file provided")
+    field_name = field
+    if proposal is not None:
+        field_name = field_name or "proposal"
+    elif cv is not None:
+        field_name = field_name or "cv"
+    return file_service.save_attachment_file(db, application_id, file, field_name)
 
 
 @router.get("/files/{attachment_id}")

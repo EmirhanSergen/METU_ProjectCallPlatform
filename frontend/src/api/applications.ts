@@ -26,21 +26,11 @@ export function uploadAttachment(applicationId: string, file: File, field: strin
 }
 
 export function uploadProposal(applicationId: string, file: File) {
-  const formData = new FormData();
-  formData.append("proposal", file);
-  return apiFetch(`/applications/${applicationId}/upload_file`, {
-    method: "POST",
-    body: formData,
-  }) as Promise<UploadAttachmentResponse>;
+  return uploadAttachment(applicationId, file, "proposal");
 }
 
 export function uploadCV(applicationId: string, file: File) {
-  const formData = new FormData();
-  formData.append("cv", file);
-  return apiFetch(`/applications/${applicationId}/upload_file`, {
-    method: "POST",
-    body: formData,
-  }) as Promise<UploadAttachmentResponse>;
+  return uploadAttachment(applicationId, file, "cv");
 }
 
 export function getApplications() {

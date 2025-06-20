@@ -3,6 +3,7 @@ from .base import *
 class AttachmentBase(BaseModel):
     application_id: Optional[uuid.UUID] = None
     doc_name: Optional[str] = None
+    field_name: Optional[str] = None
     file_path: Optional[str] = None
     confirmed: Optional[bool] = False
 
