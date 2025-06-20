@@ -21,7 +21,10 @@ def validate_mime_type(upload_file: UploadFile) -> None:
 
 
 def save_attachment_file(
-    db: Session, application_id: uuid.UUID, upload_file: UploadFile
+    db: Session,
+    application_id: uuid.UUID,
+    upload_file: UploadFile,
+    field_name: str | None = None,
 ):
     """Create an Attachment and store the binary data."""
     validate_mime_type(upload_file)
@@ -29,6 +32,7 @@ def save_attachment_file(
         "application_id": application_id,
         "doc_name": upload_file.filename,
         "file_path": upload_file.filename,
+        "field_name": field_name,
     }
     attachment = crud.attachment.create(db, data)
     attachment.file_blob = upload_file.file.read()
