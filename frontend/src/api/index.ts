@@ -5,9 +5,8 @@ export * from './applicationForms';
 export * from './mobilityEntries';
 export * from './reviews';
 export * from './users';
-export * from './callRequiredDocuments';
-export * from './callTemplates';
-export * from './callSupervisors';
-export * from './callEthicsQuestions';
-export * from './callSecurityQuestions';
-export * from './callInstitutions';
+export * from './ethics_issues';
+export * from './ethics_answers';
+export * from './ethics_meta';
+export * from './ethical_optional_tables';
+
