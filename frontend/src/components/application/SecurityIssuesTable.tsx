@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Table from "../ui/Table";
 
 const securityQuestions = [
@@ -7,30 +8,67 @@ const securityQuestions = [
 ];
 
 export default function SecurityIssuesTable() {
+  const [answers, setAnswers] = useState<string[]>(
+    Array(securityQuestions.length).fill("")
+  );
+  const [pages, setPages] = useState<string[]>(
+    Array(securityQuestions.length).fill("")
+  );
+
+  const setAnswer = (index: number, value: string) => {
+    const copy = [...answers];
+    copy[index] = value;
+    setAnswers(copy);
+  };
+
+  const setPage = (index: number, value: string) => {
+    const copy = [...pages];
+    copy[index] = value;
+    setPages(copy);
+  };
+
   return (
     <div className="space-y-2">
       <h3 className="font-medium">Security Issues</h3>
-      <Table>
+      <Table className="table-auto">
         <thead>
           <tr>
-            <th>Question</th>
-            <th>Yes</th>
-            <th>No</th>
-            <th>Page</th>
+            <th className="text-left">Question</th>
+            <th className="text-left">Yes</th>
+            <th className="text-left">No</th>
+            <th className="text-left">Page</th>
           </tr>
         </thead>
         <tbody>
           {securityQuestions.map((q, i) => (
             <tr key={i}>
-              <td>{q}</td>
+              <td className="text-left">{q}</td>
               <td>
-                <input type="radio" name={`security_${i}`} value="yes" />
+                <input
+                  type="radio"
+                  name={`security_${i}`}
+                  value="yes"
+                  checked={answers[i] === "yes"}
+                  onChange={() => setAnswer(i, "yes")}
+                />
               </td>
               <td>
-                <input type="radio" name={`security_${i}`} value="no" />
+                <input
+                  type="radio"
+                  name={`security_${i}`}
+                  value="no"
+                  checked={answers[i] === "no"}
+                  onChange={() => setAnswer(i, "no")}
+                />
               </td>
               <td>
-                <input type="text" className="input w-20" />
+                <input
+                  type="text"
+                  className="input w-20"
+                  disabled={answers[i] !== "yes"}
+                  value={pages[i]}
+                  onChange={(e) => setPage(i, e.target.value)}
+                />
               </td>
             </tr>
           ))}
