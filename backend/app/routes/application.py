@@ -56,8 +56,12 @@ def read_application(
     return obj
 
 @router.get('/', response_model=list[ApplicationRead])
-@role_required(UserRole.admin, UserRole.super_admin)
-def read_applications(db: Session = Depends(get_db)):
+def read_applications(
+    call_id: uuid.UUID | None = None,
+    db: Session = Depends(get_db),
+):
+    if call_id is not None:
+        return list(crud.get_applications_by_call_id(db, str(call_id)))
     return list(crud.get_all(db))
 
 

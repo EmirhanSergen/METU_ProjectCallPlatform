@@ -1,21 +1,24 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { useToast } from "../context/ToastProvider";
-import { getApplications } from "../api/applications";
+import { getApplicationsByCall } from "../api/applications";
 
 interface Application {
   id: string;
 }
 
 export default function CallApplicationsPage() {
+  const { callId } = useParams<{ callId: string }>();
   const { show } = useToast();
   const [apps, setApps] = useState<Application[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (!callId) return;
     setLoading(true);
     setError(null);
-    getApplications()
+    getApplicationsByCall(callId)
       .then((data) => {
         setApps(data);
         if (data.length > 0) {
@@ -29,7 +32,7 @@ export default function CallApplicationsPage() {
         show("Failed to load applications");
       })
       .finally(() => setLoading(false));
-  }, [show]);
+  }, [callId, show]);
 
   return (
     <section className="w-full bg-white py-12 px-6">
