@@ -4,6 +4,7 @@ export interface CreateApplicationRequest {
 
 export interface CreateApplicationResponse {
   id: string;
+  application_form_id?: string;
 }
 
 export interface UploadAttachmentResponse {
