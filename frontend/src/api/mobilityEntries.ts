@@ -1,4 +1,4 @@
-import { apiFetch } from "../lib/api";
+import { apiFetch } from "./api";
 import type { MobilityEntryInput, MobilityEntry } from "../types/mobility.types";
 
 export function getMobilityEntries(applicationFormId: string) {

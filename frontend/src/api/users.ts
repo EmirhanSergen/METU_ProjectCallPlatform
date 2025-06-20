@@ -1,4 +1,4 @@
-import { apiFetch } from "../lib/api";
+import { apiFetch } from "./api";
 import type { CreateUserInput, UpdateUserInput, User } from "../types/users.types";
 
 export function createUser(data: CreateUserInput) {

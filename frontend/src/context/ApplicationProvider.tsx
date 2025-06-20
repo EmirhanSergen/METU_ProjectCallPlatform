@@ -26,7 +26,7 @@ import { Call } from "../types/global";
 import { Attachment } from "../types/application";
 import type { MobilityEntry, MobilityEntryInput } from "../types/mobility.types";
 import { useToast } from "./ToastProvider";
-import { ApiError } from "../lib/api";
+import { ApiError } from "../api/api";
 
 
 interface ApplicationContextValue {

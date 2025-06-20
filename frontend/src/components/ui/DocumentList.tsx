@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Attachment } from "../../types/application";
 import ConfirmModal from "./ConfirmModal";
-import { apiFetch } from "../../lib/api";
+import { apiFetch } from "../../api/api";
 
 export default function DocumentList({
   documents,

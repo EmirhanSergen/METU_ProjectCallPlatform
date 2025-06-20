@@ -1,4 +1,4 @@
-import { apiFetch } from "../lib/api";
+import { apiFetch } from "./api";
 import type { LoginData, RegisterData } from "../types/auth.types";
 
 
