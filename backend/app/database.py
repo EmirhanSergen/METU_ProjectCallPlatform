@@ -17,7 +17,11 @@ def get_db():
 
 
 def init_db() -> None:
-    """Create all tables in the database."""
+    """Create all tables in the database.
+
+    This project does not use migrations. When models change the tables must be
+    updated manually to match the definitions here before calling this function.
+    """
     Base.metadata.create_all(bind=engine)
 
 

@@ -19,6 +19,8 @@ app.include_router(api_router)
 
 @app.on_event("startup")
 def on_startup() -> None:
+    # Ensure tables exist before the application starts. The project does not
+    # use a migration tool so database schemas must be kept in sync manually.
     init_db()
 
 @app.get("/")

@@ -60,6 +60,9 @@ def update_application(
         raise HTTPException(status_code=403, detail="Forbidden")
     data_dict = data.dict(exclude={"user_id"})
     data_dict["user_id"] = current_user.id
+    if data_dict.get("completed_steps") is None:
+        # Preserve existing completed steps if client omits the field
+        data_dict["completed_steps"] = obj.completed_steps
     return crud.update(db, obj, data_dict)
 
 

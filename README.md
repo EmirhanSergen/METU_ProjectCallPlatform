@@ -24,6 +24,16 @@ This repository contains a simple FastAPI application for managing academic proj
      `postgresql://postgres:postgres@db:5432/project_call`.
    - `SECRET_KEY` – application secret
 
+### Database setup
+
+This project does not use migrations. Ensure the database schema matches the
+SQLAlchemy models before starting the app. You can create the initial tables
+with:
+
+```bash
+python -c "from app.database import init_db; init_db()"  # run from the backend directory
+```
+
 ## Running the app
 
 From the `backend` directory run:
