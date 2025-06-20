@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Input } from "../components/ui/Input";
 import { Button } from "../components/ui/Button";
-import { getUser, updateUser } from "../api/users";
+import { getUser, updateUser } from "../api";
 import { useAuth } from "../context/AuthProvider";
 import { useToast } from "../context/ToastProvider";
 

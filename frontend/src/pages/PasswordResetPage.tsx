@@ -3,7 +3,7 @@ import Navbar from "../components/layout/Navbar";
 import { Input } from "../components/ui/Input";
 import { Button } from "../components/ui/Button";
 import { useToast } from "../context/ToastProvider";
-import { requestPasswordReset } from "../api/auth";
+import { requestPasswordReset } from "../api";
 
 export default function PasswordResetPage() {
   const { show } = useToast();
