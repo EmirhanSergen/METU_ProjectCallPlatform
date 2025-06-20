@@ -40,10 +40,19 @@ def read_my_applications(
     )
 
 @router.get('/{obj_id}', response_model=ApplicationRead)
-def read_application(obj_id: uuid.UUID, db: Session = Depends(get_db)):
+def read_application(
+    obj_id: uuid.UUID,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
     obj = crud.get_by_id(db, obj_id)
     if not obj:
         raise HTTPException(status_code=404, detail="Application not found")
+    if (
+        obj.user_id != current_user.id
+        and current_user.role not in {UserRole.admin, UserRole.super_admin}
+    ):
+        raise HTTPException(status_code=403, detail="Forbidden")
     return obj
 
 @router.get('/', response_model=list[ApplicationRead])
