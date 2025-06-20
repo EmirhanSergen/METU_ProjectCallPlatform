@@ -17,3 +17,5 @@ export interface Call {
 }
 
 export type CallStatus = 'DRAFT' | 'PUBLISHED' | 'CLOSED' | 'ARCHIVED';
+
+export type ApplicationStatus = 'DRAFT' | 'SUBMITTED' | 'CLOSED' | 'ARCHIVED';

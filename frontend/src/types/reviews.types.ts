@@ -1,13 +1,5 @@
 
-export interface Attachment {
-  id: string;
-  doc_name: string;
-  field_name?: string;
-  application_id?: string;
-  file_path?: string;
-  confirmed?: boolean;
-  uploaded_at?: string;
-}
+import type { Attachment } from './attachments';
 
 export interface Review {
   excellence_grade: string;
