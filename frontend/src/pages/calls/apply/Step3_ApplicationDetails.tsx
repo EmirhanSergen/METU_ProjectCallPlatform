@@ -22,7 +22,7 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 export default function Step3_ApplicationDetails() {
-  const { application, updateApplicationField, completeStep } = useApplication();
+  const { application, updateApplicationField, completeStep, isSubmitted } = useApplication();
   const { show } = useToast();
 
 
@@ -49,11 +49,13 @@ export default function Step3_ApplicationDetails() {
   const reg = (name: keyof FormValues) =>
     register(name, {
       onBlur: (e) => {
+        if (isSubmitted) return;
         const value =
           e.target.type === "checkbox" ? (e.target as HTMLInputElement).checked : e.target.value;
         updateApplicationField(name, value);
       },
       onChange: (e) => {
+        if (isSubmitted) return;
         if (e.target.type === "checkbox") {
           updateApplicationField(name, (e.target as HTMLInputElement).checked);
         }
@@ -68,49 +70,49 @@ export default function Step3_ApplicationDetails() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
           <label className="block text-sm">Project Title</label>
-          <Input {...reg("project_title")}/>
+          <Input {...reg("project_title")} disabled={isSubmitted}/>
           {errors.project_title && (
             <p className="text-red-500 text-sm">{errors.project_title.message}</p>
           )}
         </div>
         <div>
           <label className="block text-sm">Acronym</label>
-          <Input {...reg("acronym")}/>
+          <Input {...reg("acronym")} disabled={isSubmitted}/>
         </div>
         <div>
           <label className="block text-sm">Keywords (semicolon separated)</label>
-          <Input {...reg("keywords")}/>
+          <Input {...reg("keywords")} disabled={isSubmitted}/>
         </div>
         <div>
           <label className="block text-sm">Selected Supervisor</label>
-          <Input {...reg("selected_supervisor")}/>
+          <Input {...reg("selected_supervisor")} disabled={isSubmitted}/>
         </div>
       </div>
       <div>
         <label className="block text-sm">Abstract (max 400 words)</label>
-        <textarea className="input h-24 w-full" {...reg("abstract")}></textarea>
+        <textarea className="input h-24 w-full" disabled={isSubmitted} {...reg("abstract")}></textarea>
       </div>
       <div>
         <label className="inline-flex items-center space-x-2">
-          <input type="checkbox" {...reg("has_secondment")}/>
+          <input type="checkbox" {...reg("has_secondment")} disabled={isSubmitted}/>
           <span>Has Secondment?</span>
         </label>
       </div>
       {hasSecondment && (
         <div className="space-y-2">
           <label className="inline-flex items-center space-x-2">
-            <input type="checkbox" {...reg("selected_from_db")}/>
+            <input type="checkbox" {...reg("selected_from_db")} disabled={isSubmitted}/>
             <span>Selected from DB</span>
           </label>
           {!watch("selected_from_db") && (
             <div>
               <label className="block text-sm">Secondment Institution Name</label>
-              <Input {...reg("institution_name")}/>
+              <Input {...reg("institution_name")} disabled={isSubmitted}/>
             </div>
           )}
         </div>
       )}
-      <button type="submit" className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Save</button>
+      <button type="submit" disabled={isSubmitted} className="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Save</button>
     </form>
   );
 }

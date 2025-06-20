@@ -45,6 +45,7 @@ interface ApplicationContextValue {
   completeStep: (step: string) => Promise<void>;
   markPartialStep: (step: string) => void;
   clearPartialStep: (step: string) => void;
+  isSubmitted: boolean;
 }
 
 const ApplicationContext = createContext<ApplicationContextValue>({
@@ -67,6 +68,7 @@ const ApplicationContext = createContext<ApplicationContextValue>({
   submitApplication: async () => false,
   updateApplicationField: async () => {},
   completeStep: async () => {},
+  isSubmitted: false,
 });
 
 export function useApplication() {
@@ -91,6 +93,7 @@ export function ApplicationProvider({
   const [completedSteps, setCompletedSteps] = useState<string[]>([]);
   const [partialSteps, setPartialSteps] = useState<string[]>([]);
   const { show } = useToast();
+  const isSubmitted = application.status === "SUBMITTED";
 
   useEffect(() => {
     if (!callId) return;
@@ -281,6 +284,7 @@ export function ApplicationProvider({
         call_id: callId,
         status: "SUBMITTED",
       });
+      setApplication((prev) => ({ ...prev, status: "SUBMITTED" }));
       return true;
     } catch {
       show("Failed to submit application");
@@ -312,6 +316,7 @@ export function ApplicationProvider({
         completeStep,
         markPartialStep,
         clearPartialStep,
+        isSubmitted,
       }}
     >
       {children}
