@@ -4,10 +4,10 @@ from sqlalchemy.exc import IntegrityError
 import uuid
 
 from ..database import get_db
-from ..crud import application as crud
+from ..crud import application as crud, call as crud_call
 from ..schemas import ApplicationCreate, ApplicationRead, ApplicationOut
 from ..core.security import get_current_user, role_required
-from ..core.enums import UserRole
+from ..core.enums import UserRole, CallStatus
 from ..models import User, Application
 
 router = APIRouter(prefix="/applications", tags=["Application"])
@@ -26,11 +26,13 @@ def create_application(
     """
     data_dict = data.dict(exclude={"user_id"})
     data_dict["user_id"] = current_user.id
-    try:
-        return crud.create(db, data_dict)
-    except IntegrityError:
-        db.rollback()
-        raise HTTPException(status_code=400, detail="User already applied to this call")
+
+    call_id = data_dict.get("call_id")
+    call_obj = crud_call.get_by_id(db, call_id) if call_id else None
+    if not call_obj or call_obj.status != CallStatus.PUBLISHED:
+        raise HTTPException(status_code=400, detail="Invalid call")
+
+    return crud.create(db, data_dict)
 
 @router.get('/me', response_model=list[ApplicationOut])
 def read_my_applications(
