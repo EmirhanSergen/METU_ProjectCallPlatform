@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/Button";
 import Table from "../components/ui/Table";
 import ConfirmModal from "../components/ui/ConfirmModal";
-import { getCalls, deleteCall } from "../api/calls";
+import { getCalls, deleteCall } from "../api";
 import { Call, UserRole } from "../types/global";
 import { useAuth } from "../context/AuthProvider";
 

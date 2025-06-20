@@ -9,19 +9,19 @@ import {
   patchApplication,
   getApplication,
   getApplicationAttachments,
-} from "../api/applications";
+} from "../api";
 import {
   createApplicationForm as apiCreateApplicationForm,
   getApplicationForm as apiGetApplicationForm,
   updateApplicationForm as apiUpdateApplicationForm,
-} from "../api/applicationForms";
+} from "../api";
 import {
   getMobilityEntries as apiGetMobilityEntries,
   createMobilityEntry as apiCreateMobilityEntry,
   updateMobilityEntry as apiUpdateMobilityEntry,
   deleteMobilityEntry as apiDeleteMobilityEntry,
-} from "../api/mobilityEntries";
-import { getCall } from "../api/calls";
+} from "../api";
+import { getCall } from "../api";
 import { Call } from "../types/global";
 import { Attachment } from "../types/application";
 import type { MobilityEntry, MobilityEntryInput } from "../types/mobility.types";

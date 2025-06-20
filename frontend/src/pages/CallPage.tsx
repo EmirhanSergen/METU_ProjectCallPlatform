@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useToast } from "../context/ToastProvider";
 import { useAuth } from "../context/AuthProvider";
-import { getCalls } from "../api/calls";
+import { getCalls } from "../api";
 import { UserRole } from "../types/global";
 import type { Call } from "../types/global";
 
