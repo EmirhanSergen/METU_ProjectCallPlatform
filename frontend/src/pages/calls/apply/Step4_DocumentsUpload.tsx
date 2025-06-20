@@ -5,12 +5,29 @@ import DocumentList from "../../../components/ui/DocumentList";
 
 import { FileInput } from "../../../components/ui";
 export default function Step4_DocumentsUpload() {
-  const { uploadAttachment, attachments, deleteAttachment, completeStep } = useApplication();
+  const {
+    uploadAttachment,
+    attachments,
+    deleteAttachment,
+    completeStep,
+    markPartialStep,
+    clearPartialStep,
+  } = useApplication();
   const { show } = useToast();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [passportUploaded, setPassportUploaded] = useState(false);
   const [phdCertificateUploaded, setPhdCertificateUploaded] = useState(false);
+
+  const handleSave = async () => {
+    if (passportUploaded && phdCertificateUploaded) {
+      await completeStep("step4");
+      show("Documents saved");
+    } else {
+      markPartialStep("step4");
+      show("Please upload both documents before completing this step");
+    }
+  };
 
   useEffect(() => {
     const hasPassport = attachments.some((a) => a.field_name === "passport_or_id");
@@ -18,9 +35,13 @@ export default function Step4_DocumentsUpload() {
     setPassportUploaded(hasPassport);
     setPhdCertificateUploaded(hasPhd);
     if (hasPassport && hasPhd) {
-      completeStep("step4");
+      clearPartialStep("step4");
+    } else if (hasPassport || hasPhd) {
+      markPartialStep("step4");
+    } else {
+      clearPartialStep("step4");
     }
-  }, [attachments, completeStep]);
+  }, [attachments, markPartialStep, clearPartialStep]);
 
   const handleChange = async (
     e: ChangeEvent<HTMLInputElement>,
@@ -75,6 +96,12 @@ export default function Step4_DocumentsUpload() {
       </div>
 
       {error && <div className="text-red-500">Error: {error}</div>}
+      <button
+        onClick={handleSave}
+        className="bg-blue-600 text-white px-4 py-2 rounded"
+      >
+        Save
+      </button>
     </div>
   );
 }

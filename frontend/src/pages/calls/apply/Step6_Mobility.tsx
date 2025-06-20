@@ -10,9 +10,8 @@ export default function Step6_Mobility() {
     addMobilityEntry,
     updateMobilityEntry,
     removeMobilityEntry,
-    updateApplicationField,
     mobilityEntries,
-    application,
+    completeStep,
   } = useApplication();
 
 
@@ -40,9 +39,6 @@ export default function Step6_Mobility() {
       addMobilityEntry(entry as MobilityEntryInput);
     }
 
-    const steps = new Set<string>(application.completed_steps || []);
-    steps.add("step6");
-    updateApplicationField("completed_steps", Array.from(steps));
   };
 
   const handleAdd = () => {
@@ -61,9 +57,10 @@ export default function Step6_Mobility() {
     if (entry.id) {
       removeMobilityEntry(entry.id);
     }
-    const steps = new Set<string>(application.completed_steps || []);
-    steps.add("step6");
-    updateApplicationField("completed_steps", Array.from(steps));
+  };
+
+  const handleSave = async () => {
+    await completeStep("step6");
   };
 
   return (
@@ -110,7 +107,10 @@ export default function Step6_Mobility() {
           </div>
         </div>
       ))}
-      <Button onClick={handleAdd}>Add Mobility Entry</Button>
+      <div className="space-x-2">
+        <Button onClick={handleAdd}>Add Mobility Entry</Button>
+        <Button onClick={handleSave}>Save All</Button>
+      </div>
     </div>
   );
 }

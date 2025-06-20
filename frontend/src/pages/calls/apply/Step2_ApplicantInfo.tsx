@@ -23,37 +23,11 @@ export default function Step2_ApplicantInfo() {
     formState: { errors, isSubmitting },
   } = useForm<ApplicantInfoForm>({
     resolver: zodResolver(applicantInfoSchema),
-    defaultValues: {
-      title: application.title || "",
-      surname: application.surname || "",
-      first_name: application.first_name || "",
-      year_of_birth: application.year_of_birth || "",
-      nationality: application.nationality || "",
-      organisation: application.organisation || "",
-      university: application.university || "",
-      department: application.department || "",
-      town_or_city: application.town_or_city || "",
-      country: application.country || "",
-      current_position: application.current_position || "",
-      gender: application.gender || "",
-    },
+    defaultValues: {},
   });
 
   useEffect(() => {
-    reset({
-      title: application.title || "",
-      surname: application.surname || "",
-      first_name: application.first_name || "",
-      year_of_birth: application.year_of_birth || "",
-      nationality: application.nationality || "",
-      organisation: application.organisation || "",
-      university: application.university || "",
-      department: application.department || "",
-      town_or_city: application.town_or_city || "",
-      country: application.country || "",
-      current_position: application.current_position || "",
-      gender: application.gender || "",
-    });
+    reset(application as Partial<ApplicantInfoForm>);
   }, [application, reset]);
 
   const onSubmit = async (data: ApplicantInfoForm) => {

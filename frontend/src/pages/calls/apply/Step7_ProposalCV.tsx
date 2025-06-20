@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useApplication } from "../../../context/ApplicationProvider";
 import { useToast } from "../../../context/ToastProvider";
 
@@ -8,11 +8,11 @@ export default function Step7_ProposalCV() {
   const {
     uploadProposal,
     uploadCV,
-    updateApplicationField,
-    application,
     attachments,
     deleteAttachment,
     completeStep,
+    markPartialStep,
+    clearPartialStep,
   } = useApplication();
 
 
@@ -20,6 +20,22 @@ export default function Step7_ProposalCV() {
   const [loadingProposal, setLoadingProposal] = useState(false);
   const [loadingCV, setLoadingCV] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [proposalUploaded, setProposalUploaded] = useState(false);
+  const [cvUploaded, setCvUploaded] = useState(false);
+
+  useEffect(() => {
+    const hasProposal = attachments.some((a) => a.field_name === "proposal");
+    const hasCv = attachments.some((a) => a.field_name === "cv");
+    setProposalUploaded(hasProposal);
+    setCvUploaded(hasCv);
+    if (hasProposal && hasCv) {
+      clearPartialStep("step7");
+    } else if (hasProposal || hasCv) {
+      markPartialStep("step7");
+    } else {
+      clearPartialStep("step7");
+    }
+  }, [attachments, markPartialStep, clearPartialStep]);
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>, type: "proposal" | "cv") => {
     const file = e.target.files?.[0];
@@ -31,7 +47,6 @@ export default function Step7_ProposalCV() {
     setError(null);
     try {
       await uploadFunc(file);
-      await completeStep("step7");
       show(`${type.toUpperCase()} uploaded successfully.`);
     } catch (err) {
       setError((err as Error).message);
@@ -93,6 +108,21 @@ export default function Step7_ProposalCV() {
           onDelete={deleteAttachment}
         />
       </div>
+
+      <button
+        onClick={async () => {
+          if (proposalUploaded && cvUploaded) {
+            await completeStep("step7");
+            show("Files saved");
+          } else {
+            markPartialStep("step7");
+            show("Please upload both files before completing this step");
+          }
+        }}
+        className="bg-blue-600 text-white px-4 py-2 rounded"
+      >
+        Save
+      </button>
 
       {error && <div className="text-red-500">Error: {error}</div>}
     </div>

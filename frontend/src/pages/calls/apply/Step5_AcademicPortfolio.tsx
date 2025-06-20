@@ -10,57 +10,11 @@ export default function Step5_AcademicPortfolio() {
   const { updateApplicationField, application, completeStep } = useApplication();
   const { show } = useToast();
   const { register, control, handleSubmit, reset } = useForm({
-    defaultValues: {
-      doctoral_discipline: application.doctoral_discipline || "",
-      doctoral_thesis_title: application.doctoral_thesis_title || "",
-      doctoral_awarding_institution: application.doctoral_awarding_institution || "",
-      doctoral_award_date: application.doctoral_award_date || "",
-      current_institution: application.current_institution || "",
-      current_department: application.current_department || "",
-      current_institution_town: application.current_institution_town || "",
-      current_institution_country: application.current_institution_country || "",
-      current_phone_number: application.current_phone_number || "",
-      reference_list:
-        application.reference_list || [
-          {
-            name_surname: "",
-            institution: "",
-            department: "",
-            country: "",
-            position: "",
-            phone_number: "",
-            email: "",
-            reason: "",
-          },
-        ],
-    },
+    defaultValues: {},
   });
 
   useEffect(() => {
-    reset({
-      doctoral_discipline: application.doctoral_discipline || "",
-      doctoral_thesis_title: application.doctoral_thesis_title || "",
-      doctoral_awarding_institution: application.doctoral_awarding_institution || "",
-      doctoral_award_date: application.doctoral_award_date || "",
-      current_institution: application.current_institution || "",
-      current_department: application.current_department || "",
-      current_institution_town: application.current_institution_town || "",
-      current_institution_country: application.current_institution_country || "",
-      current_phone_number: application.current_phone_number || "",
-      reference_list:
-        application.reference_list || [
-          {
-            name_surname: "",
-            institution: "",
-            department: "",
-            country: "",
-            position: "",
-            phone_number: "",
-            email: "",
-            reason: "",
-          },
-        ],
-    });
+    reset(application as any);
   }, [application, reset]);
 
   const { fields, append, remove } = useFieldArray({
@@ -81,28 +35,79 @@ export default function Step5_AcademicPortfolio() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <h2 className="text-lg font-semibold">Academic Portfolio</h2>
-      <Input label="Doctoral Discipline" {...register("doctoral_discipline")} />
-      <Input label="Doctoral Thesis Title" {...register("doctoral_thesis_title")} />
-      <Input label="Awarding Institution" {...register("doctoral_awarding_institution")} />
-      <Input label="Doctoral Award Date" type="date" {...register("doctoral_award_date")} />
-      <Input label="Current Institution" {...register("current_institution")} />
-      <Input label="Department" {...register("current_department")} />
-      <Input label="Town/City" {...register("current_institution_town")} />
-      <Input label="Country" {...register("current_institution_country")} />
-      <Input label="Phone Number" {...register("current_phone_number")} />
+      <div>
+        <label className="block text-sm">Doctoral Discipline</label>
+        <Input {...register("doctoral_discipline")} />
+      </div>
+      <div>
+        <label className="block text-sm">Doctoral Thesis Title</label>
+        <Input {...register("doctoral_thesis_title")} />
+      </div>
+      <div>
+        <label className="block text-sm">Awarding Institution</label>
+        <Input {...register("doctoral_awarding_institution")} />
+      </div>
+      <div>
+        <label className="block text-sm">Doctoral Award Date</label>
+        <Input type="date" {...register("doctoral_award_date")} />
+      </div>
+      <div>
+        <label className="block text-sm">Current Institution</label>
+        <Input {...register("current_institution")} />
+      </div>
+      <div>
+        <label className="block text-sm">Department</label>
+        <Input {...register("current_department")} />
+      </div>
+      <div>
+        <label className="block text-sm">Town/City</label>
+        <Input {...register("current_institution_town")} />
+      </div>
+      <div>
+        <label className="block text-sm">Country</label>
+        <Input {...register("current_institution_country")} />
+      </div>
+      <div>
+        <label className="block text-sm">Phone Number</label>
+        <Input {...register("current_phone_number")} />
+      </div>
 
       <div className="pt-4">
         <h3 className="font-medium">Suggested References</h3>
         {fields.map((field, index) => (
           <div key={field.id} className="border p-4 rounded mb-4 space-y-2">
-            <Input label="Full Name" {...register(`reference_list.${index}.name_surname`)} />
-            <Input label="Institution" {...register(`reference_list.${index}.institution`)} />
-            <Input label="Department" {...register(`reference_list.${index}.department`)} />
-            <Input label="Country" {...register(`reference_list.${index}.country`)} />
-            <Input label="Position" {...register(`reference_list.${index}.position`)} />
-            <Input label="Phone Number" {...register(`reference_list.${index}.phone_number`)} />
-            <Input label="Email" {...register(`reference_list.${index}.email`)} />
-            <Textarea label="Reason for Reference" {...register(`reference_list.${index}.reason`)} />
+            <div>
+              <label className="block text-sm">Full Name</label>
+              <Input {...register(`reference_list.${index}.name_surname`)} />
+            </div>
+            <div>
+              <label className="block text-sm">Institution</label>
+              <Input {...register(`reference_list.${index}.institution`)} />
+            </div>
+            <div>
+              <label className="block text-sm">Department</label>
+              <Input {...register(`reference_list.${index}.department`)} />
+            </div>
+            <div>
+              <label className="block text-sm">Country</label>
+              <Input {...register(`reference_list.${index}.country`)} />
+            </div>
+            <div>
+              <label className="block text-sm">Position</label>
+              <Input {...register(`reference_list.${index}.position`)} />
+            </div>
+            <div>
+              <label className="block text-sm">Phone Number</label>
+              <Input {...register(`reference_list.${index}.phone_number`)} />
+            </div>
+            <div>
+              <label className="block text-sm">Email</label>
+              <Input {...register(`reference_list.${index}.email`)} />
+            </div>
+            <div>
+              <label className="block text-sm">Reason for Reference</label>
+              <Textarea {...register(`reference_list.${index}.reason`)} />
+            </div>
             <Button type="button" onClick={() => remove(index)} variant="outline">Remove</Button>
           </div>
         ))}

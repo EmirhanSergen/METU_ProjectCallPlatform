@@ -30,6 +30,7 @@ interface ApplicationContextValue {
   attachments: Attachment[];
   mobilityEntries: MobilityEntry[];
   completedSteps: string[];
+  partialSteps: string[];
   createApplication: () => Promise<string | null>;
   uploadAttachment: (file: File, field: string) => Promise<boolean>;
   uploadProposal: (file: File) => Promise<boolean>;
@@ -41,6 +42,8 @@ interface ApplicationContextValue {
   submitApplication: () => Promise<boolean>;
   updateApplicationField: (field: string, value: unknown) => Promise<void>;
   completeStep: (step: string) => Promise<void>;
+  markPartialStep: (step: string) => void;
+  clearPartialStep: (step: string) => void;
 }
 
 const ApplicationContext = createContext<ApplicationContextValue>({
@@ -50,6 +53,7 @@ const ApplicationContext = createContext<ApplicationContextValue>({
   attachments: [],
   mobilityEntries: [],
   completedSteps: [],
+  partialSteps: [],
   createApplication: async () => null,
   uploadAttachment: async () => false,
   uploadProposal: async () => false,
@@ -82,6 +86,7 @@ export function ApplicationProvider({
   const [attachments, setAttachments] = useState<Attachment[]>([]);
   const [mobilityEntries, setMobilityEntries] = useState<MobilityEntry[]>([]);
   const [completedSteps, setCompletedSteps] = useState<string[]>([]);
+  const [partialSteps, setPartialSteps] = useState<string[]>([]);
   const { show } = useToast();
 
   useEffect(() => {
@@ -203,6 +208,15 @@ export function ApplicationProvider({
     const newList = Array.from(steps);
     setCompletedSteps(newList);
     await updateApplicationField("completed_steps", newList);
+    setPartialSteps((prev) => prev.filter((s) => s !== step));
+  };
+
+  const markPartialStep = (step: string) => {
+    setPartialSteps((prev) => (prev.includes(step) ? prev : [...prev, step]));
+  };
+
+  const clearPartialStep = (step: string) => {
+    setPartialSteps((prev) => prev.filter((s) => s !== step));
   };
 
   const deleteAttachment = async (id: string) => {
@@ -275,6 +289,7 @@ export function ApplicationProvider({
         attachments,
         mobilityEntries,
         completedSteps,
+        partialSteps,
         createApplication,
         uploadAttachment,
         uploadProposal,
@@ -286,6 +301,8 @@ export function ApplicationProvider({
         submitApplication,
         updateApplicationField,
         completeStep,
+        markPartialStep,
+        clearPartialStep,
       }}
     >
       {children}
