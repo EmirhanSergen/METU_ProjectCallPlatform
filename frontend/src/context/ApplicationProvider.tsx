@@ -130,6 +130,8 @@ export function ApplicationProvider({
       } catch {
         setApplication({});
         setAttachments([]);
+        setApplicationId(null);
+        localStorage.removeItem(`applicationId_${callId}`);
         show("Failed to load application");
       }
     };
@@ -280,8 +282,7 @@ export function ApplicationProvider({
   const submitApplication = async () => {
     if (!applicationId) return false;
     try {
-      await updateApplication(applicationId, {
-        call_id: callId,
+      await patchApplication(applicationId, {
         status: "SUBMITTED",
       });
       setApplication((prev) => ({ ...prev, status: "SUBMITTED" }));

@@ -74,3 +74,7 @@ export function getApplicationAttachments(id: string) {
 export function deleteAttachment(id: string) {
   return apiFetch(`/attachments/${id}`, { method: "DELETE" });
 }
+
+export function confirmAttachment(id: string) {
+  return apiFetch(`/attachments/${id}/confirm`, { method: "PATCH" });
+}
