@@ -38,6 +38,11 @@ export function getApplications() {
   return apiFetch(`/applications`) as Promise<any[]>;
 }
 
+export function getApplicationsByCall(callId: string) {
+  const query = `?call_id=${encodeURIComponent(callId)}`;
+  return apiFetch(`/applications${query}`) as Promise<any[]>;
+}
+
 export function getApplication(id: string) {
   return apiFetch(`/applications/${id}`) as Promise<any>;
 }
