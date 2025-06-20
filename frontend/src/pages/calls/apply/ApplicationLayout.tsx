@@ -45,14 +45,17 @@ function LayoutContent({ activeIndex }: { activeIndex: number }) {
           <NavLink
             key={step.path}
             to={step.path}
-            className={({ isActive }) =>
-              [
+            className={({ isActive }) => {
+              const isCompleted = completed.includes(step.path);
+              return [
                 "block px-4 py-2 rounded-lg font-medium text-sm transition",
-                index === activeIndex || isActive
+                isActive || index === activeIndex
                   ? "bg-blue-600 text-white"
+                  : isCompleted
+                  ? "bg-green-200 text-gray-700 hover:bg-green-300"
                   : "bg-gray-100 text-gray-700 hover:bg-gray-200",
-              ].join(" ")
-            }
+              ].join(" ");
+            }}
           >
             {completed.includes(step.path) ? (
               <span className="text-green-600 mr-1">✓</span>
