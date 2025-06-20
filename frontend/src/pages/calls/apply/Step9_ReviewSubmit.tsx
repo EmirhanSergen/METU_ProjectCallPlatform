@@ -1,10 +1,23 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useApplication } from "../../../context/ApplicationProvider";
 import { Button } from "../../../components/ui/Button";
 import ConfirmModal from "../../../components/ui/ConfirmModal";
 
+const steps = [
+  { name: "Call Info", path: "step1" },
+  { name: "Applicant Info", path: "step2" },
+  { name: "Application Details", path: "step3" },
+  { name: "Documents Upload", path: "step4" },
+  { name: "Academic Portfolio", path: "step5" },
+  { name: "Mobility", path: "step6" },
+  { name: "Proposal & CV", path: "step7" },
+  { name: "Ethics & Security", path: "step8" },
+  { name: "Review & Submit", path: "step9" },
+];
+
 export default function Step9_ReviewSubmit() {
-  const { applicationId, submitApplication, application, completeStep } = useApplication();
+  const { applicationId, submitApplication, completedSteps, completeStep } = useApplication();
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [open, setOpen] = useState(false);
@@ -35,6 +48,26 @@ export default function Step9_ReviewSubmit() {
       <p className="text-sm text-gray-700">
         Please ensure all required fields and uploads are complete. Once you submit, you won’t be able to edit your application.
       </p>
+
+      <ul className="space-y-1 text-sm">
+        {steps.map((step) => {
+          const done = completedSteps.includes(step.path);
+          return (
+            <li key={step.path} className="flex justify-between">
+              {done ? (
+                <span>{step.name}</span>
+              ) : (
+                <Link to={`../${step.path}`} className="text-blue-600 underline">
+                  {step.name}
+                </Link>
+              )}
+              <span className={done ? "text-green-600" : "text-red-600"}>
+                {done ? "Completed" : "Missing"}
+              </span>
+            </li>
+          );
+        })}
+      </ul>
 
       {error && <div className="text-red-500 text-sm">{error}</div>}
 
