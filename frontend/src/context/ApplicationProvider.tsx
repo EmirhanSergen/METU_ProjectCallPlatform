@@ -26,6 +26,7 @@ import { useToast } from "./ToastProvider";
 interface ApplicationContextValue {
   call: Call | null;
   applicationId: string | null;
+  applicationFormId: string | null;
   application: Record<string, any>;
   attachments: Attachment[];
   mobilityEntries: MobilityEntry[];
@@ -49,6 +50,7 @@ interface ApplicationContextValue {
 const ApplicationContext = createContext<ApplicationContextValue>({
   call: null,
   applicationId: null,
+  applicationFormId: null,
   application: {},
   attachments: [],
   mobilityEntries: [],
@@ -85,6 +87,7 @@ export function ApplicationProvider({
   const [application, setApplication] = useState<Record<string, any>>({});
   const [attachments, setAttachments] = useState<Attachment[]>([]);
   const [mobilityEntries, setMobilityEntries] = useState<MobilityEntry[]>([]);
+  const [applicationFormId, setApplicationFormId] = useState<string | null>(null);
   const [completedSteps, setCompletedSteps] = useState<string[]>([]);
   const [partialSteps, setPartialSteps] = useState<string[]>([]);
   const { show } = useToast();
@@ -118,6 +121,7 @@ export function ApplicationProvider({
           getApplicationAttachments(applicationId),
         ]);
         setApplication(app);
+        setApplicationFormId(app.application_form_id ?? null);
         setAttachments(files);
         setCompletedSteps(app.completed_steps || []);
       } catch {
@@ -127,8 +131,9 @@ export function ApplicationProvider({
       }
     };
     const fetchMobility = async () => {
+      if (!applicationFormId) return;
       try {
-        const data = await apiGetMobilityEntries(applicationId);
+        const data = await apiGetMobilityEntries(applicationFormId);
         setMobilityEntries(data);
       } catch {
         setMobilityEntries([]);
@@ -138,13 +143,16 @@ export function ApplicationProvider({
 
     fetchData();
     fetchMobility();
-  }, [applicationId, callId, show]);
+  }, [applicationId, applicationFormId, callId, show]);
 
   const createApplication = async (): Promise<string | null> => {
     if (applicationId) return applicationId;
     try {
       const data = await apiCreateApplication(callId);
       setApplicationId(data.id as string);
+      if ("application_form_id" in data) {
+        setApplicationFormId((data as any).application_form_id as string);
+      }
       setApplication({ ...data, completed_steps: [] } as Record<string, any>);
       setCompletedSteps([]);
       return data.id as string;
@@ -233,9 +241,9 @@ export function ApplicationProvider({
 
 
   const addMobilityEntry = async (data: MobilityEntryInput) => {
-    if (!applicationId) return false;
+    if (!applicationFormId) return false;
     try {
-      const entry = await apiCreateMobilityEntry(applicationId, data);
+      const entry = await apiCreateMobilityEntry(applicationFormId, data);
       setMobilityEntries((prev) => [...prev, entry]);
       return true;
     } catch {
@@ -285,6 +293,7 @@ export function ApplicationProvider({
       value={{
         call,
         applicationId,
+        applicationFormId,
         application,
         attachments,
         mobilityEntries,
