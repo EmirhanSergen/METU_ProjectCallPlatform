@@ -28,8 +28,6 @@ export default function Navbar() {
           <Link to="/" className="hover:underline">Home</Link>
           {token && <Link to="/call" className="hover:underline">Call</Link>}
           <Link to="/about" className="hover:underline">About</Link>
-          <Link to="/terms" className="hover:underline">Terms</Link>
-          <Link to="/privacy" className="hover:underline">Privacy</Link>
           {token && <Link to="/settings" className="hover:underline">Settings</Link>}
           {token && role === UserRole.applicant && (
             <Link to="/applications/me" className="hover:underline">My Applications</Link>
