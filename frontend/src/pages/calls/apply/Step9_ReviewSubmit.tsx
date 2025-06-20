@@ -23,6 +23,7 @@ export default function Step9_ReviewSubmit() {
     completedSteps,
     partialSteps,
     completeStep,
+    isSubmitted,
   } = useApplication();
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -33,6 +34,7 @@ export default function Step9_ReviewSubmit() {
     (step) => step.path !== "step9" && !completedSteps.includes(step.path)
   );
   const hasPartial = partialSteps.length > 0;
+  const alreadySubmitted = isSubmitted || submitted;
 
   const handleSubmit = async () => {
     setSubmitting(true);
@@ -97,13 +99,13 @@ export default function Step9_ReviewSubmit() {
         </div>
       )}
 
-      {submitted ? (
+      {alreadySubmitted ? (
         <div className="text-green-600 font-medium">Application successfully submitted!</div>
       ) : (
         <>
           <Button
             onClick={() => setOpen(true)}
-            disabled={submitting || !applicationId || hasMissing || hasPartial}
+            disabled={submitting || !applicationId || hasMissing || hasPartial || isSubmitted}
           >
             {submitting ? "Submitting..." : "Submit Application"}
           </Button>

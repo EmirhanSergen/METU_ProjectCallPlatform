@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useApplication } from "../../../context/ApplicationProvider";
 import { useToast } from "../../../context/ToastProvider";
 import EthicsIssuesTable from "../../../components/application/EthicsIssuesTable";
 import SecurityIssuesTable from "../../../components/application/SecurityIssuesTable";
 
 export default function Step8_EthicsSecurity() {
-  const { application, updateApplicationField, completeStep } = useApplication();
+  const { application, updateApplicationField, completeStep, isSubmitted } = useApplication();
   const { show } = useToast();
   const [ethicsConfirmed, setEthicsConfirmed] = useState(
     application.ethics_confirmed || false
@@ -19,6 +19,13 @@ export default function Step8_EthicsSecurity() {
   const [securitySelfAssessment, setSecuritySelfAssessment] = useState(
     application.security_self_assessment_text || ""
   );
+
+  useEffect(() => {
+    setEthicsConfirmed(application.ethics_confirmed || false);
+    setEthicalDescription(application.ethical_dimension_description || "");
+    setComplianceText(application.compliance_text || "");
+    setSecuritySelfAssessment(application.security_self_assessment_text || "");
+  }, [application]);
 
   const handleChange = () => {
     updateApplicationField("ethics_confirmed", ethicsConfirmed);
@@ -43,6 +50,7 @@ export default function Step8_EthicsSecurity() {
             type="checkbox"
             checked={ethicsConfirmed}
             onChange={(e) => setEthicsConfirmed(e.target.checked)}
+            disabled={isSubmitted}
           />
           <span>I confirm that I have reviewed the ethical issues.</span>
         </label>
@@ -52,6 +60,7 @@ export default function Step8_EthicsSecurity() {
             className="input w-full h-24"
             value={ethicalDescription}
             onChange={(e) => setEthicalDescription(e.target.value)}
+            disabled={isSubmitted}
           />
         </div>
         <div>
@@ -60,6 +69,7 @@ export default function Step8_EthicsSecurity() {
             className="input w-full h-24"
             value={complianceText}
             onChange={(e) => setComplianceText(e.target.value)}
+            disabled={isSubmitted}
           />
         </div>
       </div>
@@ -72,12 +82,14 @@ export default function Step8_EthicsSecurity() {
             className="input w-full h-24"
             value={securitySelfAssessment}
             onChange={(e) => setSecuritySelfAssessment(e.target.value)}
+            disabled={isSubmitted}
           />
         </div>
       </div>
 
       <button
         onClick={handleChange}
+        disabled={isSubmitted}
         className="bg-blue-600 text-white px-4 py-2 rounded shadow"
       >
         Save Section

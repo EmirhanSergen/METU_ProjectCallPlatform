@@ -13,6 +13,7 @@ export default function Step7_ProposalCV() {
     completeStep,
     markPartialStep,
     clearPartialStep,
+    isSubmitted,
   } = useApplication();
 
 
@@ -75,12 +76,12 @@ export default function Step7_ProposalCV() {
         <FileInput
           accept="application/pdf"
           onChange={(e) => handleUpload(e, "proposal")}
-          disabled={loadingProposal}
+          disabled={loadingProposal || isSubmitted}
           className="mt-2"
         />
         <DocumentList
           documents={attachments.filter((a) => a.field_name === "proposal")}
-          onDelete={deleteAttachment}
+          onDelete={isSubmitted ? undefined : deleteAttachment}
         />
       </div>
 
@@ -100,12 +101,12 @@ export default function Step7_ProposalCV() {
         <FileInput
           accept="application/pdf"
           onChange={(e) => handleUpload(e, "cv")}
-          disabled={loadingCV}
+          disabled={loadingCV || isSubmitted}
           className="mt-2"
         />
         <DocumentList
           documents={attachments.filter((a) => a.field_name === "cv")}
-          onDelete={deleteAttachment}
+          onDelete={isSubmitted ? undefined : deleteAttachment}
         />
       </div>
 
@@ -119,6 +120,7 @@ export default function Step7_ProposalCV() {
             show("Please upload both files before completing this step");
           }
         }}
+        disabled={isSubmitted}
         className="bg-blue-600 text-white px-4 py-2 rounded"
       >
         Save

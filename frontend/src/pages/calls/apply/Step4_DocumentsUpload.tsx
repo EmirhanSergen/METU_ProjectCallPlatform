@@ -12,6 +12,7 @@ export default function Step4_DocumentsUpload() {
     completeStep,
     markPartialStep,
     clearPartialStep,
+    isSubmitted,
   } = useApplication();
   const { show } = useToast();
   const [loading, setLoading] = useState(false);
@@ -71,12 +72,12 @@ export default function Step4_DocumentsUpload() {
           type="file"
           accept="application/pdf,image/jpeg,image/jpg"
           onChange={(e) => handleChange(e, "passport_or_id")}
-          disabled={loading}
+          disabled={loading || isSubmitted}
           className="block mt-2"
         />
         <DocumentList
           documents={attachments.filter((a) => a.field_name === "passport_or_id")}
-          onDelete={deleteAttachment}
+          onDelete={isSubmitted ? undefined : deleteAttachment}
         />
       </div>
 
@@ -86,18 +87,19 @@ export default function Step4_DocumentsUpload() {
           type="file"
           accept="application/pdf,image/jpeg,image/jpg"
           onChange={(e) => handleChange(e, "phd_certificate")}
-          disabled={loading}
+          disabled={loading || isSubmitted}
           className="block mt-2"
         />
         <DocumentList
           documents={attachments.filter((a) => a.field_name === "phd_certificate")}
-          onDelete={deleteAttachment}
+          onDelete={isSubmitted ? undefined : deleteAttachment}
         />
       </div>
 
       {error && <div className="text-red-500">Error: {error}</div>}
       <button
         onClick={handleSave}
+        disabled={isSubmitted}
         className="bg-blue-600 text-white px-4 py-2 rounded"
       >
         Save

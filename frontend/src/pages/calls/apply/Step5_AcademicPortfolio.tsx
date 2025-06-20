@@ -7,7 +7,7 @@ import { useApplication } from "../../../context/ApplicationProvider";
 import { useToast } from "../../../context/ToastProvider";
 
 export default function Step5_AcademicPortfolio() {
-  const { updateApplicationField, application, completeStep } = useApplication();
+  const { updateApplicationField, application, completeStep, isSubmitted } = useApplication();
   const { show } = useToast();
   const { register, control, handleSubmit, reset } = useForm({
     defaultValues: {},
@@ -37,39 +37,39 @@ export default function Step5_AcademicPortfolio() {
       <h2 className="text-lg font-semibold">Academic Portfolio</h2>
       <div>
         <label className="block text-sm">Doctoral Discipline</label>
-        <Input {...register("doctoral_discipline")} />
+        <Input {...register("doctoral_discipline")} disabled={isSubmitted} />
       </div>
       <div>
         <label className="block text-sm">Doctoral Thesis Title</label>
-        <Input {...register("doctoral_thesis_title")} />
+        <Input {...register("doctoral_thesis_title")} disabled={isSubmitted} />
       </div>
       <div>
         <label className="block text-sm">Awarding Institution</label>
-        <Input {...register("doctoral_awarding_institution")} />
+        <Input {...register("doctoral_awarding_institution")} disabled={isSubmitted} />
       </div>
       <div>
         <label className="block text-sm">Doctoral Award Date</label>
-        <Input type="date" {...register("doctoral_award_date")} />
+        <Input type="date" {...register("doctoral_award_date")} disabled={isSubmitted} />
       </div>
       <div>
         <label className="block text-sm">Current Institution</label>
-        <Input {...register("current_institution")} />
+        <Input {...register("current_institution")} disabled={isSubmitted} />
       </div>
       <div>
         <label className="block text-sm">Department</label>
-        <Input {...register("current_department")} />
+        <Input {...register("current_department")} disabled={isSubmitted} />
       </div>
       <div>
         <label className="block text-sm">Town/City</label>
-        <Input {...register("current_institution_town")} />
+        <Input {...register("current_institution_town")} disabled={isSubmitted} />
       </div>
       <div>
         <label className="block text-sm">Country</label>
-        <Input {...register("current_institution_country")} />
+        <Input {...register("current_institution_country")} disabled={isSubmitted} />
       </div>
       <div>
         <label className="block text-sm">Phone Number</label>
-        <Input {...register("current_phone_number")} />
+        <Input {...register("current_phone_number")} disabled={isSubmitted} />
       </div>
 
       <div className="pt-4">
@@ -78,43 +78,43 @@ export default function Step5_AcademicPortfolio() {
           <div key={field.id} className="border p-4 rounded mb-4 space-y-2">
             <div>
               <label className="block text-sm">Full Name</label>
-              <Input {...register(`reference_list.${index}.name_surname`)} />
+              <Input {...register(`reference_list.${index}.name_surname`)} disabled={isSubmitted} />
             </div>
             <div>
               <label className="block text-sm">Institution</label>
-              <Input {...register(`reference_list.${index}.institution`)} />
+              <Input {...register(`reference_list.${index}.institution`)} disabled={isSubmitted} />
             </div>
             <div>
               <label className="block text-sm">Department</label>
-              <Input {...register(`reference_list.${index}.department`)} />
+              <Input {...register(`reference_list.${index}.department`)} disabled={isSubmitted} />
             </div>
             <div>
               <label className="block text-sm">Country</label>
-              <Input {...register(`reference_list.${index}.country`)} />
+              <Input {...register(`reference_list.${index}.country`)} disabled={isSubmitted} />
             </div>
             <div>
               <label className="block text-sm">Position</label>
-              <Input {...register(`reference_list.${index}.position`)} />
+              <Input {...register(`reference_list.${index}.position`)} disabled={isSubmitted} />
             </div>
             <div>
               <label className="block text-sm">Phone Number</label>
-              <Input {...register(`reference_list.${index}.phone_number`)} />
+              <Input {...register(`reference_list.${index}.phone_number`)} disabled={isSubmitted} />
             </div>
             <div>
               <label className="block text-sm">Email</label>
-              <Input {...register(`reference_list.${index}.email`)} />
+              <Input {...register(`reference_list.${index}.email`)} disabled={isSubmitted} />
             </div>
             <div>
               <label className="block text-sm">Reason for Reference</label>
-              <Textarea {...register(`reference_list.${index}.reason`)} />
+              <Textarea {...register(`reference_list.${index}.reason`)} disabled={isSubmitted} />
             </div>
-            <Button type="button" onClick={() => remove(index)} variant="outline">Remove</Button>
-          </div>
-        ))}
-        <Button type="button" onClick={() => append({})}>Add Reference</Button>
+            <Button type="button" onClick={() => remove(index)} variant="outline" disabled={isSubmitted}>Remove</Button>
+        </div>
+      ))}
+        <Button type="button" onClick={() => append({})} disabled={isSubmitted}>Add Reference</Button>
       </div>
 
-      <Button type="submit">Save and Continue</Button>
+      <Button type="submit" disabled={isSubmitted}>Save and Continue</Button>
     </form>
   );
 }

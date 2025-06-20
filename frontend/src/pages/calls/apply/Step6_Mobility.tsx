@@ -12,6 +12,7 @@ export default function Step6_Mobility() {
     removeMobilityEntry,
     mobilityEntries,
     completeStep,
+    isSubmitted,
   } = useApplication();
 
 
@@ -76,7 +77,7 @@ export default function Step6_Mobility() {
             <DatePicker
               value={entry.from_date}
               onChange={(e) => handleChange(index, "from_date", e.target.value)}
-
+              disabled={isSubmitted}
             />
           </div>
           <div>
@@ -84,6 +85,7 @@ export default function Step6_Mobility() {
             <DatePicker
               value={entry.to_date}
               onChange={(e) => handleChange(index, "to_date", e.target.value)}
+              disabled={isSubmitted}
             />
           </div>
           <div>
@@ -91,6 +93,7 @@ export default function Step6_Mobility() {
             <Input type="text"
               value={entry.organisation}
               onChange={(e) => handleChange(index, "organisation", e.target.value)}
+              disabled={isSubmitted}
             />
           </div>
           <div>
@@ -98,18 +101,19 @@ export default function Step6_Mobility() {
             <Input type="text"
               value={entry.country}
               onChange={(e) => handleChange(index, "country", e.target.value)}
+              disabled={isSubmitted}
             />
           </div>
           <div className="col-span-1 md:col-span-4 text-right">
-            <Button variant="destructive" onClick={() => handleRemove(index)}>
+            <Button variant="destructive" onClick={() => handleRemove(index)} disabled={isSubmitted}>
               Remove
             </Button>
           </div>
         </div>
       ))}
       <div className="space-x-2">
-        <Button onClick={handleAdd}>Add Mobility Entry</Button>
-        <Button onClick={handleSave}>Save All</Button>
+        <Button onClick={handleAdd} disabled={isSubmitted}>Add Mobility Entry</Button>
+        <Button onClick={handleSave} disabled={isSubmitted}>Save All</Button>
       </div>
     </div>
   );
