@@ -6,6 +6,7 @@ export function createUser(data: CreateUserInput) {
     email: data.email,
     first_name: data.first_name ?? "",
     last_name: data.last_name ?? "",
+    organization: data.organization ?? "",
     password: data.password ?? "",
     role: data.role,
   };
@@ -26,4 +27,8 @@ export function updateUser(id: string, data: UpdateUserInput) {
 
 export function getUser(id: string) {
   return apiFetch(`/users/${id}`) as Promise<User>;
+}
+
+export function listUsers() {
+  return apiFetch('/users') as Promise<User[]>;
 }

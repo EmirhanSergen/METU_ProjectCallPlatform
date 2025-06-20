@@ -5,6 +5,7 @@ export interface User {
   email: string;
   first_name: string;
   last_name: string;
+  organization?: string | null;
   role: UserRole;
   created_at?: string | null;
   updated_at?: string | null;
@@ -12,8 +13,9 @@ export interface User {
 
 export interface CreateUserInput {
   email: string;
-  first_name?: string;
-  last_name?: string;
+  first_name: string;
+  last_name: string;
+  organization?: string;
   password?: string;
   role?: UserRole;
 }
@@ -22,6 +24,7 @@ export interface UpdateUserInput {
   email?: string;
   first_name?: string;
   last_name?: string;
+  organization?: string;
   password?: string | null;
   role?: UserRole;
 }

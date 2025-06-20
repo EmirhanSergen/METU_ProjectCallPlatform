@@ -6,6 +6,7 @@ class User(Base, SoftDeleteMixin):
     email = Column(String(255), nullable=False)
     first_name = Column(String(255), nullable=False)
     last_name = Column(String(255), nullable=False)
+    organization = Column(String(255))
     password_hash = Column(Text, nullable=False)
     role = Column(SAEnum(UserRole), nullable=False, default=UserRole.applicant)
     created_at = Column(DateTime(timezone=True), default=datetime.utcnow)
