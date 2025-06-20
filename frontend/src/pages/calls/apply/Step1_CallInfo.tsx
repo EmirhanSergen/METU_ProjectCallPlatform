@@ -15,7 +15,7 @@ export default function Step1_CallInfo() {
     if (applicationId) {
       completeStep("step1");
     }
-  }, [applicationId, completeStep]);
+  }, [applicationId]);
 
   const handleCreate = async () => {
     setLoading(true);
