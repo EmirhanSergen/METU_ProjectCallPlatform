@@ -17,11 +17,22 @@ const steps = [
 ];
 
 export default function Step9_ReviewSubmit() {
-  const { applicationId, submitApplication, completedSteps, completeStep } = useApplication();
+  const {
+    applicationId,
+    submitApplication,
+    completedSteps,
+    partialSteps,
+    completeStep,
+  } = useApplication();
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [open, setOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const hasMissing = steps.some(
+    (step) => step.path !== "step9" && !completedSteps.includes(step.path)
+  );
+  const hasPartial = partialSteps.length > 0;
 
   const handleSubmit = async () => {
     setSubmitting(true);
@@ -52,6 +63,7 @@ export default function Step9_ReviewSubmit() {
       <ul className="space-y-1 text-sm">
         {steps.map((step) => {
           const done = completedSteps.includes(step.path);
+          const partial = partialSteps.includes(step.path);
           return (
             <li key={step.path} className="flex justify-between">
               {done ? (
@@ -61,8 +73,16 @@ export default function Step9_ReviewSubmit() {
                   {step.name}
                 </Link>
               )}
-              <span className={done ? "text-green-600" : "text-red-600"}>
-                {done ? "Completed" : "Missing"}
+              <span
+                className={
+                  done
+                    ? "text-green-600"
+                    : partial
+                    ? "text-yellow-600"
+                    : "text-red-600"
+                }
+              >
+                {done ? "Completed" : partial ? "Incomplete" : "Missing"}
               </span>
             </li>
           );
@@ -70,12 +90,21 @@ export default function Step9_ReviewSubmit() {
       </ul>
 
       {error && <div className="text-red-500 text-sm">{error}</div>}
+      {(hasMissing || hasPartial) && (
+        <div className="text-red-500 text-sm">
+          Please complete all steps before submitting. Sections marked as
+          "Missing" or "Incomplete" need to be saved.
+        </div>
+      )}
 
       {submitted ? (
         <div className="text-green-600 font-medium">Application successfully submitted!</div>
       ) : (
         <>
-          <Button onClick={() => setOpen(true)} disabled={submitting || !applicationId}>
+          <Button
+            onClick={() => setOpen(true)}
+            disabled={submitting || !applicationId || hasMissing || hasPartial}
+          >
             {submitting ? "Submitting..." : "Submit Application"}
           </Button>
           <ConfirmModal
