@@ -2,7 +2,10 @@
 
 const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:8000";
 
-export async function apiFetch(path: string, options: RequestInit = {}) {
+export async function apiFetch(
+  path: string,
+  options: RequestInit & { asBlob?: boolean } = {}
+) {
   const token = localStorage.getItem("token");
   const headers = new Headers(options.headers);
   if (token) {
@@ -28,6 +31,9 @@ export async function apiFetch(path: string, options: RequestInit = {}) {
     throw new Error(message);
   }
   if (res.status === 204) return null;
+  if (options.asBlob) {
+    return res.blob();
+  }
   return res.json();
 }
 
