@@ -1,6 +1,11 @@
 from .academic_portfolio import AcademicPortfolioBase, AcademicPortfolioCreate, AcademicPortfolioRead
 from .academic_reference import AcademicReferenceBase, AcademicReferenceCreate, AcademicReferenceRead
-from .application import ApplicationBase, ApplicationCreate, ApplicationRead
+from .application import (
+    ApplicationBase,
+    ApplicationCreate,
+    ApplicationRead,
+    ApplicationOut,
+)
 from .application_form import ApplicationFormBase, ApplicationFormCreate, ApplicationFormRead
 from .application_info import ApplicationInfoBase, ApplicationInfoCreate, ApplicationInfoRead
 from .attachment import AttachmentBase, AttachmentCreate, AttachmentRead
@@ -38,6 +43,7 @@ __all__ = [
     "ApplicationBase",
     "ApplicationCreate",
     "ApplicationRead",
+    "ApplicationOut",
     "ApplicationFormBase",
     "ApplicationFormCreate",
     "ApplicationFormRead",

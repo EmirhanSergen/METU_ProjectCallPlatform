@@ -54,9 +54,9 @@ export default function Step3_ApplicationDetails() {
         updateApplicationField(name, value);
       },
       onChange: (e) => {
-        const value =
-          e.target.type === "checkbox" ? (e.target as HTMLInputElement).checked : e.target.value;
-        updateApplicationField(name, value);
+        if (e.target.type === "checkbox") {
+          updateApplicationField(name, (e.target as HTMLInputElement).checked);
+        }
       },
     });
 

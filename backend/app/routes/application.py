@@ -1,13 +1,13 @@
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 import uuid
 
 from ..database import get_db
 from ..crud import application as crud
-from ..schemas import ApplicationCreate, ApplicationRead
+from ..schemas import ApplicationCreate, ApplicationRead, ApplicationOut
 from ..core.security import get_current_user, role_required
 from ..core.enums import UserRole
-from ..models import User
+from ..models import User, Application
 
 router = APIRouter(prefix="/applications", tags=["Application"])
 
@@ -27,12 +27,17 @@ def create_application(
     data_dict["user_id"] = current_user.id
     return crud.create(db, data_dict)
 
-@router.get('/me', response_model=list[ApplicationRead])
+@router.get('/me', response_model=list[ApplicationOut])
 def read_my_applications(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    return list(crud.get_applications_by_user_id(db, current_user.id))
+    return (
+        db.query(Application)
+        .options(joinedload(Application.user))
+        .filter(Application.user_id == current_user.id)
+        .all()
+    )
 
 @router.get('/{obj_id}', response_model=ApplicationRead)
 def read_application(obj_id: uuid.UUID, db: Session = Depends(get_db)):

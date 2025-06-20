@@ -5,7 +5,10 @@ import { useToast } from "../context/ToastProvider";
 interface Application {
   id: string;
   status?: string;
-  call_id?: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  created_at: string;
 }
 
 export default function MyApplicationsPage() {
@@ -59,6 +62,9 @@ export default function MyApplicationsPage() {
         <thead className="bg-gray-100 text-gray-600 text-sm uppercase">
           <tr>
             <th className="px-4 py-3 text-left">Application ID</th>
+            <th className="px-4 py-3 text-left">Applicant</th>
+            <th className="px-4 py-3 text-left">Email</th>
+            <th className="px-4 py-3 text-left">Created At</th>
             <th className="px-4 py-3 text-left">Status</th>
           </tr>
         </thead>
@@ -66,6 +72,9 @@ export default function MyApplicationsPage() {
           {applications.map((app) => (
             <tr key={app.id} className="border-t border-gray-200 hover:bg-gray-50 transition">
               <td className="px-4 py-2 font-mono">{app.id}</td>
+              <td className="px-4 py-2">{app.first_name} {app.last_name}</td>
+              <td className="px-4 py-2">{app.email}</td>
+              <td className="px-4 py-2">{new Date(app.created_at).toLocaleDateString()}</td>
               <td className="px-4 py-2">
                 <span
                   className={`px-2 py-1 rounded text-xs font-medium ${
