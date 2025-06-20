@@ -5,3 +5,8 @@ export * from './applicationForms';
 export * from './mobilityEntries';
 export * from './reviews';
 export * from './users';
+export * from './academicPortfolios';
+export * from './academicReferences';
+export * from './suggestedReferences';
+export * from './supervisors';
+export * from './institutions';
