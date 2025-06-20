@@ -4,13 +4,15 @@ import { Button } from "../components/ui/Button";
 import Table from "../components/ui/Table";
 import ConfirmModal from "../components/ui/ConfirmModal";
 import { getCalls, deleteCall } from "../api/calls";
-import { Call } from "../types/global";
+import { Call, UserRole } from "../types/global";
+import { useAuth } from "../context/AuthProvider";
 
 export default function CallManagementPage() {
   const [calls, setCalls] = useState<Call[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [confirmId, setConfirmId] = useState<string | null>(null);
+  const { role } = useAuth();
   const navigate = useNavigate();
 
   async function load() {
@@ -73,16 +75,27 @@ export default function CallManagementPage() {
                 <Button type="button" onClick={() => navigate(`/call/manage/${c.id}`)}>
                   Edit
                 </Button>
-                <Button type="button" onClick={() => setConfirmId(c.id)}>
-                  Delete
-                </Button>
-                <ConfirmModal
-                  open={confirmId === c.id}
-                  onOpenChange={() => setConfirmId(null)}
-                  title="Delete call?"
-                  description="This action cannot be undone."
-                  onConfirm={() => remove(c.id)}
-                />
+                {role === UserRole.super_admin ? (
+                  <>
+                    <Button type="button" onClick={() => setConfirmId(c.id)}>
+                      Delete
+                    </Button>
+                    <ConfirmModal
+                      open={confirmId === c.id}
+                      onOpenChange={() => setConfirmId(null)}
+                      title="Delete call?"
+                      description="This action cannot be undone."
+                      onConfirm={() => remove(c.id)}
+                    />
+                  </>
+                ) : (
+                  <span
+                    className="text-gray-400"
+                    title="Only super admins can delete calls"
+                  >
+                    Delete
+                  </span>
+                )}
               </td>
               <td>
                 <Link to={`/call/${c.id}/applications`}>
