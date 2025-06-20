@@ -1,5 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session, joinedload
+from sqlalchemy.exc import IntegrityError
 import uuid
 
 from ..database import get_db
@@ -25,7 +26,11 @@ def create_application(
     """
     data_dict = data.dict(exclude={"user_id"})
     data_dict["user_id"] = current_user.id
-    return crud.create(db, data_dict)
+    try:
+        return crud.create(db, data_dict)
+    except IntegrityError:
+        db.rollback()
+        raise HTTPException(status_code=400, detail="User already applied to this call")
 
 @router.get('/me', response_model=list[ApplicationOut])
 def read_my_applications(
