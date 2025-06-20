@@ -12,10 +12,27 @@ export default function EthicsIssuesTable() {
     <div className="space-y-2">
       <h3 className="font-medium">Ethics Issues</h3>
       <Table>
+        <thead>
+          <tr>
+            <th>Question</th>
+            <th>Yes</th>
+            <th>No</th>
+            <th>Page</th>
+          </tr>
+        </thead>
         <tbody>
           {ethicsQuestions.map((q, i) => (
             <tr key={i}>
               <td>{q}</td>
+              <td>
+                <input type="radio" name={`ethics_${i}`} value="yes" />
+              </td>
+              <td>
+                <input type="radio" name={`ethics_${i}`} value="no" />
+              </td>
+              <td>
+                <input type="text" className="input w-20" />
+              </td>
             </tr>
           ))}
         </tbody>

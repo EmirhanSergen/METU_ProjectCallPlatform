@@ -11,10 +11,27 @@ export default function SecurityIssuesTable() {
     <div className="space-y-2">
       <h3 className="font-medium">Security Issues</h3>
       <Table>
+        <thead>
+          <tr>
+            <th>Question</th>
+            <th>Yes</th>
+            <th>No</th>
+            <th>Page</th>
+          </tr>
+        </thead>
         <tbody>
           {securityQuestions.map((q, i) => (
             <tr key={i}>
               <td>{q}</td>
+              <td>
+                <input type="radio" name={`security_${i}`} value="yes" />
+              </td>
+              <td>
+                <input type="radio" name={`security_${i}`} value="no" />
+              </td>
+              <td>
+                <input type="text" className="input w-20" />
+              </td>
             </tr>
           ))}
         </tbody>

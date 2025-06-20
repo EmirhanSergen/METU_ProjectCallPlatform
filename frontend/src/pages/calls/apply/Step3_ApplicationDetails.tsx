@@ -34,29 +34,11 @@ export default function Step3_ApplicationDetails() {
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: {
-      project_title: application.project_title || "",
-      acronym: application.acronym || "",
-      keywords: application.keywords || "",
-      abstract: application.abstract || "",
-      selected_supervisor: application.selected_supervisor || "",
-      has_secondment: application.has_secondment || false,
-      selected_from_db: application.selected_from_db || false,
-      institution_name: application.institution_name || "",
-    },
+    defaultValues: {},
   });
 
   useEffect(() => {
-    reset({
-      project_title: application.project_title || "",
-      acronym: application.acronym || "",
-      keywords: application.keywords || "",
-      abstract: application.abstract || "",
-      selected_supervisor: application.selected_supervisor || "",
-      has_secondment: application.has_secondment || false,
-      selected_from_db: application.selected_from_db || false,
-      institution_name: application.institution_name || "",
-    });
+    reset(application as Partial<FormValues>);
   }, [application, reset]);
 
   const onSubmit = async () => {

@@ -3,6 +3,8 @@ import { useState } from "react";
 import { Attachment } from "../../types/application";
 import ConfirmModal from "./ConfirmModal";
 
+const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:8000";
+
 export default function DocumentList({
   documents,
   onDelete,
@@ -19,9 +21,13 @@ export default function DocumentList({
     <ul className="space-y-2">
       {documents.map((doc) => (
         <li key={doc.id} className="flex justify-between border p-2 rounded">
-          <span>
+          <a
+            href={`${API_BASE}/files/${doc.id}`}
+            className="text-blue-600 underline"
+            download
+          >
             {doc.field_name ? `${doc.field_name}: ${doc.doc_name}` : doc.doc_name}
-          </span>
+          </a>
           {onDelete && (
             <>
               <button

@@ -36,7 +36,7 @@ export default function ApplicationLayout() {
 }
 
 function LayoutContent({ activeIndex }: { activeIndex: number }) {
-  const { completedSteps } = useApplication();
+  const { completedSteps, partialSteps } = useApplication();
   const completed = completedSteps;
   return (
     <div className="p-6 md:flex md:space-x-6">
@@ -47,18 +47,23 @@ function LayoutContent({ activeIndex }: { activeIndex: number }) {
             to={step.path}
             className={({ isActive }) => {
               const isCompleted = completed.includes(step.path);
+              const isPartial = partialSteps.includes(step.path) && !isCompleted;
               return [
                 "block px-4 py-2 rounded-lg font-medium text-sm transition",
                 isActive || index === activeIndex
                   ? "bg-blue-600 text-white"
                   : isCompleted
                   ? "bg-green-200 text-gray-700 hover:bg-green-300"
+                  : isPartial
+                  ? "bg-yellow-200 text-gray-700 hover:bg-yellow-300"
                   : "bg-gray-100 text-gray-700 hover:bg-gray-200",
               ].join(" ");
             }}
           >
             {completed.includes(step.path) ? (
               <span className="text-green-600 mr-1">✓</span>
+            ) : partialSteps.includes(step.path) ? (
+              <span className="text-yellow-600 mr-1">~</span>
             ) : (
               <span className="mr-1">{index + 1}.</span>
             )}

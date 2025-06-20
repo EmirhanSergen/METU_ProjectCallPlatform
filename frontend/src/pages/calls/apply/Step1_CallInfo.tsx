@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../../components/ui/Button";
 import { useToast } from "../../../context/ToastProvider";
@@ -10,6 +10,12 @@ export default function Step1_CallInfo() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (applicationId) {
+      completeStep("step1");
+    }
+  }, [applicationId, completeStep]);
 
   const handleCreate = async () => {
     setLoading(true);
