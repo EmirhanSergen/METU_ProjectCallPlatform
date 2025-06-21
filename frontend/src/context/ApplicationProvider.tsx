@@ -279,18 +279,19 @@ export function ApplicationProvider({
     }
   };
 
-  const updateApplicationField = async (field: string, value: unknown) => {
-    if (!applicationId) return;
-    setApplication((prev) => ({ ...prev, [field]: value }));
-    if (field === "completed_steps") {
-      setCompletedSteps(value as string[]);
-    }
-    try {
-      await patchApplication(applicationId, { [field]: value });
-    } catch {
-      show("Failed to update application");
-    }
-  };
+  const updateApplicationField = useCallback(
+    async (field: string, value: unknown) => {
+      if (!applicationId) return;
+      setApplication((prev) => ({ ...prev, [field]: value }));
+      if (field === "completed_steps") setCompletedSteps(value as string[]);
+      try {
+        await patchApplication(applicationId, { [field]: value });
+      } catch {
+        show("Failed to update application");
+      }
+    },
+    [applicationId, show]
+  );
 
   const updateApplicationFormField = async (field: string, value: unknown) => {
     if (!applicationFormId) return;
@@ -308,14 +309,15 @@ export function ApplicationProvider({
 
   const completeStep = useCallback(
     async (step: string) => {
-      const steps = new Set<string>(completedSteps);
-      steps.add(step);
-      const newList = Array.from(steps);
-      setCompletedSteps(newList);
-      await updateApplicationField("completed_steps", newList);
+      setCompletedSteps((prev) => {
+        if (prev.includes(step)) return prev;
+        const newList = [...prev, step];
+        updateApplicationField("completed_steps", newList);
+        return newList;
+      });
       setPartialSteps((prev) => prev.filter((s) => s !== step));
     },
-    [completedSteps, updateApplicationField]
+    [updateApplicationField]
   );
 
   const markPartialStep = useCallback((step: string) => {
