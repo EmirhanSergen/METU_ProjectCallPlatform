@@ -29,7 +29,7 @@ export default function Step2_ApplicantInfo() {
     formState: { errors, isSubmitting },
   } = useForm<ApplicantInfoForm>({
     resolver: zodResolver(applicantInfoSchema),
-    defaultValues: {},
+    defaultValues: { year_of_birth: undefined },
   });
 
   useEffect(() => {
@@ -50,6 +50,10 @@ export default function Step2_ApplicantInfo() {
       await updateApplicationForm(applicationFormId, {
         ...(formData || {}),
         ...data,
+        year_of_birth:
+          data.year_of_birth !== undefined && data.year_of_birth !== null
+            ? Number(data.year_of_birth)
+            : undefined,
         application_id: applicationId,
       });
       await completeStep("step2");
@@ -76,8 +80,15 @@ export default function Step2_ApplicantInfo() {
           {errors.first_name && <p className="text-red-500 text-sm">{errors.first_name.message}</p>}
         </div>
         <div>
-          <Input {...register("year_of_birth") } placeholder="Year of Birth" disabled={isSubmitted} />
-          {errors.year_of_birth && <p className="text-red-500 text-sm">{errors.year_of_birth.message}</p>}
+          <Input
+            type="number"
+            {...register("year_of_birth")}
+            placeholder="Year of Birth"
+            disabled={isSubmitted}
+          />
+          {errors.year_of_birth && (
+            <p className="text-red-500 text-sm">{errors.year_of_birth.message}</p>
+          )}
         </div>
         <div>
           <Input {...register("nationality") } placeholder="Nationality" disabled={isSubmitted} />
