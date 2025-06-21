@@ -1,31 +1,81 @@
 import { useForm, useFieldArray } from "react-hook-form";
 import { useEffect } from "react";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../../components/ui/Input";
 import { Textarea } from "../../components/ui/Textarea";
 import { Button } from "../../components/ui/Button";
 import { useApplication } from "../../context/ApplicationProvider";
 import { useToast } from "../../context/ToastProvider";
+import type { ApplicationFormInput } from "../../types/application_forms";
+import type { SuggestedReferenceInput } from "../../types/suggestedReference.types";
+
+interface PortfolioForm
+  extends Pick<
+    ApplicationFormInput,
+    | "doctoral_discipline"
+    | "doctoral_thesis_title"
+    | "doctoral_awarding_institution"
+    | "doctoral_award_date"
+    | "current_institution"
+    | "current_department"
+    | "current_institution_town"
+    | "current_institution_country"
+    | "current_phone_number"
+  > {
+  reference_list: SuggestedReferenceInput[];
+}
+
+const referenceSchema = z.object({
+  name_surname: z.string().min(1, "Required"),
+  institution: z.string().optional(),
+  department: z.string().optional(),
+  country: z.string().optional(),
+  position: z.string().optional(),
+  phone_number: z.string().optional(),
+  email: z.string().email().optional(),
+  reason: z.string().optional(),
+});
+
+const portfolioSchema = z.object({
+  doctoral_discipline: z.string().optional(),
+  doctoral_thesis_title: z.string().optional(),
+  doctoral_awarding_institution: z.string().optional(),
+  doctoral_award_date: z.string().optional(),
+  current_institution: z.string().optional(),
+  current_department: z.string().optional(),
+  current_institution_town: z.string().optional(),
+  current_institution_country: z.string().optional(),
+  current_phone_number: z.string().optional(),
+  reference_list: z.array(referenceSchema).default([]),
+});
+
+type PortfolioFormValues = z.infer<typeof portfolioSchema>;
 
 export default function Step5_AcademicPortfolio() {
   const { updateApplicationFormField, applicationForm, completeStep, isSubmitted } = useApplication();
   const { show } = useToast();
-  const { register, control, handleSubmit, reset } = useForm({
-    defaultValues: {},
+  const { register, control, handleSubmit, reset } = useForm<PortfolioFormValues>({
+    resolver: zodResolver(portfolioSchema),
+    defaultValues: { reference_list: [] },
   });
 
   useEffect(() => {
-    reset(applicationForm as any);
+    reset(applicationForm as Partial<PortfolioFormValues>);
   }, [applicationForm, reset]);
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove } = useFieldArray<PortfolioFormValues, "reference_list">({
     control,
-    name: "reference_list"
+    name: "reference_list",
   });
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: PortfolioFormValues) => {
     try {
-      for (const [field, value] of Object.entries(data)) {
-        await updateApplicationFormField(field, value);
+      for (const [field, value] of Object.entries(data) as [
+        keyof PortfolioFormValues,
+        PortfolioFormValues[keyof PortfolioFormValues]
+      ][]) {
+        await updateApplicationFormField(field as string, value);
       }
       await completeStep("step5");
       show("Academic portfolio saved");
@@ -113,7 +163,24 @@ export default function Step5_AcademicPortfolio() {
             <Button type="button" onClick={() => remove(index)} variant="outline" disabled={isSubmitted}>Remove</Button>
         </div>
       ))}
-        <Button type="button" onClick={() => append({})} disabled={isSubmitted}>Add Reference</Button>
+        <Button
+          type="button"
+          onClick={() =>
+            append({
+              name_surname: "",
+              institution: "",
+              department: "",
+              country: "",
+              position: "",
+              phone_number: "",
+              email: "",
+              reason: "",
+            })
+          }
+          disabled={isSubmitted}
+        >
+          Add Reference
+        </Button>
       </div>
 
       <Button type="submit" disabled={isSubmitted}>Save and Continue</Button>
