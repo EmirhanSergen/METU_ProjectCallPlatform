@@ -1,4 +1,11 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+  useCallback,
+} from "react";
 import {
   createApplication as apiCreateApplication,
   uploadAttachment as apiUploadAttachment,
@@ -299,22 +306,25 @@ export function ApplicationProvider({
     }
   };
 
-  const completeStep = async (step: string) => {
-    const steps = new Set<string>(completedSteps);
-    steps.add(step);
-    const newList = Array.from(steps);
-    setCompletedSteps(newList);
-    await updateApplicationField("completed_steps", newList);
-    setPartialSteps((prev) => prev.filter((s) => s !== step));
-  };
+  const completeStep = useCallback(
+    async (step: string) => {
+      const steps = new Set<string>(completedSteps);
+      steps.add(step);
+      const newList = Array.from(steps);
+      setCompletedSteps(newList);
+      await updateApplicationField("completed_steps", newList);
+      setPartialSteps((prev) => prev.filter((s) => s !== step));
+    },
+    [completedSteps, updateApplicationField]
+  );
 
-  const markPartialStep = (step: string) => {
+  const markPartialStep = useCallback((step: string) => {
     setPartialSteps((prev) => (prev.includes(step) ? prev : [...prev, step]));
-  };
+  }, []);
 
-  const clearPartialStep = (step: string) => {
+  const clearPartialStep = useCallback((step: string) => {
     setPartialSteps((prev) => prev.filter((s) => s !== step));
-  };
+  }, []);
 
   const deleteAttachment = async (id: string) => {
     try {
