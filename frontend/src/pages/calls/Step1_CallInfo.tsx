@@ -50,13 +50,11 @@ export default function Step1_CallInfo() {
     <div className="space-y-2">
       <h2 className="text-lg font-semibold">{call?.title}</h2>
       <p>{call?.description}</p>
-      <Button onClick={handleCreate} disabled={!!applicationId || loading}>
-        {loading
-          ? "Loading..."
-          : applicationId
-          ? "Application Created"
-          : "Start Application"}
-      </Button>
+      {!applicationId && (
+        <Button onClick={handleCreate} disabled={loading}>
+          {loading ? "Loading..." : "Start Application"}
+        </Button>
+      )}
       {error && <div className="text-red-500">Error: {error}</div>}
     </div>
   );

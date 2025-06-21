@@ -32,7 +32,35 @@ def create_application(
     if not call_obj or call_obj.status != CallStatus.PUBLISHED:
         raise HTTPException(status_code=400, detail="Invalid call")
 
-    return crud.create(db, data_dict)
+    # Avoid unique constraint errors by returning the existing draft if present
+    existing = (
+        db.query(Application)
+        .filter(
+            Application.call_id == call_id,
+            Application.user_id == current_user.id,
+            Application.is_deleted.is_(False),
+        )
+        .first()
+    )
+    if existing:
+        return existing
+
+    try:
+        return crud.create(db, data_dict)
+    except IntegrityError:
+        db.rollback()
+        existing = (
+            db.query(Application)
+            .filter(
+                Application.call_id == call_id,
+                Application.user_id == current_user.id,
+                Application.is_deleted.is_(False),
+            )
+            .first()
+        )
+        if existing:
+            return existing
+        raise
 
 @router.get('/me', response_model=list[ApplicationOut])
 def read_my_applications(

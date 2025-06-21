@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useToast } from "../../context/ToastProvider";
 import { useAuth } from "../../context/AuthProvider";
-import { getCalls } from "../../api";
+import { getCalls, getMyApplications } from "../../api";
 import { ApiError } from "../../lib/api";
 import { UserRole } from "../../types/global";
 import type { Call } from "../../types/global";
@@ -13,6 +13,7 @@ export default function CallPage() {
   const [call, setCall] = useState<Call | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [hasDraft, setHasDraft] = useState(false);
 
   useEffect(() => {
     setLoading(true);
@@ -30,6 +31,16 @@ export default function CallPage() {
       })
       .finally(() => setLoading(false));
   }, [show]);
+
+  useEffect(() => {
+    if (!call || role !== "applicant") return;
+    getMyApplications()
+      .then((apps) => {
+        const found = apps.find((a) => a.call_id === call.id && a.status !== "SUBMITTED");
+        setHasDraft(!!found);
+      })
+      .catch(() => setHasDraft(false));
+  }, [call, role]);
 
   if (loading) return <div className="text-center">Loading...</div>;
   if (error) return <div className="text-red-500 text-center">{error}</div>;
@@ -56,7 +67,7 @@ export default function CallPage() {
               to={`/call/${call.id}/apply`}
               className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
             >
-              Apply Now
+              {hasDraft ? "Continue" : "Apply Now"}
             </Link>
           )}
 
