@@ -85,6 +85,8 @@ const ApplicationContext = createContext<ApplicationContextValue>({
   updateApplicationField: async () => {},
   updateApplicationFormField: async () => {},
   completeStep: async () => {},
+  markPartialStep: () => {},
+  clearPartialStep: () => {},
   isSubmitted: false,
 });
 
