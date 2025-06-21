@@ -1,25 +1,17 @@
 
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../../components/ui/Input";
 import { useToast } from "../../context/ToastProvider";
 
 import { useApplication } from "../../context/ApplicationProvider";
+import {
+  applicationDetailsSchema,
+  type ApplicationDetailsForm,
+} from "./schemas";
 
-const schema = z.object({
-  project_title: z.string().min(1, "Required"),
-  acronym: z.string().optional(),
-  keywords: z.string().optional(),
-  abstract: z.string().optional(),
-  selected_supervisor: z.string().optional(),
-  has_secondment: z.boolean().optional(),
-  selected_from_db: z.boolean().optional(),
-  institution_name: z.string().optional(),
-});
-
-type FormValues = z.infer<typeof schema>;
+type FormValues = ApplicationDetailsForm;
 
 export default function Step3_ApplicationDetails() {
   const { applicationForm, updateApplicationFormField, completeStep, isSubmitted } = useApplication();
@@ -33,7 +25,7 @@ export default function Step3_ApplicationDetails() {
     reset,
     formState: { errors },
   } = useForm<FormValues>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(applicationDetailsSchema),
     defaultValues: {},
   });
 
