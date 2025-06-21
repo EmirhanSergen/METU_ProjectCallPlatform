@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useToast } from "../../context/ToastProvider";
 import { useAuth } from "../../context/AuthProvider";
 import { getCalls } from "../../api";
+import { ApiError } from "../../lib/api";
 import { UserRole } from "../../types/global";
 import type { Call } from "../../types/global";
 
@@ -23,8 +24,9 @@ export default function CallPage() {
         setCall(openCall);
       })
       .catch((err) => {
-        setError((err as Error).message);
-        show("Failed to load call");
+        const msg = err instanceof ApiError ? err.message : "Failed to load call";
+        setError(err instanceof ApiError ? err.message : msg);
+        show(msg);
       })
       .finally(() => setLoading(false));
   }, [show]);

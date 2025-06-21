@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Input } from "../../../components/ui/Input";
 import { Button } from "../../../components/ui/Button";
 import { createCall, updateCall, getCall, getCalls } from "../../../api";
+import { ApiError } from "../../../lib/api";
 import { CallStatus, Call } from "../../../types/global";
 import type { CallInput } from "../../../types/calls.types";
 import { useToast } from "../../../context/ToastProvider";
@@ -36,7 +37,11 @@ export default function CallFormPage() {
           end_date: data.end_date ? data.end_date.substring(0, 10) : "",
         });
       })
-      .catch((err) => setError(err.message))
+      .catch((err) => {
+        const msg = err instanceof ApiError ? err.message : "Failed to load call";
+        setError(err instanceof ApiError ? err.message : msg);
+        show(msg);
+      })
       .finally(() => setLoading(false));
   }, [callId]);
 
@@ -83,7 +88,9 @@ export default function CallFormPage() {
       }
       navigate("/call/manage");
     } catch (err) {
-      setError((err as Error).message);
+      const msg = err instanceof ApiError ? err.message : "Failed to save call";
+      setError(err instanceof ApiError ? err.message : msg);
+      show(msg);
     } finally {
       setLoading(false);
     }

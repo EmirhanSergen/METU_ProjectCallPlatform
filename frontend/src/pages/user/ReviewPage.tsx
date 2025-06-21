@@ -8,6 +8,7 @@ import type { ReviewReport } from "../../types/review_reports";
 import type { Attachment } from "../../types/attachments";
 import { getReviewReport, createReviewReport } from "../../api";
 import { getApplicationAttachments } from "../../api";
+import { ApiError } from "../../lib/api";
 
 
 export default function ReviewPage() {
@@ -26,14 +27,20 @@ export default function ReviewPage() {
     if (!reviewId) return;
     getReviewReport(reviewId)
       .then(setReview)
-      .catch((err) => show(err.message));
+      .catch((err) => {
+        const msg = err instanceof ApiError ? err.message : "Failed to load review";
+        show(msg);
+      });
   }, [reviewId, show]);
 
   useEffect(() => {
     if (review?.application_id) {
       getApplicationAttachments(review.application_id)
         .then(setAttachments)
-        .catch((err) => show(err.message));
+        .catch((err) => {
+          const msg = err instanceof ApiError ? err.message : "Failed to load attachments";
+          show(msg);
+        });
     }
   }, [review, show]);
 
@@ -58,12 +65,9 @@ export default function ReviewPage() {
     createReviewReport(data)
       .then(() => show("Review submitted"))
       .catch((err: unknown) => {
-      if (err instanceof Error) {
-        show(err.message);
-      } else {
-        show("An unexpected error occurred");
-      }
-    });
+        const msg = err instanceof ApiError ? err.message : "An unexpected error occurred";
+        show(msg);
+      });
   }
 
   if (!review) return <div>Loading...</div>;

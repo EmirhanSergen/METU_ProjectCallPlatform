@@ -3,6 +3,7 @@ import { Input } from "../../../components/ui/Input";
 import { Button } from "../../../components/ui/Button";
 import { UserRole } from "../../../types/global";
 import { createUser, listUsers } from "../../../api";
+import { ApiError } from "../../../lib/api";
 import { useToast } from "../../../context/ToastProvider";
 import type { User } from "../../../types/users";
 
@@ -22,7 +23,8 @@ export default function AdminUserManagementPage() {
         const data = await listUsers();
         setUsers(data);
       } catch (err) {
-        show((err as Error).message);
+        const msg = err instanceof ApiError ? err.message : "Failed to load users";
+        show(msg);
       }
     }
     fetchUsers();
@@ -47,7 +49,8 @@ export default function AdminUserManagementPage() {
       setOrganization("");
       show("User created");
     } catch (err) {
-      show((err as Error).message);
+      const msg = err instanceof ApiError ? err.message : "Failed to create user";
+      show(msg);
     }
   };
 
