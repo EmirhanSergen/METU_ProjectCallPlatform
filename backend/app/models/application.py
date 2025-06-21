@@ -19,6 +19,10 @@ class Application(Base, SoftDeleteMixin):
     form = relationship('ApplicationForm', back_populates='application', uselist=False)
     review_reports = relationship('ReviewReport', back_populates='application')
 
+    @property
+    def application_form_id(self):
+        return self.form.id if self.form else None
+
     __table_args__ = (
         UniqueConstraint('call_id', 'user_id', 'is_deleted', name='uq_application_call_user'),
     )
