@@ -3,39 +3,29 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/ui/Button";
 import { useToast } from "../../context/ToastProvider";
 import { useApplication } from "../../context/ApplicationProvider";
-import {
-  createApplication,
-  createApplicationForm,
-  patchApplication,
-} from "../../api";
-import type { Application } from "../../types/applications";
+
 
 export default function Step1_CallInfo() {
-  const { call, applicationId } = useApplication();
+  const { call, applicationId, createApplication, completeStep } = useApplication();
   const { show } = useToast();
   const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [application, setApplication] = useState<Application | null>(null);
 
   useEffect(() => {
     // If an application already exists, mark this step as completed on load
     if (applicationId) {
-      patchApplication(applicationId, {
-        completed_steps: ["step1"],
-      }).catch(() => {});
+      completeStep("step1").catch(() => {});
     }
-  }, [applicationId]);
+  }, [applicationId, completeStep]);
 
   const handleCreate = async () => {
     if (!call?.id) return;
     setLoading(true);
     setError(null);
     try {
-      const app: Application = await createApplication({ call_id: call.id });
-      setApplication(app);
-      await createApplicationForm({ application_id: app.id });
-      await patchApplication(app.id, { completed_steps: ["step1"] });
+      await createApplication();
+      await completeStep("step1");
       show("Application created");
       navigate("../step2");
     } catch (err) {
