@@ -30,17 +30,21 @@ export default function Step8_EthicsSecurity() {
   const handleChange = async () => {
     try {
       await updateApplicationFormField("ethics_confirmed", ethicsConfirmed);
-      await updateApplicationFormField("ethical_dimension_description", ethicalDescription);
+      await updateApplicationFormField(
+        "ethical_dimension_description",
+        ethicalDescription
+      );
       await updateApplicationFormField("compliance_text", complianceText);
       await updateApplicationFormField(
         "security_self_assessment_text",
         securitySelfAssessment
       );
-      await completeStep("step8");
-      show("Section saved");
     } catch {
       show("Failed to save section");
+      return;
     }
+    await completeStep("step8");
+    show("Section saved");
   };
 
   return (
