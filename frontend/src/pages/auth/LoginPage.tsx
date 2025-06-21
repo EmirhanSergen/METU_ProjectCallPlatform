@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { Input } from "../components/ui/Input";
-import { Button } from "../components/ui/Button";
-import Navbar from "../components/layout/Navbar";
-import { useToast } from "../context/ToastProvider";
-import { useAuth } from "../context/AuthProvider";
-import { UserRole } from "../types/global";
+import { Input } from "../../components/ui/Input";
+import { Button } from "../../components/ui/Button";
+import Navbar from "../../components/layout/Navbar";
+import { useToast } from "../../context/ToastProvider";
+import { useAuth } from "../../context/AuthProvider";
+import { UserRole } from "../../types/global";
 
 export default function LoginPage() {
   const { show } = useToast();

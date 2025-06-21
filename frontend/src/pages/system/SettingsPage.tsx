@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { Input } from "../components/ui/Input";
-import { Button } from "../components/ui/Button";
-import { getUser, updateUser } from "../api";
-import { useAuth } from "../context/AuthProvider";
-import { useToast } from "../context/ToastProvider";
+import { Input } from "../../components/ui/Input";
+import { Button } from "../../components/ui/Button";
+import { getUser, updateUser } from "../../api";
+import { useAuth } from "../../context/AuthProvider";
+import { useToast } from "../../context/ToastProvider";
 
 export default function SettingsPage() {
   const { userId } = useAuth();
