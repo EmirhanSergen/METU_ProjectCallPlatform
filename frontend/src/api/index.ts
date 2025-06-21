@@ -41,12 +41,10 @@ export {
   deleteMobilityEntry,
 } from './mobilityEntries';
 
-export {
-  submitReview,
-  getReviewReport,
-  getReviewReports,
-  createReviewReport,
-} from './reviews';
+export { submitReview } from './reviews';
+export { getReviewReport } from './reviews';
+export { getReviewReports } from './reviews';
+export { createReviewReport } from './reviews';
 
 export {
   createUser,
