@@ -296,13 +296,14 @@ export function ApplicationProvider({
 
   const updateApplicationFormField = async (field: string, value: unknown) => {
     if (!applicationFormId) return;
-    setApplicationForm((prev) => ({ ...prev, [field]: value }));
+    const newForm = {
+      ...applicationForm,
+      [field]: value,
+      application_id: applicationId as string,
+    };
+    setApplicationForm(newForm);
     try {
-      await apiUpdateApplicationForm(applicationFormId, {
-        ...applicationForm,
-        [field]: value,
-        application_id: applicationId as string,
-      });
+      await apiUpdateApplicationForm(applicationFormId, newForm);
     } catch {
       show("Failed to update application form");
     }
