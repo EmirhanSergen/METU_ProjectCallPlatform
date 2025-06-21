@@ -1,11 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useToast } from "../../../context/ToastProvider";
-import { getApplicationsByCall } from "../../../api";
-
-interface Application {
-  id: string;
-}
+import { getApplications } from "../../../api";
+import type { Application } from "../../../types/applications";
 
 export default function CallApplicationsPage() {
   const { callId } = useParams<{ callId: string }>();
@@ -18,7 +15,7 @@ export default function CallApplicationsPage() {
     if (!callId) return;
     setLoading(true);
     setError(null);
-    getApplicationsByCall(callId)
+    getApplications(callId)
       .then((data) => {
         setApps(data);
         if (data.length > 0) {
