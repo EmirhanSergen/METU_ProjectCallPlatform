@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getMyApplications } from "../../../api";
 import { getCall } from "../../../api";
+import { ApiError } from "../../../lib/api";
 import { useToast } from "../../../context/ToastProvider";
 
 interface Application {
@@ -43,8 +44,9 @@ export default function MyApplicationsPage() {
         show("Applications loaded");
       })
       .catch((err) => {
-        setError(err.message);
-        show("Failed to load applications");
+        const msg = err instanceof ApiError ? err.message : "Failed to load applications";
+        setError(err instanceof ApiError ? err.message : msg);
+        show(msg);
       })
       .finally(() => setLoading(false));
   }, [show]);
