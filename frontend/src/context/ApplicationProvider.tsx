@@ -31,7 +31,7 @@ import {
 import { getCall } from "../api";
 import { Call } from "../types/global";
 import { Attachment } from "../types/attachments";
-import type { MobilityEntry, MobilityEntryInput } from "../types/mobility.types";
+import type { MobilityEntry, MobilityEntryInput } from "../types/mobility_entries";
 import { useToast } from "./ToastProvider";
 import { ApiError } from "../lib/api";
 

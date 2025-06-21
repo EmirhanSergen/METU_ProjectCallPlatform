@@ -4,7 +4,7 @@ import { Button, Input, DatePicker } from "../../components/ui";
 import { useToast } from "../../context/ToastProvider";
 
 import { useApplication } from "../../context/ApplicationProvider";
-import type { MobilityEntryInput, MobilityEntry } from "../../types/mobility.types";
+import type { MobilityEntryInput, MobilityEntry } from "../../types/mobility_entries";
 
 export default function Step6_Mobility() {
   const {
