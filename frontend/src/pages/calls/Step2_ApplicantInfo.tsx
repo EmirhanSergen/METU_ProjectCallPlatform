@@ -1,11 +1,16 @@
 
 import { useForm } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Input } from "../../components/ui/Input";
 import { useApplication } from "../../context/ApplicationProvider";
 import { useToast } from "../../context/ToastProvider";
+import {
+  getApplicationForm,
+  updateApplicationForm,
+} from "../../api";
+import type { ApplicationForm } from "../../types/application_forms";
 import {
   applicantInfoSchema,
   type ApplicantInfoForm,
@@ -14,7 +19,8 @@ import {
 
 
 export default function Step2_ApplicantInfo() {
-  const { updateApplicationFormField, applicationForm, completeStep, isSubmitted } = useApplication();
+  const { applicationFormId, applicationId, isSubmitted } = useApplication();
+  const [formData, setFormData] = useState<ApplicationForm | null>(null);
   const { show } = useToast();
   const {
     register,
@@ -27,15 +33,25 @@ export default function Step2_ApplicantInfo() {
   });
 
   useEffect(() => {
-    reset(applicationForm as Partial<ApplicantInfoForm>);
-  }, [applicationForm, reset]);
+    if (!applicationFormId) return;
+    getApplicationForm(applicationFormId)
+      .then((data) => {
+        setFormData(data);
+        reset(data as Partial<ApplicantInfoForm>);
+      })
+      .catch(() => {
+        setFormData(null);
+      });
+  }, [applicationFormId, reset]);
 
   const onSubmit = async (data: ApplicantInfoForm) => {
+    if (!applicationFormId || !applicationId) return;
     try {
-      for (const [field, value] of Object.entries(data)) {
-        await updateApplicationFormField(field, value);
-      }
-      await completeStep("step2");
+      await updateApplicationForm(applicationFormId, {
+        ...(formData || {}),
+        ...data,
+        application_id: applicationId,
+      });
       show("Applicant Info saved");
     } catch (error) {
       show("Failed to save applicant info");
