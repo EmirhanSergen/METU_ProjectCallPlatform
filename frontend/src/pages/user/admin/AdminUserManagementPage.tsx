@@ -4,18 +4,10 @@ import { Button } from "../../../components/ui/Button";
 import { UserRole } from "../../../types/global";
 import { createUser, listUsers } from "../../../api";
 import { useToast } from "../../../context/ToastProvider";
-
-interface UserItem {
-  id: string;
-  email: string;
-  first_name: string;
-  last_name: string;
-  organization?: string | null;
-  role: UserRole;
-}
+import type { User } from "../../../types/users";
 
 export default function AdminUserManagementPage() {
-  const [users, setUsers] = useState<UserItem[]>([]);
+  const [users, setUsers] = useState<User[]>([]);
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
