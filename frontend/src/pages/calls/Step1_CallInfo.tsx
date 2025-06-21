@@ -6,7 +6,13 @@ import { useApplication } from "../../context/ApplicationProvider";
 
 
 export default function Step1_CallInfo() {
-  const { call, applicationId, createApplication, completeStep } = useApplication();
+  const {
+    call,
+    applicationId,
+    createApplication,
+    completeStep,
+    completedSteps,
+  } = useApplication();
   const { show } = useToast();
   const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
@@ -14,10 +20,11 @@ export default function Step1_CallInfo() {
 
   useEffect(() => {
     // If an application already exists, mark this step as completed on load
-    if (applicationId) {
+    if (applicationId && !completedSteps.includes("step1")) {
       completeStep("step1").catch(() => {});
     }
-  }, [applicationId, completeStep]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [applicationId, completedSteps]);
 
   const handleCreate = async () => {
     if (!call?.id) return;
