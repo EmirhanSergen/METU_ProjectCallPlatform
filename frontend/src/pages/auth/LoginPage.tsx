@@ -5,6 +5,7 @@ import { Button } from "../components/ui/Button";
 import Navbar from "../components/layout/Navbar";
 import { useToast } from "../context/ToastProvider";
 import { useAuth } from "../context/AuthProvider";
+import { ApiError } from "../lib/api";
 import { UserRole } from "../types/global";
 
 export default function LoginPage() {
@@ -41,9 +42,14 @@ export default function LoginPage() {
         navigate("/");
       }
     } catch (err) {
-      const msg = (err as Error).message || "Login failed";
-      setError(msg);
-      show(msg);
+      if (err instanceof ApiError) {
+        setError(err.message);
+        show(err.message);
+      } else {
+        const msg = "Login failed";
+        setError(msg);
+        show(msg);
+      }
     } finally {
       setLoading(false);
     }

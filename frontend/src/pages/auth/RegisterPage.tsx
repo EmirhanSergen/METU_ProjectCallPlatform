@@ -5,6 +5,7 @@ import { Button } from "../components/ui/Button";
 import Navbar from "../components/layout/Navbar";
 import { useToast } from "../context/ToastProvider";
 import { useAuth } from "../context/AuthProvider";
+import { ApiError } from "../lib/api";
 
 export default function RegisterPage() {
   const { show } = useToast();
@@ -19,8 +20,12 @@ export default function RegisterPage() {
       await register(email, password);
       show("Registration successful! Check your email.");
       navigate("/login");
-    } catch {
-      show("Registration failed. Please try again.");
+    } catch (err) {
+      if (err instanceof ApiError) {
+        show(err.message);
+      } else {
+        show("Registration failed. Please try again.");
+      }
     }
   };
 
