@@ -209,7 +209,7 @@ export function ApplicationProvider({
   const createApplication = async (): Promise<string | null> => {
     if (applicationId) return applicationId;
     try {
-      const data = await apiCreateApplication(callId);
+      const data = await apiCreateApplication({ call_id: callId });
       setApplicationId(data.id as string);
       setApplication({ ...data, completed_steps: [] } as Record<string, any>);
       setCompletedSteps([]);
