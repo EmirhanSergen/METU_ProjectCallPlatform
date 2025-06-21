@@ -19,7 +19,7 @@ import {
 
 
 export default function Step2_ApplicantInfo() {
-  const { applicationFormId, applicationId, isSubmitted } = useApplication();
+  const { applicationFormId, applicationId, isSubmitted, completeStep } = useApplication();
   const [formData, setFormData] = useState<ApplicationForm | null>(null);
   const { show } = useToast();
   const {
@@ -52,6 +52,7 @@ export default function Step2_ApplicantInfo() {
         ...data,
         application_id: applicationId,
       });
+      await completeStep("step2");
       show("Applicant Info saved");
     } catch (error) {
       show("Failed to save applicant info");
