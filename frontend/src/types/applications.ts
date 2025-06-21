@@ -13,6 +13,7 @@ export interface Application extends ApplicationInput {
   id: string;
   created_at?: string | null;
   updated_at?: string | null;
+  application_form_id?: string | null;
 }
 
 export interface ApplicationOut extends Application {
