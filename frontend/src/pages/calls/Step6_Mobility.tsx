@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { Button, Input, DatePicker } from "../../components/ui";
+import { useToast } from "../../context/ToastProvider";
 
 import { useApplication } from "../../context/ApplicationProvider";
 import type { MobilityEntryInput, MobilityEntry } from "../../types/mobility.types";
@@ -14,6 +15,7 @@ export default function Step6_Mobility() {
     completeStep,
     isSubmitted,
   } = useApplication();
+  const { show } = useToast();
 
 
   type EntryState = MobilityEntryInput & Partial<MobilityEntry>;
@@ -24,7 +26,7 @@ export default function Step6_Mobility() {
     setEntries(mobilityEntries);
   }, [mobilityEntries]);
 
-  const handleChange = (
+  const handleChange = async (
     index: number,
     field: keyof MobilityEntryInput,
     value: string
@@ -35,9 +37,11 @@ export default function Step6_Mobility() {
 
     const entry = updated[index];
     if (entry.id) {
-      updateMobilityEntry(entry.id, entry);
+      const ok = await updateMobilityEntry(entry.id, entry);
+      if (!ok) show("Failed to update mobility entry");
     } else if (entry.from_date && entry.to_date) {
-      addMobilityEntry(entry as MobilityEntryInput);
+      const ok = await addMobilityEntry(entry as MobilityEntryInput);
+      if (!ok) show("Failed to add mobility entry");
     }
 
   };
