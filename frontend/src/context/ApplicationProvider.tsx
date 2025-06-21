@@ -275,6 +275,7 @@ export function ApplicationProvider({
       setAttachments((prev) => [...prev, data]);
       return true;
     } catch {
+      show("Failed to upload file");
       return false;
     }
   };
