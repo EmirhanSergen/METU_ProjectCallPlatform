@@ -4,7 +4,8 @@ import { useParams } from "react-router-dom";
 import { Input } from "../../components/ui/Input";
 import { Button } from "../../components/ui/Button";
 import { useToast } from "../../context/ToastProvider";
-import type { Attachment, ReviewReport, Review } from "../../types/reviews.types";
+import type { ReviewReport } from "../../types/review_reports";
+import type { Attachment } from "../../types/attachments";
 import { getReviewReport, createReviewReport } from "../../api";
 import { getApplicationAttachments } from "../../api";
 
@@ -14,10 +15,10 @@ export default function ReviewPage() {
   const { show } = useToast();
   const [review, setReview] = useState<ReviewReport | null>(null);
   const [attachments, setAttachments] = useState<Attachment[]>([]);
-  const [form, setForm] = useState<Review>({
-    excellence_grade: "",
-    impact_grade: "",
-    implementation_grade: "",
+  const [form, setForm] = useState<Partial<ReviewReport>>({
+    excellence_grade: undefined,
+    impact_grade: undefined,
+    implementation_grade: undefined,
     additional_comments: "",
   });
 
@@ -39,7 +40,16 @@ export default function ReviewPage() {
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    const numFields = [
+      "excellence_grade",
+      "impact_grade",
+      "implementation_grade",
+    ];
+    setForm({
+      ...form,
+      [name]: numFields.includes(name) ? Number(value) : value,
+    });
   };
 
   const handleSubmit = () => {
@@ -84,7 +94,7 @@ export default function ReviewPage() {
           <Input
             name="excellence_grade"
             type="number"
-            value={form.excellence_grade}
+            value={form.excellence_grade ?? ""}
             onChange={handleChange}
           />
         </div>
@@ -93,7 +103,7 @@ export default function ReviewPage() {
           <Input
             name="impact_grade"
             type="number"
-            value={form.impact_grade}
+            value={form.impact_grade ?? ""}
             onChange={handleChange}
           />
         </div>
@@ -102,7 +112,7 @@ export default function ReviewPage() {
           <Input
             name="implementation_grade"
             type="number"
-            value={form.implementation_grade}
+            value={form.implementation_grade ?? ""}
             onChange={handleChange}
           />
         </div>
@@ -111,7 +121,7 @@ export default function ReviewPage() {
           <textarea
             name="additional_comments"
             className="border p-2 rounded w-full"
-            value={form.additional_comments}
+            value={form.additional_comments ?? ""}
             onChange={handleChange}
           />
         </div>
