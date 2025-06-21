@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useToast } from "../context/ToastProvider";
 import { getApplicationsByCall } from "../api";
+import { ApiError } from "../api/api";
 
 interface Application {
   id: string;
@@ -28,8 +29,13 @@ export default function CallApplicationsPage() {
         }
       })
       .catch((err) => {
-        setError(err.message);
-        show("Failed to load applications");
+        if (err instanceof ApiError) {
+          setError(err.message);
+          show(err.message);
+        } else {
+          setError((err as Error).message);
+          show("Failed to load applications");
+        }
       })
       .finally(() => setLoading(false));
   }, [callId, show]);

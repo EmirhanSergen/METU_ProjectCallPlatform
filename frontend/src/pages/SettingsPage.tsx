@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Input } from "../components/ui/Input";
 import { Button } from "../components/ui/Button";
 import { getUser, updateUser } from "../api";
+import { ApiError } from "../api/api";
 import { useAuth } from "../context/AuthProvider";
 import { useToast } from "../context/ToastProvider";
 
@@ -19,7 +20,13 @@ export default function SettingsPage() {
         setFirstName(u.first_name);
         setLastName(u.last_name);
       })
-      .catch(() => {});
+      .catch((err) => {
+        if (err instanceof ApiError) {
+          show(err.message);
+        } else {
+          show("Failed to load settings");
+        }
+      });
   }, [userId]);
 
   const handleSubmit = async () => {
@@ -31,7 +38,11 @@ export default function SettingsPage() {
       });
       show("Settings updated");
     } catch (err) {
-      show((err as Error).message);
+      if (err instanceof ApiError) {
+        show(err.message);
+      } else {
+        show((err as Error).message);
+      }
     }
   };
 

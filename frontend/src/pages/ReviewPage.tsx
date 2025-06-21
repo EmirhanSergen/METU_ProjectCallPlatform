@@ -7,6 +7,7 @@ import { useToast } from "../context/ToastProvider";
 import type { Attachment, ReviewReport, Review } from "../types/reviews.types";
 import { getReviewReport, createReviewReport } from "../api";
 import { getApplicationAttachments } from "../api";
+import { ApiError } from "../api/api";
 
 
 export default function ReviewPage() {
@@ -25,14 +26,26 @@ export default function ReviewPage() {
     if (!reviewId) return;
     getReviewReport(reviewId)
       .then(setReview)
-      .catch((err) => show(err.message));
+      .catch((err) => {
+        if (err instanceof ApiError) {
+          show(err.message);
+        } else {
+          show("Failed to load review");
+        }
+      });
   }, [reviewId, show]);
 
   useEffect(() => {
     if (review?.application_id) {
       getApplicationAttachments(review.application_id)
         .then(setAttachments)
-        .catch((err) => show(err.message));
+        .catch((err) => {
+          if (err instanceof ApiError) {
+            show(err.message);
+          } else {
+            show("Failed to load attachments");
+          }
+        });
     }
   }, [review, show]);
 
@@ -48,12 +61,14 @@ export default function ReviewPage() {
     createReviewReport(data)
       .then(() => show("Review submitted"))
       .catch((err: unknown) => {
-      if (err instanceof Error) {
-        show(err.message);
-      } else {
-        show("An unexpected error occurred");
-      }
-    });
+        if (err instanceof ApiError) {
+          show(err.message);
+        } else if (err instanceof Error) {
+          show(err.message);
+        } else {
+          show("An unexpected error occurred");
+        }
+      });
   }
 
   if (!review) return <div>Loading...</div>;

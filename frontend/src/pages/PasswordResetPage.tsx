@@ -4,6 +4,7 @@ import { Input } from "../components/ui/Input";
 import { Button } from "../components/ui/Button";
 import { useToast } from "../context/ToastProvider";
 import { requestPasswordReset } from "../api";
+import { ApiError } from "../api/api";
 
 export default function PasswordResetPage() {
   const { show } = useToast();
@@ -17,8 +18,12 @@ export default function PasswordResetPage() {
       show(
         "If an account exists for that email, instructions have been sent."
       );
-    } catch {
-      show("Failed to send password reset instructions.");
+    } catch (err) {
+      if (err instanceof ApiError) {
+        show(err.message);
+      } else {
+        show("Failed to send password reset instructions.");
+      }
     } finally {
       setLoading(false);
     }
