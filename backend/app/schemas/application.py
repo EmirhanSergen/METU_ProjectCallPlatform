@@ -16,6 +16,7 @@ class ApplicationRead(ApplicationBase):
     id: uuid.UUID
     created_at: Optional[datetime]
     updated_at: Optional[datetime]
+    application_form_id: Optional[uuid.UUID] = None
 
     class Config:
         orm_mode = True
