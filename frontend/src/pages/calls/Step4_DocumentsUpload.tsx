@@ -68,8 +68,7 @@ export default function Step4_DocumentsUpload() {
     <div className="space-y-6">
       <div>
         <label className="font-medium">Passport or ID</label>
-        <input
-          type="file"
+        <FileInput
           accept="application/pdf,image/jpeg,image/jpg"
           onChange={(e) => handleChange(e, "passport_or_id")}
           disabled={loading || isSubmitted}
@@ -83,8 +82,7 @@ export default function Step4_DocumentsUpload() {
 
       <div>
         <label className="font-medium">PhD Certificate</label>
-        <input
-          type="file"
+        <FileInput
           accept="application/pdf,image/jpeg,image/jpg"
           onChange={(e) => handleChange(e, "phd_certificate")}
           disabled={loading || isSubmitted}
