@@ -27,16 +27,20 @@ export default function Step8_EthicsSecurity() {
     setSecuritySelfAssessment(applicationForm.security_self_assessment_text || "");
   }, [applicationForm]);
 
-  const handleChange = () => {
-    updateApplicationFormField("ethics_confirmed", ethicsConfirmed);
-    updateApplicationFormField("ethical_dimension_description", ethicalDescription);
-    updateApplicationFormField("compliance_text", complianceText);
-    updateApplicationFormField(
-      "security_self_assessment_text",
-      securitySelfAssessment
-    );
-    completeStep("step8");
-    show("Section saved");
+  const handleChange = async () => {
+    try {
+      await updateApplicationFormField("ethics_confirmed", ethicsConfirmed);
+      await updateApplicationFormField("ethical_dimension_description", ethicalDescription);
+      await updateApplicationFormField("compliance_text", complianceText);
+      await updateApplicationFormField(
+        "security_self_assessment_text",
+        securitySelfAssessment
+      );
+      await completeStep("step8");
+      show("Section saved");
+    } catch {
+      show("Failed to save section");
+    }
   };
 
   return (
