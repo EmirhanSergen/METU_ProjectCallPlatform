@@ -1,5 +1,5 @@
 import { useForm, useFieldArray } from "react-hook-form";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../../components/ui/Input";
@@ -7,6 +7,12 @@ import { Textarea } from "../../components/ui/Textarea";
 import { Button } from "../../components/ui/Button";
 import { useApplication } from "../../context/ApplicationProvider";
 import { useToast } from "../../context/ToastProvider";
+import {
+  createSuggestedReference,
+  updateSuggestedReference,
+  deleteSuggestedReference,
+  listSuggestedReferences,
+} from "../../api";
 import type { ApplicationFormInput } from "../../types/application_forms";
 import type { SuggestedReferenceInput } from "../../types/suggestedReference.types";
 
@@ -53,16 +59,38 @@ const portfolioSchema = z.object({
 type PortfolioFormValues = z.infer<typeof portfolioSchema>;
 
 export default function Step5_AcademicPortfolio() {
-  const { updateApplicationFormField, applicationForm, completeStep, isSubmitted } = useApplication();
+  const {
+    updateApplicationFormField,
+    applicationForm,
+    applicationFormId,
+    completeStep,
+    isSubmitted,
+  } = useApplication();
   const { show } = useToast();
   const { register, control, handleSubmit, reset } = useForm<PortfolioFormValues>({
     resolver: zodResolver(portfolioSchema),
     defaultValues: { reference_list: [] },
   });
 
+  type ReferenceState = SuggestedReferenceInput & { id?: string };
+  const [references, setReferences] = useState<ReferenceState[]>([]);
+
   useEffect(() => {
-    reset(applicationForm as Partial<PortfolioFormValues>);
-  }, [applicationForm, reset]);
+    if (!applicationFormId) return;
+    const fetchRefs = async () => {
+      try {
+        const all = await listSuggestedReferences();
+        const refs = all.filter((r) => r.application_form_id === applicationFormId);
+        setReferences(refs);
+        reset({ ...(applicationForm as Partial<PortfolioFormValues>), reference_list: refs });
+      } catch {
+        setReferences([]);
+        reset(applicationForm as Partial<PortfolioFormValues>);
+        show("Failed to load references");
+      }
+    };
+    fetchRefs();
+  }, [applicationFormId, applicationForm, reset, show]);
 
   const { fields, append, remove } = useFieldArray<PortfolioFormValues, "reference_list">({
     control,
@@ -71,12 +99,46 @@ export default function Step5_AcademicPortfolio() {
 
   const onSubmit = async (data: PortfolioFormValues) => {
     try {
-      for (const [field, value] of Object.entries(data) as [
+      const { reference_list, ...formData } = data;
+      for (const [field, value] of Object.entries(formData) as [
         keyof PortfolioFormValues,
         PortfolioFormValues[keyof PortfolioFormValues]
       ][]) {
         await updateApplicationFormField(field as string, value);
       }
+
+      if (applicationFormId) {
+        const currentIds = references.map((r) => r.id).filter(Boolean) as string[];
+        const newIds: string[] = [];
+
+        for (const ref of reference_list) {
+          if (ref.id) {
+            await updateSuggestedReference(ref.id, {
+              ...ref,
+              application_form_id: applicationFormId,
+            });
+            newIds.push(ref.id);
+          } else {
+            const created = await createSuggestedReference({
+              ...ref,
+              application_form_id: applicationFormId,
+            });
+            newIds.push(created.id);
+          }
+        }
+
+        for (const id of currentIds) {
+          if (!newIds.includes(id)) {
+            await deleteSuggestedReference(id);
+          }
+        }
+
+        const all = await listSuggestedReferences();
+        const refs = all.filter((r) => r.application_form_id === applicationFormId);
+        setReferences(refs);
+        reset({ ...(applicationForm as Partial<PortfolioFormValues>), reference_list: refs });
+      }
+
       await completeStep("step5");
       show("Academic portfolio saved");
     } catch {
