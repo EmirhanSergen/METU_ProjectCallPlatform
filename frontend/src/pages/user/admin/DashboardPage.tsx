@@ -2,11 +2,14 @@ import { useEffect, useState } from "react";
 import Card from "../../../components/ui/Card";
 import { getApplications } from "../../../api";
 import { getCalls } from "../../../api";
+import { useToast } from "../../../context/ToastProvider";
+import { ApiError } from "../../../lib/api";
 
 export default function DashboardPage() {
   const [stats, setStats] = useState({ calls: 0, applications: 0 });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { show } = useToast();
 
   useEffect(() => {
     async function load() {
@@ -17,7 +20,13 @@ export default function DashboardPage() {
         const apps = await getApplications();
         setStats({ calls: calls.length, applications: apps.length });
       } catch (err) {
-        setError((err as Error).message);
+        if (err instanceof ApiError) {
+          setError(err.message);
+          show(err.message);
+        } else {
+          setError("Failed to load dashboard");
+          show("Failed to load dashboard");
+        }
       } finally {
         setLoading(false);
       }

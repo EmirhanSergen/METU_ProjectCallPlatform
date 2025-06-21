@@ -6,6 +6,8 @@ import ConfirmModal from "../../../components/ui/ConfirmModal";
 import { getCalls, deleteCall } from "../../../api";
 import { Call, UserRole } from "../../../types/global";
 import { useAuth } from "../../../context/AuthProvider";
+import { useToast } from "../../../context/ToastProvider";
+import { ApiError } from "../../../lib/api";
 
 export default function CallManagementPage() {
   const [calls, setCalls] = useState<Call[]>([]);
@@ -14,6 +16,7 @@ export default function CallManagementPage() {
   const [confirmId, setConfirmId] = useState<string | null>(null);
   const { role } = useAuth();
   const navigate = useNavigate();
+  const { show } = useToast();
 
   async function load() {
     setLoading(true);
@@ -22,7 +25,13 @@ export default function CallManagementPage() {
       const data = await getCalls();
       setCalls(data);
     } catch (err) {
-      setError((err as Error).message);
+      if (err instanceof ApiError) {
+        setError(err.message);
+        show(err.message);
+      } else {
+        setError("Failed to load calls");
+        show("Failed to load calls");
+      }
     } finally {
       setLoading(false);
     }
@@ -39,7 +48,13 @@ export default function CallManagementPage() {
       await deleteCall(id);
       await load();
     } catch (err) {
-      setError((err as Error).message);
+      if (err instanceof ApiError) {
+        setError(err.message);
+        show(err.message);
+      } else {
+        setError("Failed to delete call");
+        show("Failed to delete call");
+      }
     } finally {
       setLoading(false);
     }

@@ -6,6 +6,7 @@ import { createCall, updateCall, getCall, getCalls } from "../../../api";
 import { CallStatus, Call } from "../../../types/global";
 import type { CallInput } from "../../../types/calls.types";
 import { useToast } from "../../../context/ToastProvider";
+import { ApiError } from "../../../lib/api";
 
 export default function CallFormPage() {
   const { callId } = useParams<{ callId: string }>();
@@ -36,7 +37,15 @@ export default function CallFormPage() {
           end_date: data.end_date ? data.end_date.substring(0, 10) : "",
         });
       })
-      .catch((err) => setError(err.message))
+      .catch((err) => {
+        if (err instanceof ApiError) {
+          setError(err.message);
+          show(err.message);
+        } else {
+          setError("Failed to load call");
+          show("Failed to load call");
+        }
+      })
       .finally(() => setLoading(false));
   }, [callId]);
 
@@ -83,7 +92,13 @@ export default function CallFormPage() {
       }
       navigate("/call/manage");
     } catch (err) {
-      setError((err as Error).message);
+      if (err instanceof ApiError) {
+        setError(err.message);
+        show(err.message);
+      } else {
+        setError("Failed to save call");
+        show("Failed to save call");
+      }
     } finally {
       setLoading(false);
     }

@@ -4,6 +4,7 @@ import { Button } from "../components/ui/Button";
 import { getUser, updateUser } from "../api";
 import { useAuth } from "../context/AuthProvider";
 import { useToast } from "../context/ToastProvider";
+import { ApiError } from "../lib/api";
 
 export default function SettingsPage() {
   const { userId } = useAuth();
@@ -19,7 +20,13 @@ export default function SettingsPage() {
         setFirstName(u.first_name);
         setLastName(u.last_name);
       })
-      .catch(() => {});
+      .catch((err) => {
+        if (err instanceof ApiError) {
+          show(err.message);
+        } else {
+          show("Failed to load user");
+        }
+      });
   }, [userId]);
 
   const handleSubmit = async () => {
@@ -31,7 +38,11 @@ export default function SettingsPage() {
       });
       show("Settings updated");
     } catch (err) {
-      show((err as Error).message);
+      if (err instanceof ApiError) {
+        show(err.message);
+      } else {
+        show("Failed to update settings");
+      }
     }
   };
 

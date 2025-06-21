@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useToast } from "../../context/ToastProvider";
 import { getCall } from "../../api";
+import { ApiError } from "../../lib/api";
 import { Call } from "../../types/global";
 import { Button } from "../../components/ui/Button";
 import { useAuth } from "../../context/AuthProvider";
@@ -24,8 +25,13 @@ export default function CallDetailPage() {
         show("Call loaded");
       })
       .catch((err) => {
-        setError(err.message);
-        show("Failed to load call");
+        if (err instanceof ApiError) {
+          setError(err.message);
+          show(err.message);
+        } else {
+          setError("Failed to load call");
+          show("Failed to load call");
+        }
       })
       .finally(() => setLoading(false));
   }, [callId, show]);

@@ -4,6 +4,7 @@ import { Button } from "../../../components/ui/Button";
 import { UserRole } from "../../../types/global";
 import { createUser, listUsers } from "../../../api";
 import { useToast } from "../../../context/ToastProvider";
+import { ApiError } from "../../../lib/api";
 
 interface UserItem {
   id: string;
@@ -30,7 +31,11 @@ export default function AdminUserManagementPage() {
         const data = await listUsers();
         setUsers(data);
       } catch (err) {
-        show((err as Error).message);
+        if (err instanceof ApiError) {
+          show(err.message);
+        } else {
+          show("Failed to load users");
+        }
       }
     }
     fetchUsers();
@@ -55,7 +60,11 @@ export default function AdminUserManagementPage() {
       setOrganization("");
       show("User created");
     } catch (err) {
-      show((err as Error).message);
+      if (err instanceof ApiError) {
+        show(err.message);
+      } else {
+        show("Failed to create user");
+      }
     }
   };
 
