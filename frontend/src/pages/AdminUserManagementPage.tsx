@@ -3,6 +3,7 @@ import { Input } from "../components/ui/Input";
 import { Button } from "../components/ui/Button";
 import { UserRole } from "../types/global";
 import { createUser, listUsers } from "../api";
+import { ApiError } from "../api/api";
 import { useToast } from "../context/ToastProvider";
 
 interface UserItem {
@@ -30,7 +31,11 @@ export default function AdminUserManagementPage() {
         const data = await listUsers();
         setUsers(data);
       } catch (err) {
-        show((err as Error).message);
+        if (err instanceof ApiError) {
+          show(err.message);
+        } else {
+          show((err as Error).message);
+        }
       }
     }
     fetchUsers();
@@ -55,7 +60,11 @@ export default function AdminUserManagementPage() {
       setOrganization("");
       show("User created");
     } catch (err) {
-      show((err as Error).message);
+      if (err instanceof ApiError) {
+        show(err.message);
+      } else {
+        show((err as Error).message);
+      }
     }
   };
 

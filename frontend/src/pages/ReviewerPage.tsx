@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useToast } from "../context/ToastProvider";
 import { getReviewReports } from "../api";
+import { ApiError } from "../api/api";
 import type { ReviewReport } from "../types/reviews.types";
 
 export default function ReviewerPage() {
@@ -19,8 +20,13 @@ export default function ReviewerPage() {
         show("Reviews loaded");
       })
       .catch((err) => {
-        setError(err.message);
-        show("Failed to load reviews");
+        if (err instanceof ApiError) {
+          setError(err.message);
+          show(err.message);
+        } else {
+          setError((err as Error).message);
+          show("Failed to load reviews");
+        }
       })
       .finally(() => setLoading(false));
   }, [show]);
