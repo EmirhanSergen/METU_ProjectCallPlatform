@@ -4,11 +4,12 @@ export const applicantInfoSchema = z.object({
   title: z.string().min(1, 'Required'),
   surname: z.string().min(1, 'Required'),
   first_name: z.string().min(1, 'Required'),
-  year_of_birth: z
-    .string()
-    .regex(/^\d{4}$/,'Invalid year')
-    .optional()
-    .or(z.literal('')),
+  year_of_birth: z.coerce
+    .number()
+    .int()
+    .min(1900, 'Invalid year')
+    .max(new Date().getFullYear(), 'Invalid year')
+    .optional(),
   nationality: z.string().min(1, 'Required'),
   organisation: z.string().optional(),
   university: z.string().optional(),

@@ -40,16 +40,24 @@ export default function Step3_ApplicationDetails() {
 
   const reg = (name: keyof FormValues) =>
     register(name, {
-      onBlur: (e) => {
+      onBlur: async (e) => {
         if (isSubmitted) return;
         const value =
           e.target.type === "checkbox" ? (e.target as HTMLInputElement).checked : e.target.value;
-        updateApplicationFormField(name, value);
+        try {
+          await updateApplicationFormField(name, value);
+        } catch {
+          show("Failed to update field");
+        }
       },
-      onChange: (e) => {
+      onChange: async (e) => {
         if (isSubmitted) return;
         if (e.target.type === "checkbox") {
-          updateApplicationFormField(name, (e.target as HTMLInputElement).checked);
+          try {
+            await updateApplicationFormField(name, (e.target as HTMLInputElement).checked);
+          } catch {
+            show("Failed to update field");
+          }
         }
       },
     });
