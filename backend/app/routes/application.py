@@ -70,7 +70,10 @@ def read_my_applications(
     return (
         db.query(Application)
         .options(joinedload(Application.user))
-        .filter(Application.user_id == current_user.id)
+        .filter(
+            Application.user_id == current_user.id,
+            Application.is_deleted.is_(False)
+        )
         .all()
     )
 
